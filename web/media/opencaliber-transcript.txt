@@ -1,52 +1,52 @@
 OpenCaliber user walkthrough
-Synthetic narration: Microsoft Zira Desktop. Actual UI screenshots; startup and interpretation panels are illustrations.
+Synthetic narration: Microsoft David Desktop, moderate instructional pace. Actual UI screenshots; startup and interpretation panels are illustrations.
 
 00:00:00.000 — Download OpenCaliber
 OpenCaliber checks agent tool calls against your rules. Identify the agent version, inspect the action, and test a correction.
 Select Download package on the home page, then extract the ZIP into a new folder.
 The package includes the console, evaluation engine, launchers, SDK helpers, and working examples. Start with the included samples; no API key is needed.
 
-00:00:27.799 — Extract and start
+00:00:30.699 — Extract and start
 Install Python version three point ten or newer before starting the console.
 On Windows, open start-windows.cmd, or run python run.py from the extracted folder.
 On macOS or Linux, run python3 run.py. Keep the terminal open, then open http://127.0.0.1:8787/console.html.
 
-00:00:48.779 — Identify the agent
+00:00:53.859 — Identify the agent
 Choose Evaluate a trace. Load an example, import a JSON file, or paste a trace: the task and its proposed tool calls.
 Enter the agent ID and version to identify the release that needs attention. Add a workflow ID to find related runs.
 Set permitted tools, resources, and data sensitivity, then select Evaluate and save run. Your application must supply the authorized task scope.
 
-00:01:18.752 — Inspect a finding
+00:01:27.002 — Inspect a finding
 Open a finding to see the agent version, tool call, action ID, and rule that triggered it.
 Use What triggered this, What to change, and How to verify to investigate the action. Check whether the problem is behavior, metadata, or policy.
 For a sensitive external transfer, inspect the destination and data label. Remove the transfer or use a destination approved for that data.
 
-00:01:46.221 — Read the assessment
+00:01:57.596 — Read the assessment
 Violation means an explicit task or policy rule triggered. Review means a signal or missing context needs inspection.
 Clear means no implemented rule triggered. It does not guarantee that an action is safe.
 The score shows the highest triggered rule severity, from zero to one hundred. It is not an anomaly percentage or probability of harm.
 
-00:02:10.640 — Connect provider tools
+00:02:24.620 — Connect provider tools
 Open Connect agents and choose your response format: OpenAI Responses, Chat Completions, or Anthropic Messages.
 Load an example or paste a completed response. Map each application tool to a supported check, and select the arguments the evaluator needs.
 Preview the standard JSON trace, then evaluate it. Unmapped tools need review. Streaming fragments and provider hosted tools are not supported.
 
-00:02:40.853 — Verify a correction
+00:02:57.738 — Verify a correction
 Load the unsafe example to see a sensitive transfer to an unapproved host. Then load the corrected example, which uses the approved API.
 Compare demo version one with demo version two. Inspect the changed action and check whether its findings are resolved.
 Add the correction to your regression cases. Workflow and session IDs help you find runs; they do not provide checks across agents or sessions.
 
-00:03:09.101 — Configure evaluation rules
+00:03:28.747 — Configure evaluation rules
 In Configuration, set approved destination hosts, file roots, denied tools, and limits for records and action counts.
 Changes apply to future evaluations. Saved runs keep their original settings so you can inspect which rules produced a finding.
 Keep tool mappings and evaluator settings under version control. The console records mapping versions and configuration fingerprints for provider evaluations.
 
-00:03:37.554 — Run regression checks
+00:03:59.675 — Run regression checks
 Run all seventy cases in Evaluation suite. Compare expected and actual results, then inspect any mismatch.
 Use the included provider regression command for six additional response cases. It exports a JSON report and returns a failure code when expectations differ.
 Run these checks in your build pipeline with a fixed configuration. Passing them tests the covered rules, not every possible security issue.
 
-00:04:07.217 — Integrate and store evidence
+00:04:32.503 — Integrate and store evidence
 Add the Python or typed Node helper between the completed model response and your tool executor. The developer guide includes runnable examples.
 The helper observes calls and returns findings. Your application decides whether to execute. Evaluator failures return an error, never a clear assessment.
 SDK submissions redact evidence before storage. Hosts and identifiers remain, but goals, commands, and resource paths are removed. Recheck the original input to verify a fix.

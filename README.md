@@ -8,7 +8,7 @@ Advisory risk evaluation of AI agent actions, with a local dashboard, findings, 
 
 **[Watch the captioned video](https://opencaliber.net/#walkthrough)** · [Open the MP4 directly](https://github.com/arun1011/opencaliber/raw/refs/heads/main/web/media/opencaliber-walkthrough.mp4)
 
-A five-minute demonstration of setup, agent integrations, findings, configuration and regression checks. Includes narration and English captions.
+A five-and-a-half-minute demonstration of setup, agent integrations, findings, configuration and regression checks. Includes male narration at a moderate instructional pace and English captions.
 
 ## Start
 

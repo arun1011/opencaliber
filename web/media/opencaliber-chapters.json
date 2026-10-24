@@ -5,38 +5,38 @@
   },
   {
     "title": "Extract and start",
-    "start_seconds": 27.799
+    "start_seconds": 30.699
   },
   {
     "title": "Identify the agent",
-    "start_seconds": 48.779
+    "start_seconds": 53.859
   },
   {
     "title": "Inspect a finding",
-    "start_seconds": 78.752
+    "start_seconds": 87.002
   },
   {
     "title": "Read the assessment",
-    "start_seconds": 106.221
+    "start_seconds": 117.596
   },
   {
     "title": "Connect provider tools",
-    "start_seconds": 130.64
+    "start_seconds": 144.62
   },
   {
     "title": "Verify a correction",
-    "start_seconds": 160.853
+    "start_seconds": 177.738
   },
   {
     "title": "Configure evaluation rules",
-    "start_seconds": 189.101
+    "start_seconds": 208.747
   },
   {
     "title": "Run regression checks",
-    "start_seconds": 217.554
+    "start_seconds": 239.675
   },
   {
     "title": "Integrate and store evidence",
-    "start_seconds": 247.217
+    "start_seconds": 272.503
   }
 ]

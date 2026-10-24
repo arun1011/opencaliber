@@ -1,0 +1,414 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "OpenCaliber: public site, protected shared evaluator, HTTPS ALB, one Python instance, retained encrypted SQLite volume.",
+  "Parameters": {
+    "ArtifactBucket": {
+      "Type": "String"
+    },
+    "ArtifactKey": {
+      "Type": "String"
+    },
+    "PlatformArn": {
+      "Type": "String"
+    },
+    "VpcId": {
+      "Type": "String"
+    },
+    "SubnetId": {
+      "Type": "String"
+    },
+    "AvailabilityZone": {
+      "Type": "String"
+    },
+    "LoadBalancerSubnets": {
+      "Type": "String"
+    },
+    "CertificateArn": {
+      "Type": "String"
+    },
+    "PublicOrigin": {
+      "Type": "String",
+      "AllowedPattern": "https://[A-Za-z0-9.-]+(:[0-9]+)?",
+      "Description": "HTTPS domain backed by the supplied ACM certificate; no path"
+    },
+    "InstanceType": {
+      "Type": "String",
+      "Default": "t3.small"
+    }
+  },
+  "Resources": {
+    "DataVolume": {
+      "Type": "AWS::EC2::Volume",
+      "DeletionPolicy": "Retain",
+      "UpdateReplacePolicy": "Retain",
+      "Properties": {
+        "AvailabilityZone": {
+          "Ref": "AvailabilityZone"
+        },
+        "Encrypted": true,
+        "Size": 10,
+        "VolumeType": "gp3",
+        "Tags": [
+          {
+            "Key": "OpenCaliberStorageState",
+            "Value": "fresh"
+          },
+          {
+            "Key": "Application",
+            "Value": "OpenCaliber"
+          }
+        ]
+      }
+    },
+    "AdminSecret": {
+      "Type": "AWS::SecretsManager::Secret",
+      "DeletionPolicy": "Retain",
+      "UpdateReplacePolicy": "Retain",
+      "Properties": {
+        "Description": "OpenCaliber shared-workspace access token",
+        "GenerateSecretString": {
+          "PasswordLength": 48,
+          "ExcludePunctuation": true
+        }
+      }
+    },
+    "InstanceRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ec2.amazonaws.com"
+              },
+              "Action": "sts:AssumeRole"
+            }
+          ]
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/AWSElasticBeanstalkWebTier"
+          }
+        ],
+        "Policies": [
+          {
+            "PolicyName": "OpenCaliberStorageAndSecret",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": "ec2:DescribeVolumes",
+                  "Resource": "*"
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": "ec2:AttachVolume",
+                  "Resource": [
+                    {
+                      "Fn::Sub": "arn:${AWS::Partition}:ec2:${AWS::Region}:${AWS::AccountId}:volume/${DataVolume}"
+                    },
+                    {
+                      "Fn::Sub": "arn:${AWS::Partition}:ec2:${AWS::Region}:${AWS::AccountId}:instance/*"
+                    }
+                  ]
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": "ec2:CreateTags",
+                  "Resource": {
+                    "Fn::Sub": "arn:${AWS::Partition}:ec2:${AWS::Region}:${AWS::AccountId}:volume/${DataVolume}"
+                  }
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": "secretsmanager:GetSecretValue",
+                  "Resource": {
+                    "Ref": "AdminSecret"
+                  }
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "logs:CreateLogGroup",
+                    "logs:CreateLogStream",
+                    "logs:PutLogEvents",
+                    "logs:DescribeLogStreams"
+                  ],
+                  "Resource": {
+                    "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/elasticbeanstalk/*"
+                  }
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": "s3:GetObject",
+                  "Resource": {
+                    "Fn::Sub": "arn:${AWS::Partition}:s3:::${ArtifactBucket}/opencaliber/*"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "ServiceRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "elasticbeanstalk.amazonaws.com"
+              },
+              "Action": "sts:AssumeRole"
+            }
+          ]
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/service-role/AWSElasticBeanstalkEnhancedHealth"
+          },
+          {
+            "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/AWSElasticBeanstalkManagedUpdatesCustomerRolePolicy"
+          }
+        ]
+      }
+    },
+    "InstanceProfile": {
+      "Type": "AWS::IAM::InstanceProfile",
+      "Properties": {
+        "Roles": [
+          {
+            "Ref": "InstanceRole"
+          }
+        ]
+      }
+    },
+    "Application": {
+      "Type": "AWS::ElasticBeanstalk::Application",
+      "Properties": {
+        "Description": "OpenCaliber agent evaluation and starter library"
+      }
+    },
+    "Version": {
+      "Type": "AWS::ElasticBeanstalk::ApplicationVersion",
+      "Properties": {
+        "ApplicationName": {
+          "Ref": "Application"
+        },
+        "SourceBundle": {
+          "S3Bucket": {
+            "Ref": "ArtifactBucket"
+          },
+          "S3Key": {
+            "Ref": "ArtifactKey"
+          }
+        }
+      }
+    },
+    "Environment": {
+      "Type": "AWS::ElasticBeanstalk::Environment",
+      "Properties": {
+        "ApplicationName": {
+          "Ref": "Application"
+        },
+        "PlatformArn": {
+          "Ref": "PlatformArn"
+        },
+        "VersionLabel": {
+          "Ref": "Version"
+        },
+        "OptionSettings": [
+          {
+            "Namespace": "aws:elasticbeanstalk:environment",
+            "OptionName": "EnvironmentType",
+            "Value": "LoadBalanced"
+          },
+          {
+            "Namespace": "aws:elasticbeanstalk:environment",
+            "OptionName": "LoadBalancerType",
+            "Value": "application"
+          },
+          {
+            "Namespace": "aws:elasticbeanstalk:environment",
+            "OptionName": "ServiceRole",
+            "Value": {
+              "Fn::GetAtt": [
+                "ServiceRole",
+                "Arn"
+              ]
+            }
+          },
+          {
+            "Namespace": "aws:autoscaling:launchconfiguration",
+            "OptionName": "IamInstanceProfile",
+            "Value": {
+              "Ref": "InstanceProfile"
+            }
+          },
+          {
+            "Namespace": "aws:autoscaling:launchconfiguration",
+            "OptionName": "InstanceType",
+            "Value": {
+              "Ref": "InstanceType"
+            }
+          },
+          {
+            "Namespace": "aws:autoscaling:asg",
+            "OptionName": "MinSize",
+            "Value": "1"
+          },
+          {
+            "Namespace": "aws:autoscaling:asg",
+            "OptionName": "MaxSize",
+            "Value": "1"
+          },
+          {
+            "Namespace": "aws:ec2:vpc",
+            "OptionName": "VPCId",
+            "Value": {
+              "Ref": "VpcId"
+            }
+          },
+          {
+            "Namespace": "aws:ec2:vpc",
+            "OptionName": "Subnets",
+            "Value": {
+              "Ref": "SubnetId"
+            }
+          },
+          {
+            "Namespace": "aws:ec2:vpc",
+            "OptionName": "ELBSubnets",
+            "Value": {
+              "Ref": "LoadBalancerSubnets"
+            }
+          },
+          {
+            "Namespace": "aws:ec2:vpc",
+            "OptionName": "AssociatePublicIpAddress",
+            "Value": "true"
+          },
+          {
+            "Namespace": "aws:elbv2:listener:default",
+            "OptionName": "ListenerEnabled",
+            "Value": "false"
+          },
+          {
+            "Namespace": "aws:elbv2:listener:443",
+            "OptionName": "ListenerEnabled",
+            "Value": "true"
+          },
+          {
+            "Namespace": "aws:elbv2:listener:443",
+            "OptionName": "Protocol",
+            "Value": "HTTPS"
+          },
+          {
+            "Namespace": "aws:elbv2:listener:443",
+            "OptionName": "SSLCertificateArns",
+            "Value": {
+              "Ref": "CertificateArn"
+            }
+          },
+          {
+            "Namespace": "aws:elbv2:listener:443",
+            "OptionName": "SSLPolicy",
+            "Value": "ELBSecurityPolicy-TLS13-1-2-2021-06"
+          },
+          {
+            "Namespace": "aws:elbv2:listener:443",
+            "OptionName": "DefaultProcess",
+            "Value": "default"
+          },
+          {
+            "Namespace": "aws:elasticbeanstalk:environment:process:default",
+            "OptionName": "HealthCheckPath",
+            "Value": "/health/ready"
+          },
+          {
+            "Namespace": "aws:elasticbeanstalk:environment:process:default",
+            "OptionName": "MatcherHTTPCode",
+            "Value": "200"
+          },
+          {
+            "Namespace": "aws:elasticbeanstalk:application:environment",
+            "OptionName": "OPENCALIBER_PUBLIC_ORIGIN",
+            "Value": {
+              "Ref": "PublicOrigin"
+            }
+          },
+          {
+            "Namespace": "aws:elasticbeanstalk:application:environment",
+            "OptionName": "OPENCALIBER_DATA_VOLUME_ID",
+            "Value": {
+              "Ref": "DataVolume"
+            }
+          },
+          {
+            "Namespace": "aws:elasticbeanstalk:application:environment",
+            "OptionName": "OPENCALIBER_STORAGE_MODE",
+            "Value": "retained"
+          },
+          {
+            "Namespace": "aws:elasticbeanstalk:application:environment",
+            "OptionName": "OPENCALIBER_DATA_DIR",
+            "Value": "/mnt/opencaliber/data"
+          },
+          {
+            "Namespace": "aws:elasticbeanstalk:application:environment",
+            "OptionName": "PORT",
+            "Value": "8000"
+          },
+          {
+            "Namespace": "aws:elasticbeanstalk:application:environmentsecrets",
+            "OptionName": "OPENCALIBER_ADMIN_TOKEN",
+            "Value": {
+              "Ref": "AdminSecret"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "Outputs": {
+    "EnvironmentName": {
+      "Value": {
+        "Ref": "Environment"
+      }
+    },
+    "ApplicationName": {
+      "Value": {
+        "Ref": "Application"
+      }
+    },
+    "BeanstalkEndpoint": {
+      "Value": {
+        "Fn::GetAtt": [
+          "Environment",
+          "EndpointURL"
+        ]
+      }
+    },
+    "PublicOrigin": {
+      "Value": {
+        "Ref": "PublicOrigin"
+      }
+    },
+    "AdminSecretArn": {
+      "Value": {
+        "Ref": "AdminSecret"
+      }
+    },
+    "DataVolumeId": {
+      "Value": {
+        "Ref": "DataVolume"
+      }
+    }
+  }
+}

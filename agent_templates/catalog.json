@@ -1,0 +1,1344 @@
+[
+  {
+    "id": "meeting-action-tracker",
+    "title": "Meeting Action Tracker",
+    "kind": "documents",
+    "industry": "Cross-industry",
+    "function": "Operations",
+    "description": "Extract decisions, action owners and due dates from meeting notes.",
+    "instructions": "Extract decisions, action owners and due dates from meeting notes. Use only supplied inputs. Organize the draft into these sections: Decisions, Actions and owners, Missing dates. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "meeting-action-tracker.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nMinutes: Maya will prepare the launch checklist by Friday. Arun will confirm the test environment. Budget approval is still pending.\n",
+    "tags": [
+      "Cross-industry",
+      "Operations",
+      "Decisions"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Decisions",
+      "Actions and owners",
+      "Missing dates"
+    ]
+  },
+  {
+    "id": "project-status-reporter",
+    "title": "Project Status Reporter",
+    "kind": "documents",
+    "industry": "Cross-industry",
+    "function": "Project Management",
+    "description": "Turn project updates into a draft status report with blockers and next steps.",
+    "instructions": "Turn project updates into a draft status report with blockers and next steps. Use only supplied inputs. Organize the draft into these sections: Progress, Blockers, Next steps. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "project-status-reporter.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nProject Atlas: API mapping complete. UI tests pending. Vendor access is blocking integration. Next milestone: staging demonstration.\n",
+    "tags": [
+      "Cross-industry",
+      "Project Management",
+      "Progress"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Progress",
+      "Blockers",
+      "Next steps"
+    ]
+  },
+  {
+    "id": "risk-register-drafter",
+    "title": "Risk Register Drafter",
+    "kind": "documents",
+    "industry": "Cross-industry",
+    "function": "Risk Management",
+    "description": "Organize supplied project risks, evidence and unresolved mitigations.",
+    "instructions": "Organize supplied project risks, evidence and unresolved mitigations. Use only supplied inputs. Organize the draft into these sections: Risk register, Existing mitigations, Open questions. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "risk-register-drafter.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nRisk log: Vendor onboarding may delay the release. Mitigation owner: operations. An alternate supplier has not been confirmed.\n",
+    "tags": [
+      "Cross-industry",
+      "Risk Management",
+      "Risk register"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Risk register",
+      "Existing mitigations",
+      "Open questions"
+    ]
+  },
+  {
+    "id": "sop-writer",
+    "title": "SOP Writer",
+    "kind": "documents",
+    "industry": "Cross-industry",
+    "function": "Operations",
+    "description": "Convert process notes into a draft standard operating procedure.",
+    "instructions": "Convert process notes into a draft standard operating procedure. Use only supplied inputs. Organize the draft into these sections: Procedure, Exceptions, Review checklist. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "sop-writer.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nProcess: Receive request. Verify required fields. Assign an owner. Record approval. Archive the completed checklist. Exception path is undocumented.\n",
+    "tags": [
+      "Cross-industry",
+      "Operations",
+      "Procedure"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Procedure",
+      "Exceptions",
+      "Review checklist"
+    ]
+  },
+  {
+    "id": "knowledge-base-drafter",
+    "title": "Knowledge Base Drafter",
+    "kind": "documents",
+    "industry": "Cross-industry",
+    "function": "Customer Support",
+    "description": "Turn supplied product notes into a support knowledge article.",
+    "instructions": "Turn supplied product notes into a support knowledge article. Use only supplied inputs. Organize the draft into these sections: Article, Troubleshooting, Source gaps. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "knowledge-base-drafter.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nProduct notes: Export reports from Settings > Reports. CSV export supports 1000 rows. Larger exports require a separate request.\n",
+    "tags": [
+      "Cross-industry",
+      "Customer Support",
+      "Article"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Article",
+      "Troubleshooting",
+      "Source gaps"
+    ]
+  },
+  {
+    "id": "release-notes-drafter",
+    "title": "Release Notes Drafter",
+    "kind": "documents",
+    "industry": "Software",
+    "function": "Engineering",
+    "description": "Create release notes from supplied change logs without inventing features.",
+    "instructions": "Create release notes from supplied change logs without inventing features. Use only supplied inputs. Organize the draft into these sections: Features, Fixes, Migration notes. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "release-notes-drafter.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nChanges: Added CSV export. Fixed timezone display. Deprecated the legacy report endpoint. Migration deadline has not been announced.\n",
+    "tags": [
+      "Software",
+      "Engineering",
+      "Features"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Features",
+      "Fixes",
+      "Migration notes"
+    ]
+  },
+  {
+    "id": "bug-report-organizer",
+    "title": "Bug Report Organizer",
+    "kind": "documents",
+    "industry": "Software",
+    "function": "Engineering",
+    "description": "Structure bug reports into reproduction steps, symptoms and missing evidence.",
+    "instructions": "Structure bug reports into reproduction steps, symptoms and missing evidence. Use only supplied inputs. Organize the draft into these sections: Symptoms, Reproduction steps, Missing information. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "bug-report-organizer.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nBug: Export button returns an error in a sample workspace. Seen after choosing a custom date range. Browser and exact error code missing.\n",
+    "tags": [
+      "Software",
+      "Engineering",
+      "Symptoms"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Symptoms",
+      "Reproduction steps",
+      "Missing information"
+    ]
+  },
+  {
+    "id": "api-documentation-drafter",
+    "title": "API Documentation Drafter",
+    "kind": "documents",
+    "industry": "Software",
+    "function": "Engineering",
+    "description": "Draft endpoint documentation from supplied API specifications.",
+    "instructions": "Draft endpoint documentation from supplied API specifications. Use only supplied inputs. Organize the draft into these sections: Endpoint reference, Examples, Undocumented details. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "api-documentation-drafter.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nEndpoint POST /reports accepts report_type and date_range. Returns request_id. Invalid report_type returns 400. Authentication scheme not supplied.\n",
+    "tags": [
+      "Software",
+      "Engineering",
+      "Endpoint reference"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Endpoint reference",
+      "Examples",
+      "Undocumented details"
+    ]
+  },
+  {
+    "id": "code-review-brief",
+    "title": "Code Review Brief",
+    "kind": "documents",
+    "industry": "Software",
+    "function": "Engineering",
+    "description": "Summarize supplied code review notes into issues and verification tasks.",
+    "instructions": "Summarize supplied code review notes into issues and verification tasks. Use only supplied inputs. Organize the draft into these sections: Review issues, Evidence, Verification tasks. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "code-review-brief.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nReview notes: Retry loop has no cap. Token is passed as an argument. Add tests for network timeouts. No repository access is configured.\n",
+    "tags": [
+      "Software",
+      "Engineering",
+      "Review issues"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Review issues",
+      "Evidence",
+      "Verification tasks"
+    ]
+  },
+  {
+    "id": "test-plan-builder",
+    "title": "Test Plan Builder",
+    "kind": "documents",
+    "industry": "Software",
+    "function": "Quality Assurance",
+    "description": "Draft test cases from requirements and acceptance criteria.",
+    "instructions": "Draft test cases from requirements and acceptance criteria. Use only supplied inputs. Organize the draft into these sections: Test cases, Boundary conditions, Requirement gaps. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "test-plan-builder.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nRequirement: CSV import accepts UTF-8, rejects missing invoice_id and shows row errors. Duplicate-row behavior is not specified.\n",
+    "tags": [
+      "Software",
+      "Quality Assurance",
+      "Test cases"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Test cases",
+      "Boundary conditions",
+      "Requirement gaps"
+    ]
+  },
+  {
+    "id": "incident-timeline-builder",
+    "title": "Incident Timeline Builder",
+    "kind": "documents",
+    "industry": "Technology",
+    "function": "IT Operations",
+    "description": "Draft an incident timeline from supplied logs and status updates.",
+    "instructions": "Draft an incident timeline from supplied logs and status updates. Use only supplied inputs. Organize the draft into these sections: Timeline, Observed impact, Unknown causes. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "incident-timeline-builder.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\n09:10 alerts started. 09:14 responder acknowledged. 09:20 connection pool saturated. 09:32 pool limit changed. 09:40 latency recovered.\n",
+    "tags": [
+      "Technology",
+      "IT Operations",
+      "Timeline"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Timeline",
+      "Observed impact",
+      "Unknown causes"
+    ]
+  },
+  {
+    "id": "security-alert-brief",
+    "title": "Security Alert Brief",
+    "kind": "documents",
+    "industry": "Technology",
+    "function": "Security",
+    "description": "Organize supplied alert evidence and investigation questions for an analyst.",
+    "instructions": "Organize supplied alert evidence and investigation questions for an analyst. Use only supplied inputs. Organize the draft into these sections: Evidence, Investigation questions, Review actions. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "security-alert-brief.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nAlert: Service account accessed a new endpoint at 02:00. Deployment window is unknown. Three failed authentications preceded a successful request.\n",
+    "tags": [
+      "Technology",
+      "Security",
+      "Evidence"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Evidence",
+      "Investigation questions",
+      "Review actions"
+    ]
+  },
+  {
+    "id": "access-review-worksheet",
+    "title": "Access Review Worksheet",
+    "kind": "documents",
+    "industry": "Cross-industry",
+    "function": "IT Operations",
+    "description": "Summarize access inventory and flag entries missing review evidence.",
+    "instructions": "Summarize access inventory and flag entries missing review evidence. Use only supplied inputs. Organize the draft into these sections: Inventory summary, Missing ownership, Reviewer questions. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "access-review-worksheet.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nInventory: svc-report has read access to invoices. Owner blank. Last review date blank. Marketing analyst has access to campaign reports.\n",
+    "tags": [
+      "Cross-industry",
+      "IT Operations",
+      "Inventory summary"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Inventory summary",
+      "Missing ownership",
+      "Reviewer questions"
+    ]
+  },
+  {
+    "id": "data-quality-report",
+    "title": "Data Quality Report",
+    "kind": "documents",
+    "industry": "Cross-industry",
+    "function": "Data Science",
+    "description": "Draft a quality report from supplied dataset profiling results.",
+    "instructions": "Draft a quality report from supplied dataset profiling results. Use only supplied inputs. Organize the draft into these sections: Quality observations, Validation questions, Proposed checks. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "data-quality-report.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nProfile: 1200 rows, 30 missing region values, 8 duplicate IDs. Revenue has 2 negative entries. Source rules do not explain valid negatives.\n",
+    "tags": [
+      "Cross-industry",
+      "Data Science",
+      "Quality observations"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Quality observations",
+      "Validation questions",
+      "Proposed checks"
+    ]
+  },
+  {
+    "id": "experiment-results-brief",
+    "title": "Experiment Results Brief",
+    "kind": "documents",
+    "industry": "Cross-industry",
+    "function": "Data Science",
+    "description": "Summarize experiment tables while separating results from causal claims.",
+    "instructions": "Summarize experiment tables while separating results from causal claims. Use only supplied inputs. Organize the draft into these sections: Reported results, Study limitations, Follow-up analyses. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "experiment-results-brief.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nExperiment: Variant A 1000 sessions and 80 conversions; B 950 sessions and 85 conversions. Randomization and confidence intervals not supplied.\n",
+    "tags": [
+      "Cross-industry",
+      "Data Science",
+      "Reported results"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Reported results",
+      "Study limitations",
+      "Follow-up analyses"
+    ]
+  },
+  {
+    "id": "dashboard-requirements-writer",
+    "title": "Dashboard Requirements Writer",
+    "kind": "documents",
+    "industry": "Cross-industry",
+    "function": "Analytics",
+    "description": "Turn stakeholder notes into dashboard metrics and unresolved definitions.",
+    "instructions": "Turn stakeholder notes into dashboard metrics and unresolved definitions. Use only supplied inputs. Organize the draft into these sections: Metric specifications, Filters and refresh, Definition gaps. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "dashboard-requirements-writer.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nStakeholders need weekly orders, cancellation rate and region filters. Definition of active customer differs between teams. Refresh target is daily.\n",
+    "tags": [
+      "Cross-industry",
+      "Analytics",
+      "Metric specifications"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Metric specifications",
+      "Filters and refresh",
+      "Definition gaps"
+    ]
+  },
+  {
+    "id": "sales-call-brief",
+    "title": "Sales Call Brief",
+    "kind": "documents",
+    "industry": "Cross-industry",
+    "function": "Sales",
+    "description": "Turn supplied call notes into needs, objections and follow-up drafts.",
+    "instructions": "Turn supplied call notes into needs, objections and follow-up drafts. Use only supplied inputs. Organize the draft into these sections: Customer needs, Open questions, Follow-up draft. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "sales-call-brief.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nProspect needs report exports and single sign-on. Asked about deployment options. Budget and procurement timeline not discussed.\n",
+    "tags": [
+      "Cross-industry",
+      "Sales",
+      "Customer needs"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Customer needs",
+      "Open questions",
+      "Follow-up draft"
+    ]
+  },
+  {
+    "id": "proposal-outline-writer",
+    "title": "Proposal Outline Writer",
+    "kind": "documents",
+    "industry": "Cross-industry",
+    "function": "Sales",
+    "description": "Draft a proposal outline using only supplied scope and commercial facts.",
+    "instructions": "Draft a proposal outline using only supplied scope and commercial facts. Use only supplied inputs. Organize the draft into these sections: Proposal outline, Deliverables, Unconfirmed terms. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "proposal-outline-writer.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nScope: Reporting pilot for two departments. Duration six weeks. Pricing and support hours not approved. Sponsor requests success criteria.\n",
+    "tags": [
+      "Cross-industry",
+      "Sales",
+      "Proposal outline"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Proposal outline",
+      "Deliverables",
+      "Unconfirmed terms"
+    ]
+  },
+  {
+    "id": "crm-cleanup-planner",
+    "title": "CRM Cleanup Planner",
+    "kind": "documents",
+    "industry": "Cross-industry",
+    "function": "Sales Operations",
+    "description": "Draft a cleanup checklist from CRM export quality findings.",
+    "instructions": "Draft a cleanup checklist from CRM export quality findings. Use only supplied inputs. Organize the draft into these sections: Cleanup tasks, Ambiguous records, Review checklist. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "crm-cleanup-planner.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nCRM export: Three duplicate company names. Several contacts have blank source fields. One opportunity has no assigned owner.\n",
+    "tags": [
+      "Cross-industry",
+      "Sales Operations",
+      "Cleanup tasks"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Cleanup tasks",
+      "Ambiguous records",
+      "Review checklist"
+    ]
+  },
+  {
+    "id": "campaign-brief-writer",
+    "title": "Campaign Brief Writer",
+    "kind": "documents",
+    "industry": "Cross-industry",
+    "function": "Marketing",
+    "description": "Draft a campaign brief from audience, channel and objective notes.",
+    "instructions": "Draft a campaign brief from audience, channel and objective notes. Use only supplied inputs. Organize the draft into these sections: Objective and audience, Content plan, Open decisions. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "campaign-brief-writer.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nCampaign: Developer tool launch. Audience: Python application engineers. Channels: technical articles and webinars. Budget has not been set.\n",
+    "tags": [
+      "Cross-industry",
+      "Marketing",
+      "Objective and audience"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Objective and audience",
+      "Content plan",
+      "Open decisions"
+    ]
+  },
+  {
+    "id": "content-repurposing-planner",
+    "title": "Content Repurposing Planner",
+    "kind": "documents",
+    "industry": "Cross-industry",
+    "function": "Marketing",
+    "description": "Turn an approved article into channel-specific draft outlines.",
+    "instructions": "Turn an approved article into channel-specific draft outlines. Use only supplied inputs. Organize the draft into these sections: Post outlines, Newsletter draft, Claims to verify. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "content-repurposing-planner.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nApproved source: A tutorial explaining tool-call regression tests, with sample cases and clear limitations. No customer statistics are provided.\n",
+    "tags": [
+      "Cross-industry",
+      "Marketing",
+      "Post outlines"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Post outlines",
+      "Newsletter draft",
+      "Claims to verify"
+    ]
+  },
+  {
+    "id": "customer-feedback-grouper",
+    "title": "Customer Feedback Grouper",
+    "kind": "documents",
+    "industry": "Cross-industry",
+    "function": "Product Management",
+    "description": "Summarize supplied feedback into themes with quoted evidence.",
+    "instructions": "Summarize supplied feedback into themes with quoted evidence. Use only supplied inputs. Organize the draft into these sections: Themes, Supporting feedback, Product questions. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "customer-feedback-grouper.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nFeedback: User A cannot find CSV export. User B wants report scheduling. User C says the export label is confusing.\n",
+    "tags": [
+      "Cross-industry",
+      "Product Management",
+      "Themes"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Themes",
+      "Supporting feedback",
+      "Product questions"
+    ]
+  },
+  {
+    "id": "product-requirements-drafter",
+    "title": "Product Requirements Drafter",
+    "kind": "documents",
+    "industry": "Cross-industry",
+    "function": "Product Management",
+    "description": "Convert discovery notes into a draft requirements document.",
+    "instructions": "Convert discovery notes into a draft requirements document. Use only supplied inputs. Organize the draft into these sections: Problem and scope, Requirements, Unresolved decisions. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "product-requirements-drafter.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nDiscovery: Teams need reusable report templates. Current workaround is copying spreadsheets. Permissions and retention requirements are unresolved.\n",
+    "tags": [
+      "Cross-industry",
+      "Product Management",
+      "Problem and scope"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Problem and scope",
+      "Requirements",
+      "Unresolved decisions"
+    ]
+  },
+  {
+    "id": "onboarding-guide-writer",
+    "title": "Onboarding Guide Writer",
+    "kind": "documents",
+    "industry": "Cross-industry",
+    "function": "People Operations",
+    "description": "Draft employee onboarding checklists from approved process notes.",
+    "instructions": "Draft employee onboarding checklists from approved process notes. Use only supplied inputs. Organize the draft into these sections: Checklist, Owners, Missing process details. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "onboarding-guide-writer.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nOnboarding: Create a support account after manager approval. Assign equipment. Schedule orientation. Payroll steps are handled in a separate system.\n",
+    "tags": [
+      "Cross-industry",
+      "People Operations",
+      "Checklist"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Checklist",
+      "Owners",
+      "Missing process details"
+    ]
+  },
+  {
+    "id": "training-material-drafter",
+    "title": "Training Material Drafter",
+    "kind": "documents",
+    "industry": "Cross-industry",
+    "function": "Learning and Development",
+    "description": "Create lesson outlines and practice questions from supplied material.",
+    "instructions": "Create lesson outlines and practice questions from supplied material. Use only supplied inputs. Organize the draft into these sections: Learning objectives, Lesson outline, Practice questions. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "training-material-drafter.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nTraining notes: Never paste credentials into tickets. Use approved secret storage. Report accidental disclosure to the response team.\n",
+    "tags": [
+      "Cross-industry",
+      "Learning and Development",
+      "Learning objectives"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Learning objectives",
+      "Lesson outline",
+      "Practice questions"
+    ]
+  },
+  {
+    "id": "policy-change-explainer",
+    "title": "Policy Change Explainer",
+    "kind": "documents",
+    "industry": "Cross-industry",
+    "function": "Compliance",
+    "description": "Draft a plain-language summary of supplied policy revisions.",
+    "instructions": "Draft a plain-language summary of supplied policy revisions. Use only supplied inputs. Organize the draft into these sections: Changes, Affected processes, Clarification questions. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "policy-change-explainer.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nRevision: Access reviews change from annual to quarterly. Team leads record approval evidence. Effective date and exception owner not stated.\n",
+    "tags": [
+      "Cross-industry",
+      "Compliance",
+      "Changes"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Changes",
+      "Affected processes",
+      "Clarification questions"
+    ]
+  },
+  {
+    "id": "procurement-comparison-brief",
+    "title": "Procurement Comparison Brief",
+    "kind": "documents",
+    "industry": "Cross-industry",
+    "function": "Procurement",
+    "description": "Organize vendor proposals into a comparison without selecting a supplier.",
+    "instructions": "Organize vendor proposals into a comparison without selecting a supplier. Use only supplied inputs. Organize the draft into these sections: Comparison table, Missing terms, Reviewer questions. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "procurement-comparison-brief.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nVendor A: 10-day lead time, support hours unspecified. Vendor B: 14-day lead time, business-hours support. Both require data-processing review.\n",
+    "tags": [
+      "Cross-industry",
+      "Procurement",
+      "Comparison table"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Comparison table",
+      "Missing terms",
+      "Reviewer questions"
+    ]
+  },
+  {
+    "id": "contract-obligation-extractor",
+    "title": "Contract Obligation Extractor",
+    "kind": "documents",
+    "industry": "Cross-industry",
+    "function": "Legal Operations",
+    "description": "Extract stated dates, obligations and missing terms for legal review.",
+    "instructions": "Extract stated dates, obligations and missing terms for legal review. Use only supplied inputs. Organize the draft into these sections: Stated obligations, Dates, Legal review questions. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "contract-obligation-extractor.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nSample clause: Supplier provides monthly reports. Customer reviews within 10 days. Renewal notice period is missing. This is synthetic contract text.\n",
+    "tags": [
+      "Cross-industry",
+      "Legal Operations",
+      "Stated obligations"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Stated obligations",
+      "Dates",
+      "Legal review questions"
+    ]
+  },
+  {
+    "id": "audit-evidence-organizer",
+    "title": "Audit Evidence Organizer",
+    "kind": "documents",
+    "industry": "Cross-industry",
+    "function": "Compliance",
+    "description": "Index supplied evidence descriptions against a provided audit checklist.",
+    "instructions": "Index supplied evidence descriptions against a provided audit checklist. Use only supplied inputs. Organize the draft into these sections: Evidence index, Missing evidence, Follow-up requests. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "audit-evidence-organizer.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nChecklist: Access approval, quarterly review and offboarding. Evidence: manager approval dated May; review document not supplied; offboarding ticket present.\n",
+    "tags": [
+      "Cross-industry",
+      "Compliance",
+      "Evidence index"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Evidence index",
+      "Missing evidence",
+      "Follow-up requests"
+    ]
+  },
+  {
+    "id": "expense-review-brief",
+    "title": "Expense Review Brief",
+    "kind": "documents",
+    "industry": "Cross-industry",
+    "function": "Finance Operations",
+    "description": "Summarize supplied expense records and missing documentation for review.",
+    "instructions": "Summarize supplied expense records and missing documentation for review. Use only supplied inputs. Organize the draft into these sections: Expense summary, Missing documentation, Reviewer questions. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "expense-review-brief.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nExpenses: Travel item has receipt; software item lacks receipt; meal item has no stated business purpose. Approval policy is not included.\n",
+    "tags": [
+      "Cross-industry",
+      "Finance Operations",
+      "Expense summary"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Expense summary",
+      "Missing documentation",
+      "Reviewer questions"
+    ]
+  },
+  {
+    "id": "retail-returns-summary",
+    "title": "Retail Returns Summary",
+    "kind": "documents",
+    "industry": "Retail",
+    "function": "Customer Support",
+    "description": "Draft a returns issue summary from supplied store notes.",
+    "instructions": "Draft a returns issue summary from supplied store notes. Use only supplied inputs. Organize the draft into these sections: Observed themes, Evidence, Questions for store teams. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "retail-returns-summary.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nStore notes: Size mismatch appears in five sample return comments. Two mention packaging damage. No complete transaction totals are supplied.\n",
+    "tags": [
+      "Retail",
+      "Customer Support",
+      "Observed themes"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Observed themes",
+      "Evidence",
+      "Questions for store teams"
+    ]
+  },
+  {
+    "id": "retail-inventory-brief",
+    "title": "Retail Inventory Brief",
+    "kind": "documents",
+    "industry": "Retail",
+    "function": "Inventory Operations",
+    "description": "Summarize supplied stock reports and inventory exceptions.",
+    "instructions": "Summarize supplied stock reports and inventory exceptions. Use only supplied inputs. Organize the draft into these sections: Stock exceptions, Missing thresholds, Follow-up list. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "retail-inventory-brief.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nStock: SKU-A 12 units, reorder threshold 20. SKU-B 50 units, threshold missing. Delivery dates are unconfirmed.\n",
+    "tags": [
+      "Retail",
+      "Inventory Operations",
+      "Stock exceptions"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Stock exceptions",
+      "Missing thresholds",
+      "Follow-up list"
+    ]
+  },
+  {
+    "id": "ecommerce-listing-drafter",
+    "title": "Ecommerce Listing Drafter",
+    "kind": "documents",
+    "industry": "Ecommerce",
+    "function": "Marketing",
+    "description": "Draft product descriptions using supplied attributes without unsupported claims.",
+    "instructions": "Draft product descriptions using supplied attributes without unsupported claims. Use only supplied inputs. Organize the draft into these sections: Listing draft, Attribute table, Claims requiring evidence. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "ecommerce-listing-drafter.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nProduct: Reusable cotton tote, 12-litre capacity, navy colour. No certification, warranty or durability test is supplied.\n",
+    "tags": [
+      "Ecommerce",
+      "Marketing",
+      "Listing draft"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Listing draft",
+      "Attribute table",
+      "Claims requiring evidence"
+    ]
+  },
+  {
+    "id": "ecommerce-review-digest",
+    "title": "Ecommerce Review Digest",
+    "kind": "documents",
+    "industry": "Ecommerce",
+    "function": "Product Management",
+    "description": "Group supplied product reviews into recurring feedback themes.",
+    "instructions": "Group supplied product reviews into recurring feedback themes. Use only supplied inputs. Organize the draft into these sections: Themes, Review evidence, Sample limitations. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "ecommerce-review-digest.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nReviews: One buyer likes the handle. Two report unclear sizing. One asks about washing instructions. This is a small synthetic sample.\n",
+    "tags": [
+      "Ecommerce",
+      "Product Management",
+      "Themes"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Themes",
+      "Review evidence",
+      "Sample limitations"
+    ]
+  },
+  {
+    "id": "manufacturing-shift-handover",
+    "title": "Manufacturing Shift Handover",
+    "kind": "documents",
+    "industry": "Manufacturing",
+    "function": "Operations",
+    "description": "Draft a shift handover from production notes and unresolved issues.",
+    "instructions": "Draft a shift handover from production notes and unresolved issues. Use only supplied inputs. Organize the draft into these sections: Production summary, Open issues, Next-shift checklist. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "manufacturing-shift-handover.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nShift: Line 2 paused for sensor inspection. 400 units completed. Maintenance ticket is open. Next shift must confirm inspection status.\n",
+    "tags": [
+      "Manufacturing",
+      "Operations",
+      "Production summary"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Production summary",
+      "Open issues",
+      "Next-shift checklist"
+    ]
+  },
+  {
+    "id": "manufacturing-defect-brief",
+    "title": "Manufacturing Defect Brief",
+    "kind": "documents",
+    "industry": "Manufacturing",
+    "function": "Quality Assurance",
+    "description": "Summarize inspection findings without deciding product release.",
+    "instructions": "Summarize inspection findings without deciding product release. Use only supplied inputs. Organize the draft into these sections: Findings, Missing criteria, Quality review questions. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "manufacturing-defect-brief.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nInspection: Batch X has 4 cosmetic marks in 50 sampled units. Sampling plan and acceptance threshold were not supplied.\n",
+    "tags": [
+      "Manufacturing",
+      "Quality Assurance",
+      "Findings"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Findings",
+      "Missing criteria",
+      "Quality review questions"
+    ]
+  },
+  {
+    "id": "maintenance-work-order-drafter",
+    "title": "Maintenance Work Order Drafter",
+    "kind": "documents",
+    "industry": "Manufacturing",
+    "function": "Maintenance",
+    "description": "Turn equipment issue notes into draft work orders for technician review.",
+    "instructions": "Turn equipment issue notes into draft work orders for technician review. Use only supplied inputs. Organize the draft into these sections: Reported symptoms, Work-order draft, Missing details. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "maintenance-work-order-drafter.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nEquipment note: Conveyor reports intermittent vibration. Last service date unknown. Operator stopped use and requested technician inspection.\n",
+    "tags": [
+      "Manufacturing",
+      "Maintenance",
+      "Reported symptoms"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Reported symptoms",
+      "Work-order draft",
+      "Missing details"
+    ]
+  },
+  {
+    "id": "logistics-exception-brief",
+    "title": "Logistics Exception Brief",
+    "kind": "documents",
+    "industry": "Logistics",
+    "function": "Operations",
+    "description": "Summarize supplied shipment delays and missing tracking details.",
+    "instructions": "Summarize supplied shipment delays and missing tracking details. Use only supplied inputs. Organize the draft into these sections: Exception summary, Evidence, Follow-up actions. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "logistics-exception-brief.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nShipments: DEMO-A delayed at hub; cause not recorded. DEMO-B arrived late. Carrier response and customer notification status are missing.\n",
+    "tags": [
+      "Logistics",
+      "Operations",
+      "Exception summary"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Exception summary",
+      "Evidence",
+      "Follow-up actions"
+    ]
+  },
+  {
+    "id": "warehouse-handover-writer",
+    "title": "Warehouse Handover Writer",
+    "kind": "documents",
+    "industry": "Logistics",
+    "function": "Warehouse Operations",
+    "description": "Draft warehouse handovers from supplied shift and stock notes.",
+    "instructions": "Draft warehouse handovers from supplied shift and stock notes. Use only supplied inputs. Organize the draft into these sections: Handover, Pending checks, Owner questions. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "warehouse-handover-writer.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nShift notes: Dock 3 unavailable. Two pallets await label verification. Cold-storage readings are handled in another record.\n",
+    "tags": [
+      "Logistics",
+      "Warehouse Operations",
+      "Handover"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Handover",
+      "Pending checks",
+      "Owner questions"
+    ]
+  },
+  {
+    "id": "supplier-delay-reporter",
+    "title": "Supplier Delay Reporter",
+    "kind": "documents",
+    "industry": "Supply Chain",
+    "function": "Procurement",
+    "description": "Draft a supplier delay report using supplied order updates.",
+    "instructions": "Draft a supplier delay report using supplied order updates. Use only supplied inputs. Organize the draft into these sections: Changed dates, Unconfirmed facts, Supplier questions. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "supplier-delay-reporter.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nSupplier update: Order DEMO-10 moved from Tuesday to Friday. Root cause unconfirmed. Alternative delivery option requested but not answered.\n",
+    "tags": [
+      "Supply Chain",
+      "Procurement",
+      "Changed dates"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Changed dates",
+      "Unconfirmed facts",
+      "Supplier questions"
+    ]
+  },
+  {
+    "id": "construction-progress-brief",
+    "title": "Construction Progress Brief",
+    "kind": "documents",
+    "industry": "Construction",
+    "function": "Project Management",
+    "description": "Draft a progress report from site notes without safety certification.",
+    "instructions": "Draft a progress report from site notes without safety certification. Use only supplied inputs. Organize the draft into these sections: Completed work, Blockers, Unverified milestones. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "construction-progress-brief.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nSite notes: Ground-floor framing complete. Delivery of fixtures delayed. Inspection outcome not recorded. Schedule impact requires confirmation.\n",
+    "tags": [
+      "Construction",
+      "Project Management",
+      "Completed work"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Completed work",
+      "Blockers",
+      "Unverified milestones"
+    ]
+  },
+  {
+    "id": "construction-rfi-drafter",
+    "title": "Construction RFI Drafter",
+    "kind": "documents",
+    "industry": "Construction",
+    "function": "Engineering",
+    "description": "Prepare draft requests for information from drawing coordination notes.",
+    "instructions": "Prepare draft requests for information from drawing coordination notes. Use only supplied inputs. Organize the draft into these sections: RFI draft, Conflicting references, Required responses. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "construction-rfi-drafter.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nCoordination note: Drawing A shows a door opening that differs from schedule B. Latest approved revision is unknown. No construction instruction is authorized.\n",
+    "tags": [
+      "Construction",
+      "Engineering",
+      "RFI draft"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "RFI draft",
+      "Conflicting references",
+      "Required responses"
+    ]
+  },
+  {
+    "id": "property-maintenance-triage",
+    "title": "Property Maintenance Triage",
+    "kind": "documents",
+    "industry": "Real Estate",
+    "function": "Facilities",
+    "description": "Organize maintenance requests into a review queue without dispatching workers.",
+    "instructions": "Organize maintenance requests into a review queue without dispatching workers. Use only supplied inputs. Organize the draft into these sections: Request summary, Missing information, Review queue. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "property-maintenance-triage.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nRequests: DEMO-1 reports a leaking tap. DEMO-2 reports a broken lobby light. Emergency status and access availability require confirmation.\n",
+    "tags": [
+      "Real Estate",
+      "Facilities",
+      "Request summary"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Request summary",
+      "Missing information",
+      "Review queue"
+    ]
+  },
+  {
+    "id": "property-listing-draft",
+    "title": "Property Listing Draft",
+    "kind": "documents",
+    "industry": "Real Estate",
+    "function": "Marketing",
+    "description": "Draft a property description from supplied verified attributes.",
+    "instructions": "Draft a property description from supplied verified attributes. Use only supplied inputs. Organize the draft into these sections: Listing draft, Verified attributes, Missing facts. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "property-listing-draft.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nProperty: Two rooms, 900 square feet, lift available. Accessibility details and exact address are not supplied. No price prediction requested.\n",
+    "tags": [
+      "Real Estate",
+      "Marketing",
+      "Listing draft"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Listing draft",
+      "Verified attributes",
+      "Missing facts"
+    ]
+  },
+  {
+    "id": "hospitality-guest-reply-drafter",
+    "title": "Hospitality Guest Reply Drafter",
+    "kind": "documents",
+    "industry": "Hospitality",
+    "function": "Customer Support",
+    "description": "Draft guest replies based on supplied policy and request notes.",
+    "instructions": "Draft guest replies based on supplied policy and request notes. Use only supplied inputs. Organize the draft into these sections: Reply draft, Policy references, Reception questions. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "hospitality-guest-reply-drafter.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nGuest asks about late checkout. Supplied policy says availability must be confirmed by reception. No booking system is connected.\n",
+    "tags": [
+      "Hospitality",
+      "Customer Support",
+      "Reply draft"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Reply draft",
+      "Policy references",
+      "Reception questions"
+    ]
+  },
+  {
+    "id": "hospitality-shift-brief",
+    "title": "Hospitality Shift Brief",
+    "kind": "documents",
+    "industry": "Hospitality",
+    "function": "Operations",
+    "description": "Summarize reception handover notes and unresolved guest requests.",
+    "instructions": "Summarize reception handover notes and unresolved guest requests. Use only supplied inputs. Organize the draft into these sections: Shift summary, Pending requests, Owner checklist. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "hospitality-shift-brief.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nHandover: Two rooms awaiting cleaning confirmation. One guest requested transport information. No payment or booking changes are authorized.\n",
+    "tags": [
+      "Hospitality",
+      "Operations",
+      "Shift summary"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Shift summary",
+      "Pending requests",
+      "Owner checklist"
+    ]
+  },
+  {
+    "id": "travel-itinerary-organizer",
+    "title": "Travel Itinerary Organizer",
+    "kind": "documents",
+    "industry": "Travel",
+    "function": "Operations",
+    "description": "Organize supplied booking details into an itinerary draft without new bookings.",
+    "instructions": "Organize supplied booking details into an itinerary draft without new bookings. Use only supplied inputs. Organize the draft into these sections: Itinerary, Unconfirmed bookings, Traveler questions. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "travel-itinerary-organizer.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nBooking notes: Demo flight arrives Monday 10:00. Hotel check-in begins 15:00. Transfer reservation is not confirmed.\n",
+    "tags": [
+      "Travel",
+      "Operations",
+      "Itinerary"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Itinerary",
+      "Unconfirmed bookings",
+      "Traveler questions"
+    ]
+  },
+  {
+    "id": "education-lesson-planner",
+    "title": "Education Lesson Planner",
+    "kind": "documents",
+    "industry": "Education",
+    "function": "Learning and Development",
+    "description": "Draft lesson plans from teacher-supplied objectives and materials.",
+    "instructions": "Draft lesson plans from teacher-supplied objectives and materials. Use only supplied inputs. Organize the draft into these sections: Lesson sequence, Activities, Teacher review. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "education-lesson-planner.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nLesson goal: Explain fractions using paper shapes. Class duration 40 minutes. Available materials: paper and markers. Student assessment data not provided.\n",
+    "tags": [
+      "Education",
+      "Learning and Development",
+      "Lesson sequence"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Lesson sequence",
+      "Activities",
+      "Teacher review"
+    ]
+  },
+  {
+    "id": "education-course-feedback-digest",
+    "title": "Education Course Feedback Digest",
+    "kind": "documents",
+    "industry": "Education",
+    "function": "Analytics",
+    "description": "Summarize supplied course feedback without assessing individual students.",
+    "instructions": "Summarize supplied course feedback without assessing individual students. Use only supplied inputs. Organize the draft into these sections: Feedback themes, Evidence, Course improvement questions. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "education-course-feedback-digest.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nFeedback: Learners request more worked examples. Several mention unclear assignment instructions. No respondent counts or representative sample are supplied.\n",
+    "tags": [
+      "Education",
+      "Analytics",
+      "Feedback themes"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Feedback themes",
+      "Evidence",
+      "Course improvement questions"
+    ]
+  },
+  {
+    "id": "healthcare-appointment-reply-drafter",
+    "title": "Healthcare Appointment Reply Drafter",
+    "kind": "documents",
+    "industry": "Healthcare",
+    "function": "Administration",
+    "description": "Draft scheduling replies from supplied clinic procedures, without medical advice.",
+    "instructions": "Draft scheduling replies from supplied clinic procedures, without medical advice. Use only supplied inputs. Organize the draft into these sections: Reply draft, Administrative requirements, Staff follow-up. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "healthcare-appointment-reply-drafter.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nAdministrative request: Reschedule a routine appointment. Clinic notes say staff must confirm slot availability. No clinical information is supplied.\n",
+    "tags": [
+      "Healthcare",
+      "Administration",
+      "Reply draft"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Reply draft",
+      "Administrative requirements",
+      "Staff follow-up"
+    ]
+  },
+  {
+    "id": "healthcare-procedure-checklist",
+    "title": "Healthcare Procedure Checklist",
+    "kind": "documents",
+    "industry": "Healthcare",
+    "function": "Administration",
+    "description": "Format approved administrative procedures into a staff checklist.",
+    "instructions": "Format approved administrative procedures into a staff checklist. Use only supplied inputs. Organize the draft into these sections: Administrative checklist, Required records, Process gaps. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "healthcare-procedure-checklist.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nApproved admin notes: Verify appointment reference, confirm contact preference and document scheduling changes. Clinical decisions are outside this process.\n",
+    "tags": [
+      "Healthcare",
+      "Administration",
+      "Administrative checklist"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Administrative checklist",
+      "Required records",
+      "Process gaps"
+    ]
+  },
+  {
+    "id": "insurance-document-checklist",
+    "title": "Insurance Document Checklist",
+    "kind": "documents",
+    "industry": "Insurance",
+    "function": "Administration",
+    "description": "List supplied claim documents and missing items without deciding coverage.",
+    "instructions": "List supplied claim documents and missing items without deciding coverage. Use only supplied inputs. Organize the draft into these sections: Document inventory, Missing items, Reviewer questions. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "insurance-document-checklist.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nSynthetic claim folder index: Incident statement present; purchase receipt missing; policy reference present. Coverage wording and decision authority not supplied.\n",
+    "tags": [
+      "Insurance",
+      "Administration",
+      "Document inventory"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Document inventory",
+      "Missing items",
+      "Reviewer questions"
+    ]
+  },
+  {
+    "id": "banking-service-faq-drafter",
+    "title": "Banking Service FAQ Drafter",
+    "kind": "documents",
+    "industry": "Financial Services",
+    "function": "Customer Support",
+    "description": "Draft service FAQ answers using only supplied operational policy text.",
+    "instructions": "Draft service FAQ answers using only supplied operational policy text. Use only supplied inputs. Organize the draft into these sections: FAQ draft, Policy citations, Escalation questions. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "banking-service-faq-drafter.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nApproved text: Address updates require authenticated self-service. Support staff cannot request a password by email. No account access is configured.\n",
+    "tags": [
+      "Financial Services",
+      "Customer Support",
+      "FAQ draft"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "FAQ draft",
+      "Policy citations",
+      "Escalation questions"
+    ]
+  },
+  {
+    "id": "nonprofit-grant-report-drafter",
+    "title": "Nonprofit Grant Report Drafter",
+    "kind": "documents",
+    "industry": "Nonprofit",
+    "function": "Program Management",
+    "description": "Draft a grant progress report from supplied activity records.",
+    "instructions": "Draft a grant progress report from supplied activity records. Use only supplied inputs. Organize the draft into these sections: Activities, Evidence gaps, Funder questions. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "nonprofit-grant-report-drafter.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nProgram notes: Three workshops held. Attendance sheets cover two workshops. Expenditure reconciliation remains pending. Outcome measures not supplied.\n",
+    "tags": [
+      "Nonprofit",
+      "Program Management",
+      "Activities"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Activities",
+      "Evidence gaps",
+      "Funder questions"
+    ]
+  },
+  {
+    "id": "nonprofit-volunteer-guide",
+    "title": "Nonprofit Volunteer Guide",
+    "kind": "documents",
+    "industry": "Nonprofit",
+    "function": "Operations",
+    "description": "Draft volunteer instructions from approved event notes.",
+    "instructions": "Draft volunteer instructions from approved event notes. Use only supplied inputs. Organize the draft into these sections: Volunteer guide, Roles, Unconfirmed logistics. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "nonprofit-volunteer-guide.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nEvent: Community book sorting. Check-in at reception. Coordinator assigns tasks. Accessibility and transport information require confirmation.\n",
+    "tags": [
+      "Nonprofit",
+      "Operations",
+      "Volunteer guide"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Volunteer guide",
+      "Roles",
+      "Unconfirmed logistics"
+    ]
+  },
+  {
+    "id": "public-service-notice-drafter",
+    "title": "Public Service Notice Drafter",
+    "kind": "documents",
+    "industry": "Public Sector",
+    "function": "Communications",
+    "description": "Draft public notices from supplied approved service-change details.",
+    "instructions": "Draft public notices from supplied approved service-change details. Use only supplied inputs. Organize the draft into these sections: Notice draft, Confirmed facts, Approval questions. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "public-service-notice-drafter.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nService note: Demo library closes at noon for maintenance on the stated date. Alternative service location and exact date have not been confirmed.\n",
+    "tags": [
+      "Public Sector",
+      "Communications",
+      "Notice draft"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Notice draft",
+      "Confirmed facts",
+      "Approval questions"
+    ]
+  },
+  {
+    "id": "energy-outage-brief",
+    "title": "Energy Outage Brief",
+    "kind": "documents",
+    "industry": "Energy",
+    "function": "Communications",
+    "description": "Summarize supplied outage updates without operational switching instructions.",
+    "instructions": "Summarize supplied outage updates without operational switching instructions. Use only supplied inputs. Organize the draft into these sections: Status brief, Unknowns, Communication checklist. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "energy-outage-brief.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nUpdate: Demo area reports an outage. Crew assessment pending. Restoration time unconfirmed. Only approved status facts may be included.\n",
+    "tags": [
+      "Energy",
+      "Communications",
+      "Status brief"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Status brief",
+      "Unknowns",
+      "Communication checklist"
+    ]
+  },
+  {
+    "id": "agriculture-field-notes-digest",
+    "title": "Agriculture Field Notes Digest",
+    "kind": "documents",
+    "industry": "Agriculture",
+    "function": "Operations",
+    "description": "Organize field observations without prescribing treatments or chemicals.",
+    "instructions": "Organize field observations without prescribing treatments or chemicals. Use only supplied inputs. Organize the draft into these sections: Observations, Missing measurements, Expert review questions. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "agriculture-field-notes-digest.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nField notes: Plot A has uneven growth. Irrigation reading missing. Weather and soil test results not supplied. Agronomist review requested.\n",
+    "tags": [
+      "Agriculture",
+      "Operations",
+      "Observations"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Observations",
+      "Missing measurements",
+      "Expert review questions"
+    ]
+  },
+  {
+    "id": "telecom-service-incident-brief",
+    "title": "Telecom Service Incident Brief",
+    "kind": "documents",
+    "industry": "Telecommunications",
+    "function": "IT Operations",
+    "description": "Draft a service incident summary from supplied network-status notes.",
+    "instructions": "Draft a service incident summary from supplied network-status notes. Use only supplied inputs. Organize the draft into these sections: Observed impact, Timeline, Investigation gaps. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "telecom-service-incident-brief.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nStatus: Demo region has intermittent packet loss. Monitoring shows elevated latency. Maintenance correlation and root cause unconfirmed.\n",
+    "tags": [
+      "Telecommunications",
+      "IT Operations",
+      "Observed impact"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Observed impact",
+      "Timeline",
+      "Investigation gaps"
+    ]
+  },
+  {
+    "id": "media-editorial-brief",
+    "title": "Media Editorial Brief",
+    "kind": "documents",
+    "industry": "Media",
+    "function": "Content Operations",
+    "description": "Turn supplied editorial notes into an article brief with verification questions.",
+    "instructions": "Turn supplied editorial notes into an article brief with verification questions. Use only supplied inputs. Organize the draft into these sections: Article outline, Facts to verify, Permissions checklist. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "media-editorial-brief.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nEditorial notes: Profile of a community workshop. Interview approval pending. Attendance figure is unverified. Photographs require permission review.\n",
+    "tags": [
+      "Media",
+      "Content Operations",
+      "Article outline"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Article outline",
+      "Facts to verify",
+      "Permissions checklist"
+    ]
+  },
+  {
+    "id": "research-literature-matrix",
+    "title": "Research Literature Matrix",
+    "kind": "documents",
+    "industry": "Research",
+    "function": "Research Operations",
+    "description": "Organize supplied paper notes into a comparison matrix without inventing citations.",
+    "instructions": "Organize supplied paper notes into a comparison matrix without inventing citations. Use only supplied inputs. Organize the draft into these sections: Comparison matrix, Evidence limits, Missing citations. Cite source filenames, distinguish observations from assumptions, and mark missing information. Do not invent facts or perform external actions.",
+    "sample_name": "research-literature-matrix.txt",
+    "sample": "SYNTHETIC SAMPLE — no real people or company data\nPaper notes: Study A uses a small observational sample. Study B reports a randomized design but its results table is missing. Full citations not supplied.\n",
+    "tags": [
+      "Research",
+      "Research Operations",
+      "Comparison matrix"
+    ],
+    "data_class": "internal",
+    "output_sections": [
+      "Comparison matrix",
+      "Evidence limits",
+      "Missing citations"
+    ]
+  }
+]

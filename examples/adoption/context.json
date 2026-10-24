@@ -1,0 +1,42 @@
+{
+  "policy": {
+    "version": "invoice-tools-v1",
+    "tools": {
+      "lookup_invoices": {
+        "tool": "database.read",
+        "resource": "invoices",
+        "arguments": {
+          "records": "limit"
+        },
+        "data_class": "internal"
+      },
+      "send_invoice_report": {
+        "tool": "http.send",
+        "resource_from": "url",
+        "arguments": {
+          "destination": "url"
+        },
+        "data_class": "pii"
+      }
+    }
+  },
+  "agent": {
+    "id": "invoice-agent",
+    "version": "demo-v1"
+  },
+  "task": {
+    "goal": "Read invoices and send a report to the approved API",
+    "allowed_tools": [
+      "database.read",
+      "http.send"
+    ],
+    "allowed_resources": [
+      "invoices",
+      "https://api.company.test/reports",
+      "https://outside.test/upload"
+    ],
+    "read_only": false
+  },
+  "session_id": "demo-session-001",
+  "workflow_id": "invoice-review-demo"
+}

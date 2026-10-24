@@ -1,0 +1,28 @@
+{
+  "name": "Invoice assistant integration example",
+  "task": {
+    "goal": "Read and summarize invoices",
+    "allowed_tools": [
+      "database.read"
+    ],
+    "allowed_resources": [
+      "invoices"
+    ],
+    "read_only": true
+  },
+  "actions": [
+    {
+      "id": "action-01",
+      "tool": "database.read",
+      "resource": "invoices",
+      "arguments": {
+        "records": 25
+      }
+    }
+  ],
+  "agent": {
+    "id": "invoice-agent",
+    "version": "demo-v1"
+  },
+  "workflow_id": "invoice-review-demo"
+}

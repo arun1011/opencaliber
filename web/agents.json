@@ -1,0 +1,1730 @@
+[
+  {
+    "id": "document-summarizer",
+    "title": "Document Summarizer",
+    "description": "Read text or Markdown files from a configured folder and save a draft summary.",
+    "tags": [
+      "Documents",
+      "Summaries",
+      "Read and draft"
+    ],
+    "industry": "Cross-industry",
+    "function": "Operations",
+    "output_sections": [
+      "Draft",
+      "Source references",
+      "Missing information"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/document-summarizer.zip",
+    "size_bytes": 18568,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "invoice-report-assistant",
+    "title": "Invoice Report Assistant",
+    "description": "Read invoice CSV files and write a report for review. No payments or report delivery.",
+    "tags": [
+      "Invoices",
+      "CSV",
+      "Draft reports"
+    ],
+    "industry": "Cross-industry",
+    "function": "Finance Operations",
+    "output_sections": [
+      "Draft",
+      "Source references",
+      "Missing information"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/invoice-report-assistant.zip",
+    "size_bytes": 18687,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "support-reply-drafter",
+    "title": "Support Reply Drafter",
+    "description": "Turn supplied support tickets into draft replies. Review and send them in your own system.",
+    "tags": [
+      "Support",
+      "Draft replies",
+      "Tickets"
+    ],
+    "industry": "Cross-industry",
+    "function": "Customer Support",
+    "output_sections": [
+      "Draft",
+      "Source references",
+      "Missing information"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/support-reply-drafter.zip",
+    "size_bytes": 18631,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "meeting-action-tracker",
+    "title": "Meeting Action Tracker",
+    "description": "Extract decisions, action owners and due dates from meeting notes.",
+    "tags": [
+      "Cross-industry",
+      "Operations",
+      "Decisions"
+    ],
+    "industry": "Cross-industry",
+    "function": "Operations",
+    "output_sections": [
+      "Decisions",
+      "Actions and owners",
+      "Missing dates"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/meeting-action-tracker.zip",
+    "size_bytes": 18767,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "project-status-reporter",
+    "title": "Project Status Reporter",
+    "description": "Turn project updates into a draft status report with blockers and next steps.",
+    "tags": [
+      "Cross-industry",
+      "Project Management",
+      "Progress"
+    ],
+    "industry": "Cross-industry",
+    "function": "Project Management",
+    "output_sections": [
+      "Progress",
+      "Blockers",
+      "Next steps"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/project-status-reporter.zip",
+    "size_bytes": 18810,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "risk-register-drafter",
+    "title": "Risk Register Drafter",
+    "description": "Organize supplied project risks, evidence and unresolved mitigations.",
+    "tags": [
+      "Cross-industry",
+      "Risk Management",
+      "Risk register"
+    ],
+    "industry": "Cross-industry",
+    "function": "Risk Management",
+    "output_sections": [
+      "Risk register",
+      "Existing mitigations",
+      "Open questions"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/risk-register-drafter.zip",
+    "size_bytes": 18758,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "sop-writer",
+    "title": "SOP Writer",
+    "description": "Convert process notes into a draft standard operating procedure.",
+    "tags": [
+      "Cross-industry",
+      "Operations",
+      "Procedure"
+    ],
+    "industry": "Cross-industry",
+    "function": "Operations",
+    "output_sections": [
+      "Procedure",
+      "Exceptions",
+      "Review checklist"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/sop-writer.zip",
+    "size_bytes": 18434,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "knowledge-base-drafter",
+    "title": "Knowledge Base Drafter",
+    "description": "Turn supplied product notes into a support knowledge article.",
+    "tags": [
+      "Cross-industry",
+      "Customer Support",
+      "Article"
+    ],
+    "industry": "Cross-industry",
+    "function": "Customer Support",
+    "output_sections": [
+      "Article",
+      "Troubleshooting",
+      "Source gaps"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/knowledge-base-drafter.zip",
+    "size_bytes": 18777,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "release-notes-drafter",
+    "title": "Release Notes Drafter",
+    "description": "Create release notes from supplied change logs without inventing features.",
+    "tags": [
+      "Software",
+      "Engineering",
+      "Features"
+    ],
+    "industry": "Software",
+    "function": "Engineering",
+    "output_sections": [
+      "Features",
+      "Fixes",
+      "Migration notes"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/release-notes-drafter.zip",
+    "size_bytes": 18755,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "bug-report-organizer",
+    "title": "Bug Report Organizer",
+    "description": "Structure bug reports into reproduction steps, symptoms and missing evidence.",
+    "tags": [
+      "Software",
+      "Engineering",
+      "Symptoms"
+    ],
+    "industry": "Software",
+    "function": "Engineering",
+    "output_sections": [
+      "Symptoms",
+      "Reproduction steps",
+      "Missing information"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/bug-report-organizer.zip",
+    "size_bytes": 18721,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "api-documentation-drafter",
+    "title": "API Documentation Drafter",
+    "description": "Draft endpoint documentation from supplied API specifications.",
+    "tags": [
+      "Software",
+      "Engineering",
+      "Endpoint reference"
+    ],
+    "industry": "Software",
+    "function": "Engineering",
+    "output_sections": [
+      "Endpoint reference",
+      "Examples",
+      "Undocumented details"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/api-documentation-drafter.zip",
+    "size_bytes": 18869,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "code-review-brief",
+    "title": "Code Review Brief",
+    "description": "Summarize supplied code review notes into issues and verification tasks.",
+    "tags": [
+      "Software",
+      "Engineering",
+      "Review issues"
+    ],
+    "industry": "Software",
+    "function": "Engineering",
+    "output_sections": [
+      "Review issues",
+      "Evidence",
+      "Verification tasks"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/code-review-brief.zip",
+    "size_bytes": 18637,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "test-plan-builder",
+    "title": "Test Plan Builder",
+    "description": "Draft test cases from requirements and acceptance criteria.",
+    "tags": [
+      "Software",
+      "Quality Assurance",
+      "Test cases"
+    ],
+    "industry": "Software",
+    "function": "Quality Assurance",
+    "output_sections": [
+      "Test cases",
+      "Boundary conditions",
+      "Requirement gaps"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/test-plan-builder.zip",
+    "size_bytes": 18656,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "incident-timeline-builder",
+    "title": "Incident Timeline Builder",
+    "description": "Draft an incident timeline from supplied logs and status updates.",
+    "tags": [
+      "Technology",
+      "IT Operations",
+      "Timeline"
+    ],
+    "industry": "Technology",
+    "function": "IT Operations",
+    "output_sections": [
+      "Timeline",
+      "Observed impact",
+      "Unknown causes"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/incident-timeline-builder.zip",
+    "size_bytes": 18862,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "security-alert-brief",
+    "title": "Security Alert Brief",
+    "description": "Organize supplied alert evidence and investigation questions for an analyst.",
+    "tags": [
+      "Technology",
+      "Security",
+      "Evidence"
+    ],
+    "industry": "Technology",
+    "function": "Security",
+    "output_sections": [
+      "Evidence",
+      "Investigation questions",
+      "Review actions"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/security-alert-brief.zip",
+    "size_bytes": 18728,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "access-review-worksheet",
+    "title": "Access Review Worksheet",
+    "description": "Summarize access inventory and flag entries missing review evidence.",
+    "tags": [
+      "Cross-industry",
+      "IT Operations",
+      "Inventory summary"
+    ],
+    "industry": "Cross-industry",
+    "function": "IT Operations",
+    "output_sections": [
+      "Inventory summary",
+      "Missing ownership",
+      "Reviewer questions"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/access-review-worksheet.zip",
+    "size_bytes": 18830,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "data-quality-report",
+    "title": "Data Quality Report",
+    "description": "Draft a quality report from supplied dataset profiling results.",
+    "tags": [
+      "Cross-industry",
+      "Data Science",
+      "Quality observations"
+    ],
+    "industry": "Cross-industry",
+    "function": "Data Science",
+    "output_sections": [
+      "Quality observations",
+      "Validation questions",
+      "Proposed checks"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/data-quality-report.zip",
+    "size_bytes": 18703,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "experiment-results-brief",
+    "title": "Experiment Results Brief",
+    "description": "Summarize experiment tables while separating results from causal claims.",
+    "tags": [
+      "Cross-industry",
+      "Data Science",
+      "Reported results"
+    ],
+    "industry": "Cross-industry",
+    "function": "Data Science",
+    "output_sections": [
+      "Reported results",
+      "Study limitations",
+      "Follow-up analyses"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/experiment-results-brief.zip",
+    "size_bytes": 18871,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "dashboard-requirements-writer",
+    "title": "Dashboard Requirements Writer",
+    "description": "Turn stakeholder notes into dashboard metrics and unresolved definitions.",
+    "tags": [
+      "Cross-industry",
+      "Analytics",
+      "Metric specifications"
+    ],
+    "industry": "Cross-industry",
+    "function": "Analytics",
+    "output_sections": [
+      "Metric specifications",
+      "Filters and refresh",
+      "Definition gaps"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/dashboard-requirements-writer.zip",
+    "size_bytes": 19020,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "sales-call-brief",
+    "title": "Sales Call Brief",
+    "description": "Turn supplied call notes into needs, objections and follow-up drafts.",
+    "tags": [
+      "Cross-industry",
+      "Sales",
+      "Customer needs"
+    ],
+    "industry": "Cross-industry",
+    "function": "Sales",
+    "output_sections": [
+      "Customer needs",
+      "Open questions",
+      "Follow-up draft"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/sales-call-brief.zip",
+    "size_bytes": 18591,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "proposal-outline-writer",
+    "title": "Proposal Outline Writer",
+    "description": "Draft a proposal outline using only supplied scope and commercial facts.",
+    "tags": [
+      "Cross-industry",
+      "Sales",
+      "Proposal outline"
+    ],
+    "industry": "Cross-industry",
+    "function": "Sales",
+    "output_sections": [
+      "Proposal outline",
+      "Deliverables",
+      "Unconfirmed terms"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/proposal-outline-writer.zip",
+    "size_bytes": 18815,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "crm-cleanup-planner",
+    "title": "CRM Cleanup Planner",
+    "description": "Draft a cleanup checklist from CRM export quality findings.",
+    "tags": [
+      "Cross-industry",
+      "Sales Operations",
+      "Cleanup tasks"
+    ],
+    "industry": "Cross-industry",
+    "function": "Sales Operations",
+    "output_sections": [
+      "Cleanup tasks",
+      "Ambiguous records",
+      "Review checklist"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/crm-cleanup-planner.zip",
+    "size_bytes": 18704,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "campaign-brief-writer",
+    "title": "Campaign Brief Writer",
+    "description": "Draft a campaign brief from audience, channel and objective notes.",
+    "tags": [
+      "Cross-industry",
+      "Marketing",
+      "Objective and audience"
+    ],
+    "industry": "Cross-industry",
+    "function": "Marketing",
+    "output_sections": [
+      "Objective and audience",
+      "Content plan",
+      "Open decisions"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/campaign-brief-writer.zip",
+    "size_bytes": 18774,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "content-repurposing-planner",
+    "title": "Content Repurposing Planner",
+    "description": "Turn an approved article into channel-specific draft outlines.",
+    "tags": [
+      "Cross-industry",
+      "Marketing",
+      "Post outlines"
+    ],
+    "industry": "Cross-industry",
+    "function": "Marketing",
+    "output_sections": [
+      "Post outlines",
+      "Newsletter draft",
+      "Claims to verify"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/content-repurposing-planner.zip",
+    "size_bytes": 18947,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "customer-feedback-grouper",
+    "title": "Customer Feedback Grouper",
+    "description": "Summarize supplied feedback into themes with quoted evidence.",
+    "tags": [
+      "Cross-industry",
+      "Product Management",
+      "Themes"
+    ],
+    "industry": "Cross-industry",
+    "function": "Product Management",
+    "output_sections": [
+      "Themes",
+      "Supporting feedback",
+      "Product questions"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/customer-feedback-grouper.zip",
+    "size_bytes": 18868,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "product-requirements-drafter",
+    "title": "Product Requirements Drafter",
+    "description": "Convert discovery notes into a draft requirements document.",
+    "tags": [
+      "Cross-industry",
+      "Product Management",
+      "Problem and scope"
+    ],
+    "industry": "Cross-industry",
+    "function": "Product Management",
+    "output_sections": [
+      "Problem and scope",
+      "Requirements",
+      "Unresolved decisions"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/product-requirements-drafter.zip",
+    "size_bytes": 18964,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "onboarding-guide-writer",
+    "title": "Onboarding Guide Writer",
+    "description": "Draft employee onboarding checklists from approved process notes.",
+    "tags": [
+      "Cross-industry",
+      "People Operations",
+      "Checklist"
+    ],
+    "industry": "Cross-industry",
+    "function": "People Operations",
+    "output_sections": [
+      "Checklist",
+      "Owners",
+      "Missing process details"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/onboarding-guide-writer.zip",
+    "size_bytes": 18832,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "training-material-drafter",
+    "title": "Training Material Drafter",
+    "description": "Create lesson outlines and practice questions from supplied material.",
+    "tags": [
+      "Cross-industry",
+      "Learning and Development",
+      "Learning objectives"
+    ],
+    "industry": "Cross-industry",
+    "function": "Learning and Development",
+    "output_sections": [
+      "Learning objectives",
+      "Lesson outline",
+      "Practice questions"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/training-material-drafter.zip",
+    "size_bytes": 18874,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "policy-change-explainer",
+    "title": "Policy Change Explainer",
+    "description": "Draft a plain-language summary of supplied policy revisions.",
+    "tags": [
+      "Cross-industry",
+      "Compliance",
+      "Changes"
+    ],
+    "industry": "Cross-industry",
+    "function": "Compliance",
+    "output_sections": [
+      "Changes",
+      "Affected processes",
+      "Clarification questions"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/policy-change-explainer.zip",
+    "size_bytes": 18823,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "procurement-comparison-brief",
+    "title": "Procurement Comparison Brief",
+    "description": "Organize vendor proposals into a comparison without selecting a supplier.",
+    "tags": [
+      "Cross-industry",
+      "Procurement",
+      "Comparison table"
+    ],
+    "industry": "Cross-industry",
+    "function": "Procurement",
+    "output_sections": [
+      "Comparison table",
+      "Missing terms",
+      "Reviewer questions"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/procurement-comparison-brief.zip",
+    "size_bytes": 18967,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "contract-obligation-extractor",
+    "title": "Contract Obligation Extractor",
+    "description": "Extract stated dates, obligations and missing terms for legal review.",
+    "tags": [
+      "Cross-industry",
+      "Legal Operations",
+      "Stated obligations"
+    ],
+    "industry": "Cross-industry",
+    "function": "Legal Operations",
+    "output_sections": [
+      "Stated obligations",
+      "Dates",
+      "Legal review questions"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/contract-obligation-extractor.zip",
+    "size_bytes": 18982,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "audit-evidence-organizer",
+    "title": "Audit Evidence Organizer",
+    "description": "Index supplied evidence descriptions against a provided audit checklist.",
+    "tags": [
+      "Cross-industry",
+      "Compliance",
+      "Evidence index"
+    ],
+    "industry": "Cross-industry",
+    "function": "Compliance",
+    "output_sections": [
+      "Evidence index",
+      "Missing evidence",
+      "Follow-up requests"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/audit-evidence-organizer.zip",
+    "size_bytes": 18859,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "expense-review-brief",
+    "title": "Expense Review Brief",
+    "description": "Summarize supplied expense records and missing documentation for review.",
+    "tags": [
+      "Cross-industry",
+      "Finance Operations",
+      "Expense summary"
+    ],
+    "industry": "Cross-industry",
+    "function": "Finance Operations",
+    "output_sections": [
+      "Expense summary",
+      "Missing documentation",
+      "Reviewer questions"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/expense-review-brief.zip",
+    "size_bytes": 18733,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "retail-returns-summary",
+    "title": "Retail Returns Summary",
+    "description": "Draft a returns issue summary from supplied store notes.",
+    "tags": [
+      "Retail",
+      "Customer Support",
+      "Observed themes"
+    ],
+    "industry": "Retail",
+    "function": "Customer Support",
+    "output_sections": [
+      "Observed themes",
+      "Evidence",
+      "Questions for store teams"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/retail-returns-summary.zip",
+    "size_bytes": 18783,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "retail-inventory-brief",
+    "title": "Retail Inventory Brief",
+    "description": "Summarize supplied stock reports and inventory exceptions.",
+    "tags": [
+      "Retail",
+      "Inventory Operations",
+      "Stock exceptions"
+    ],
+    "industry": "Retail",
+    "function": "Inventory Operations",
+    "output_sections": [
+      "Stock exceptions",
+      "Missing thresholds",
+      "Follow-up list"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/retail-inventory-brief.zip",
+    "size_bytes": 18770,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "ecommerce-listing-drafter",
+    "title": "Ecommerce Listing Drafter",
+    "description": "Draft product descriptions using supplied attributes without unsupported claims.",
+    "tags": [
+      "Ecommerce",
+      "Marketing",
+      "Listing draft"
+    ],
+    "industry": "Ecommerce",
+    "function": "Marketing",
+    "output_sections": [
+      "Listing draft",
+      "Attribute table",
+      "Claims requiring evidence"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/ecommerce-listing-drafter.zip",
+    "size_bytes": 18878,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "ecommerce-review-digest",
+    "title": "Ecommerce Review Digest",
+    "description": "Group supplied product reviews into recurring feedback themes.",
+    "tags": [
+      "Ecommerce",
+      "Product Management",
+      "Themes"
+    ],
+    "industry": "Ecommerce",
+    "function": "Product Management",
+    "output_sections": [
+      "Themes",
+      "Review evidence",
+      "Sample limitations"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/ecommerce-review-digest.zip",
+    "size_bytes": 18815,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "manufacturing-shift-handover",
+    "title": "Manufacturing Shift Handover",
+    "description": "Draft a shift handover from production notes and unresolved issues.",
+    "tags": [
+      "Manufacturing",
+      "Operations",
+      "Production summary"
+    ],
+    "industry": "Manufacturing",
+    "function": "Operations",
+    "output_sections": [
+      "Production summary",
+      "Open issues",
+      "Next-shift checklist"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/manufacturing-shift-handover.zip",
+    "size_bytes": 18956,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "manufacturing-defect-brief",
+    "title": "Manufacturing Defect Brief",
+    "description": "Summarize inspection findings without deciding product release.",
+    "tags": [
+      "Manufacturing",
+      "Quality Assurance",
+      "Findings"
+    ],
+    "industry": "Manufacturing",
+    "function": "Quality Assurance",
+    "output_sections": [
+      "Findings",
+      "Missing criteria",
+      "Quality review questions"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/manufacturing-defect-brief.zip",
+    "size_bytes": 18906,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "maintenance-work-order-drafter",
+    "title": "Maintenance Work Order Drafter",
+    "description": "Turn equipment issue notes into draft work orders for technician review.",
+    "tags": [
+      "Manufacturing",
+      "Maintenance",
+      "Reported symptoms"
+    ],
+    "industry": "Manufacturing",
+    "function": "Maintenance",
+    "output_sections": [
+      "Reported symptoms",
+      "Work-order draft",
+      "Missing details"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/maintenance-work-order-drafter.zip",
+    "size_bytes": 19045,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "logistics-exception-brief",
+    "title": "Logistics Exception Brief",
+    "description": "Summarize supplied shipment delays and missing tracking details.",
+    "tags": [
+      "Logistics",
+      "Operations",
+      "Exception summary"
+    ],
+    "industry": "Logistics",
+    "function": "Operations",
+    "output_sections": [
+      "Exception summary",
+      "Evidence",
+      "Follow-up actions"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/logistics-exception-brief.zip",
+    "size_bytes": 18871,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "warehouse-handover-writer",
+    "title": "Warehouse Handover Writer",
+    "description": "Draft warehouse handovers from supplied shift and stock notes.",
+    "tags": [
+      "Logistics",
+      "Warehouse Operations",
+      "Handover"
+    ],
+    "industry": "Logistics",
+    "function": "Warehouse Operations",
+    "output_sections": [
+      "Handover",
+      "Pending checks",
+      "Owner questions"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/warehouse-handover-writer.zip",
+    "size_bytes": 18856,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "supplier-delay-reporter",
+    "title": "Supplier Delay Reporter",
+    "description": "Draft a supplier delay report using supplied order updates.",
+    "tags": [
+      "Supply Chain",
+      "Procurement",
+      "Changed dates"
+    ],
+    "industry": "Supply Chain",
+    "function": "Procurement",
+    "output_sections": [
+      "Changed dates",
+      "Unconfirmed facts",
+      "Supplier questions"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/supplier-delay-reporter.zip",
+    "size_bytes": 18808,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "construction-progress-brief",
+    "title": "Construction Progress Brief",
+    "description": "Draft a progress report from site notes without safety certification.",
+    "tags": [
+      "Construction",
+      "Project Management",
+      "Completed work"
+    ],
+    "industry": "Construction",
+    "function": "Project Management",
+    "output_sections": [
+      "Completed work",
+      "Blockers",
+      "Unverified milestones"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/construction-progress-brief.zip",
+    "size_bytes": 18953,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "construction-rfi-drafter",
+    "title": "Construction RFI Drafter",
+    "description": "Prepare draft requests for information from drawing coordination notes.",
+    "tags": [
+      "Construction",
+      "Engineering",
+      "RFI draft"
+    ],
+    "industry": "Construction",
+    "function": "Engineering",
+    "output_sections": [
+      "RFI draft",
+      "Conflicting references",
+      "Required responses"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/construction-rfi-drafter.zip",
+    "size_bytes": 18854,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "property-maintenance-triage",
+    "title": "Property Maintenance Triage",
+    "description": "Organize maintenance requests into a review queue without dispatching workers.",
+    "tags": [
+      "Real Estate",
+      "Facilities",
+      "Request summary"
+    ],
+    "industry": "Real Estate",
+    "function": "Facilities",
+    "output_sections": [
+      "Request summary",
+      "Missing information",
+      "Review queue"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/property-maintenance-triage.zip",
+    "size_bytes": 18952,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "property-listing-draft",
+    "title": "Property Listing Draft",
+    "description": "Draft a property description from supplied verified attributes.",
+    "tags": [
+      "Real Estate",
+      "Marketing",
+      "Listing draft"
+    ],
+    "industry": "Real Estate",
+    "function": "Marketing",
+    "output_sections": [
+      "Listing draft",
+      "Verified attributes",
+      "Missing facts"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/property-listing-draft.zip",
+    "size_bytes": 18775,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "hospitality-guest-reply-drafter",
+    "title": "Hospitality Guest Reply Drafter",
+    "description": "Draft guest replies based on supplied policy and request notes.",
+    "tags": [
+      "Hospitality",
+      "Customer Support",
+      "Reply draft"
+    ],
+    "industry": "Hospitality",
+    "function": "Customer Support",
+    "output_sections": [
+      "Reply draft",
+      "Policy references",
+      "Reception questions"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/hospitality-guest-reply-drafter.zip",
+    "size_bytes": 19044,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "hospitality-shift-brief",
+    "title": "Hospitality Shift Brief",
+    "description": "Summarize reception handover notes and unresolved guest requests.",
+    "tags": [
+      "Hospitality",
+      "Operations",
+      "Shift summary"
+    ],
+    "industry": "Hospitality",
+    "function": "Operations",
+    "output_sections": [
+      "Shift summary",
+      "Pending requests",
+      "Owner checklist"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/hospitality-shift-brief.zip",
+    "size_bytes": 18818,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "travel-itinerary-organizer",
+    "title": "Travel Itinerary Organizer",
+    "description": "Organize supplied booking details into an itinerary draft without new bookings.",
+    "tags": [
+      "Travel",
+      "Operations",
+      "Itinerary"
+    ],
+    "industry": "Travel",
+    "function": "Operations",
+    "output_sections": [
+      "Itinerary",
+      "Unconfirmed bookings",
+      "Traveler questions"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/travel-itinerary-organizer.zip",
+    "size_bytes": 18874,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "education-lesson-planner",
+    "title": "Education Lesson Planner",
+    "description": "Draft lesson plans from teacher-supplied objectives and materials.",
+    "tags": [
+      "Education",
+      "Learning and Development",
+      "Lesson sequence"
+    ],
+    "industry": "Education",
+    "function": "Learning and Development",
+    "output_sections": [
+      "Lesson sequence",
+      "Activities",
+      "Teacher review"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/education-lesson-planner.zip",
+    "size_bytes": 18866,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "education-course-feedback-digest",
+    "title": "Education Course Feedback Digest",
+    "description": "Summarize supplied course feedback without assessing individual students.",
+    "tags": [
+      "Education",
+      "Analytics",
+      "Feedback themes"
+    ],
+    "industry": "Education",
+    "function": "Analytics",
+    "output_sections": [
+      "Feedback themes",
+      "Evidence",
+      "Course improvement questions"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/education-course-feedback-digest.zip",
+    "size_bytes": 19102,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "healthcare-appointment-reply-drafter",
+    "title": "Healthcare Appointment Reply Drafter",
+    "description": "Draft scheduling replies from supplied clinic procedures, without medical advice.",
+    "tags": [
+      "Healthcare",
+      "Administration",
+      "Reply draft"
+    ],
+    "industry": "Healthcare",
+    "function": "Administration",
+    "output_sections": [
+      "Reply draft",
+      "Administrative requirements",
+      "Staff follow-up"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/healthcare-appointment-reply-drafter.zip",
+    "size_bytes": 19239,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "healthcare-procedure-checklist",
+    "title": "Healthcare Procedure Checklist",
+    "description": "Format approved administrative procedures into a staff checklist.",
+    "tags": [
+      "Healthcare",
+      "Administration",
+      "Administrative checklist"
+    ],
+    "industry": "Healthcare",
+    "function": "Administration",
+    "output_sections": [
+      "Administrative checklist",
+      "Required records",
+      "Process gaps"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/healthcare-procedure-checklist.zip",
+    "size_bytes": 19031,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "insurance-document-checklist",
+    "title": "Insurance Document Checklist",
+    "description": "List supplied claim documents and missing items without deciding coverage.",
+    "tags": [
+      "Insurance",
+      "Administration",
+      "Document inventory"
+    ],
+    "industry": "Insurance",
+    "function": "Administration",
+    "output_sections": [
+      "Document inventory",
+      "Missing items",
+      "Reviewer questions"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/insurance-document-checklist.zip",
+    "size_bytes": 18983,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "banking-service-faq-drafter",
+    "title": "Banking Service FAQ Drafter",
+    "description": "Draft service FAQ answers using only supplied operational policy text.",
+    "tags": [
+      "Financial Services",
+      "Customer Support",
+      "FAQ draft"
+    ],
+    "industry": "Financial Services",
+    "function": "Customer Support",
+    "output_sections": [
+      "FAQ draft",
+      "Policy citations",
+      "Escalation questions"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/banking-service-faq-drafter.zip",
+    "size_bytes": 18964,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "nonprofit-grant-report-drafter",
+    "title": "Nonprofit Grant Report Drafter",
+    "description": "Draft a grant progress report from supplied activity records.",
+    "tags": [
+      "Nonprofit",
+      "Program Management",
+      "Activities"
+    ],
+    "industry": "Nonprofit",
+    "function": "Program Management",
+    "output_sections": [
+      "Activities",
+      "Evidence gaps",
+      "Funder questions"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/nonprofit-grant-report-drafter.zip",
+    "size_bytes": 19031,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "nonprofit-volunteer-guide",
+    "title": "Nonprofit Volunteer Guide",
+    "description": "Draft volunteer instructions from approved event notes.",
+    "tags": [
+      "Nonprofit",
+      "Operations",
+      "Volunteer guide"
+    ],
+    "industry": "Nonprofit",
+    "function": "Operations",
+    "output_sections": [
+      "Volunteer guide",
+      "Roles",
+      "Unconfirmed logistics"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/nonprofit-volunteer-guide.zip",
+    "size_bytes": 18847,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "public-service-notice-drafter",
+    "title": "Public Service Notice Drafter",
+    "description": "Draft public notices from supplied approved service-change details.",
+    "tags": [
+      "Public Sector",
+      "Communications",
+      "Notice draft"
+    ],
+    "industry": "Public Sector",
+    "function": "Communications",
+    "output_sections": [
+      "Notice draft",
+      "Confirmed facts",
+      "Approval questions"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/public-service-notice-drafter.zip",
+    "size_bytes": 18994,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "energy-outage-brief",
+    "title": "Energy Outage Brief",
+    "description": "Summarize supplied outage updates without operational switching instructions.",
+    "tags": [
+      "Energy",
+      "Communications",
+      "Status brief"
+    ],
+    "industry": "Energy",
+    "function": "Communications",
+    "output_sections": [
+      "Status brief",
+      "Unknowns",
+      "Communication checklist"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/energy-outage-brief.zip",
+    "size_bytes": 18701,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "agriculture-field-notes-digest",
+    "title": "Agriculture Field Notes Digest",
+    "description": "Organize field observations without prescribing treatments or chemicals.",
+    "tags": [
+      "Agriculture",
+      "Operations",
+      "Observations"
+    ],
+    "industry": "Agriculture",
+    "function": "Operations",
+    "output_sections": [
+      "Observations",
+      "Missing measurements",
+      "Expert review questions"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/agriculture-field-notes-digest.zip",
+    "size_bytes": 19034,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "telecom-service-incident-brief",
+    "title": "Telecom Service Incident Brief",
+    "description": "Draft a service incident summary from supplied network-status notes.",
+    "tags": [
+      "Telecommunications",
+      "IT Operations",
+      "Observed impact"
+    ],
+    "industry": "Telecommunications",
+    "function": "IT Operations",
+    "output_sections": [
+      "Observed impact",
+      "Timeline",
+      "Investigation gaps"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/telecom-service-incident-brief.zip",
+    "size_bytes": 19038,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "media-editorial-brief",
+    "title": "Media Editorial Brief",
+    "description": "Turn supplied editorial notes into an article brief with verification questions.",
+    "tags": [
+      "Media",
+      "Content Operations",
+      "Article outline"
+    ],
+    "industry": "Media",
+    "function": "Content Operations",
+    "output_sections": [
+      "Article outline",
+      "Facts to verify",
+      "Permissions checklist"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/media-editorial-brief.zip",
+    "size_bytes": 18796,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  },
+  {
+    "id": "research-literature-matrix",
+    "title": "Research Literature Matrix",
+    "description": "Organize supplied paper notes into a comparison matrix without inventing citations.",
+    "tags": [
+      "Research",
+      "Research Operations",
+      "Comparison matrix"
+    ],
+    "industry": "Research",
+    "function": "Research Operations",
+    "output_sections": [
+      "Comparison matrix",
+      "Evidence limits",
+      "Missing citations"
+    ],
+    "version": "0.1.0",
+    "providers": [
+      "OpenAI",
+      "Anthropic"
+    ],
+    "download": "downloads/agents/research-literature-matrix.zip",
+    "size_bytes": 18915,
+    "requirements": "Python 3.10+",
+    "mode": "Draft workflow",
+    "credentials": "Not needed for demo; provider key and model for live use"
+  }
+]

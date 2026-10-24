@@ -1,0 +1,42 @@
+[
+  {
+    "title": "Download OpenCaliber",
+    "start_seconds": 0
+  },
+  {
+    "title": "Extract and start",
+    "start_seconds": 27.799
+  },
+  {
+    "title": "Identify the agent",
+    "start_seconds": 48.779
+  },
+  {
+    "title": "Inspect a finding",
+    "start_seconds": 78.752
+  },
+  {
+    "title": "Read the assessment",
+    "start_seconds": 106.221
+  },
+  {
+    "title": "Connect provider tools",
+    "start_seconds": 130.64
+  },
+  {
+    "title": "Verify a correction",
+    "start_seconds": 160.853
+  },
+  {
+    "title": "Configure evaluation rules",
+    "start_seconds": 189.101
+  },
+  {
+    "title": "Run regression checks",
+    "start_seconds": 217.554
+  },
+  {
+    "title": "Integrate and store evidence",
+    "start_seconds": 247.217
+  }
+]

@@ -112,3 +112,7 @@ node tests/test_node_sdk.mjs
 ```
 
 These checks use synthetic fixtures and mock provider calls; they do not establish real-world security effectiveness.
+
+## Public website on GitHub Pages
+
+The included Pages workflow publishes the static website and downloads. Select **GitHub Actions** in Settings → Pages, then push to main. See [GitHub Pages setup](docs/github-pages.md). The Python evaluation console remains a downloadable application.

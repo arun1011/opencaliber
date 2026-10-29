@@ -16,7 +16,7 @@ Open http://127.0.0.1:8787/console . The home page is http://127.0.0.1:8787/ . S
 
 ## Narrated user walkthrough
 
-The home page has a ten-chapter video covering setup, agent identity, findings, result interpretation, provider mappings, corrections, configuration, regression checks, SDKs and redacted storage. It uses current console screenshots, labeled illustrations and Microsoft Zira synthetic narration. English captions are burned in; WebVTT captions and a transcript are available on the home page. The runtime ZIP excludes the marketing page and video files.
+The home page has a ten-chapter video covering setup, agent identity, findings, result interpretation, provider mappings, corrections, configuration, regression checks, SDKs and redacted storage. It uses current console screenshots, labeled illustrations and Microsoft David synthetic narration at a moderate instructional pace. English captions are burned in; WebVTT captions and a transcript are available on the home page. The runtime ZIP excludes the marketing page and video files.
 
 ## Integrate with an agent
 
@@ -73,7 +73,7 @@ The 70 synthetic cases test implemented rules, not independent security effectiv
 
 History and configuration are stored in `artifacts/agent-console.sqlite3` under the extracted folder. The server binds only to loopback, checks host/origin, and serves the `web/` directory. It has no multi-user authentication or at-rest encryption. Do not expose it to a network. Redact sensitive traces and protect the local files.
 
-The downloadable ZIP is assembled from a fixed source allowlist and excludes your database, private traces, model weights and credentials. It does not include the separate model-training research. Source is provided as a developer preview; a distribution license has not yet been selected. Review licensing before redistribution.
+The downloadable ZIP is assembled from a fixed source allowlist and excludes your database, private traces, model weights and credentials. It does not include the separate model-training research. Original software is licensed under Apache-2.0. See LICENSE, NOTICE and LICENSING.md in every package; third-party materials retain their own terms.
 
 ## Agent attribution and fix guidance
 

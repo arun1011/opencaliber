@@ -1,6 +1,6 @@
 # OpenCaliber
 
-Advisory risk evaluation of AI agent actions, with a local dashboard, findings, configurable rules, evidence export and 70 labeled regression scenarios. No external inference, subscriptions or API keys required. Python 3.10+ standard library only.
+Advisory risk evaluation of AI agent actions, with a local dashboard, findings, configurable rules, evidence export and 70 labeled regression scenarios. The evaluation engine and desktop console require no external inference, subscriptions or API keys and use the Python 3.10+ standard library. Optional live agent starters require provider credentials and may incur charges; hosted deployment uses the dependencies in requirements.txt.
 
 ## Watch the walkthrough
 

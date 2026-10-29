@@ -34,6 +34,22 @@ class ApiTests(unittest.TestCase):
         try:
             with urllib.request.urlopen(request) as r:return r.status,json.loads(r.read())
         except urllib.error.HTTPError as e:return e.code,json.loads(e.read())
+    def test_sequence_configuration_evaluation_and_persistence(self):
+        cfg=json.loads((server.ROOT/'examples/sequence_config.json').read_text())
+        trace=json.loads((server.ROOT/'examples/sequence_failed_trace.json').read_text())
+        previous=server.configuration()
+        try:
+            self.assertEqual(self.request('/api/config',cfg)[0],200)
+            status,created=self.request('/api/evaluate',{'trace':trace,'storage':'redacted'})
+            self.assertEqual(status,201)
+            saved=self.request('/api/runs/'+created['id'])[1]
+            check=saved['result']['actions'][-1]['sequence_checks'][0]
+            self.assertFalse(check['satisfied'])
+            self.assertEqual(check['evidence_ids'],['backup-01','delete-01'])
+            self.assertEqual(saved['trace']['actions'][0]['resource_version'],'[redacted-version]')
+            self.assertEqual(saved['config']['sequence_rules'],cfg['sequence_rules'])
+        finally:self.request('/api/config',previous)
+
     def test_agent_identity_survives_persistence_and_state(self):
         trace=copy.deepcopy(server.cases()['cases'][0]['trace'])
         trace['agent']={'id':'api-agent','version':'commit-123'};trace['workflow_id']='workflow-456'

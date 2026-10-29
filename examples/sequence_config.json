@@ -1,0 +1,27 @@
+{
+  "max_records": 1000,
+  "max_calls": 20,
+  "require_scope": true,
+  "flag_untrusted_instructions": true,
+  "denied_tools": [
+    "iam.create_key"
+  ],
+  "allowed_hosts": [
+    "api.company.test",
+    "docs.company.test"
+  ],
+  "allowed_file_roots": [
+    "/workspace"
+  ],
+  "review_score": 35,
+  "sequence_rules": [
+    {
+      "id": "backup-before-delete",
+      "tool": "file.delete",
+      "requires_tool": "file.backup",
+      "invalidate_on": [
+        "file.write"
+      ]
+    }
+  ]
+}

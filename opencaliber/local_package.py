@@ -10,7 +10,7 @@ ROOT=Path(__file__).resolve().parents[1]
 def build_package():
     files=['LICENSE','NOTICE','LICENSING.md','opencaliber/__init__.py','opencaliber/agent_engine.py','opencaliber/agent_server.py','opencaliber/agent_cli.py','opencaliber/adapters.py','opencaliber/sdk.py','opencaliber/privacy.py','opencaliber/regression.py',
            'data/agent_cases.json','web/console.html','web/console.js','web/agents.html','web/agents.js','web/agents.json','web/integration.js','web/styles.css','web/assets/favicon.svg','web/assets/logo.svg',
-           'examples/agent_trace.json','examples/integrate_agent.py','ADOPTION.md','sdk/typescript/opencaliber.mjs','sdk/typescript/opencaliber.d.mts','examples/adoption/bundle.json','examples/adoption/context.json','examples/adoption/provider_demo.py','examples/adoption/provider_demo.mjs','examples/adoption/live_response.py','examples/adoption/live_agent.py','examples/adoption/regression-suite.json']
+           'examples/sequence_config.json','examples/sequence_trace.json','examples/sequence_failed_trace.json','docs/sequence-rules.md','examples/agent_trace.json','examples/integrate_agent.py','ADOPTION.md','sdk/typescript/opencaliber.mjs','sdk/typescript/opencaliber.d.mts','examples/adoption/bundle.json','examples/adoption/context.json','examples/adoption/provider_demo.py','examples/adoption/provider_demo.mjs','examples/adoption/live_response.py','examples/adoption/live_agent.py','examples/adoption/regression-suite.json']
     catalog=json.loads((ROOT/'web/agents.json').read_text(encoding='utf-8'))
     for entry in catalog:
         if re.fullmatch('[a-z0-9-]+',entry['id']) is None:raise ValueError('Invalid catalog ID')

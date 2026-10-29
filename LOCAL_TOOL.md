@@ -84,3 +84,7 @@ Search evaluations and findings by agent, version or workflow. Each new finding 
 ## Provider integration helpers
 
 Use the console Connect agents page for completed OpenAI Responses, OpenAI Chat Completions and Anthropic Messages tool calls. Versioned custom tool mappings, Python and typed Node helpers, redacted storage and runnable provider examples are included. Start with `python examples/adoption/provider_demo.py`. See [ADOPTION.md](ADOPTION.md) for setup, limitations, optional live mock tools, privacy and CI commands.
+
+## Sequence rules
+
+In Configuration, use the backup-before-delete sample or enter a sequence_rules JSON array. See docs/sequence-rules.md and examples/sequence_config.json. Instrument outcomes in your executor; model responses alone do not prove tool success. These checks evaluate only the supplied ordered trace and do not execute or block actions.

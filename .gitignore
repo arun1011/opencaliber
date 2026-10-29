@@ -17,3 +17,11 @@ web/downloads/agents/*.zip
 .pytest_cache/
 tests/tmp*/
 github-repository/
+
+# Maintainer-only production tools belong in the external support workspace.
+requirements-media.txt
+tools/build_tutorial.py
+tools/tutorial_voice.ps1
+tools/tutorial_script.json
+PUBLISHING.md
+docs/publication-review-*.md

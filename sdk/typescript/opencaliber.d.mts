@@ -20,7 +20,7 @@ export interface Trace {
   task: IntegrationContext['task'];
   context: {provider: Provider; response_id: string; session_id: string; policy_version: string; policy_sha256: string};
   workflow_id?: string;
-  actions: Array<{id: string; source_tool: string; tool: string; resource: string; arguments?: Record<string,unknown>; data_class?: string}>;
+  actions: Array<{id: string; source_tool: string; tool: string; resource: string; arguments?: Record<string,unknown>; data_class?: string; resource_version?: string; outcome?: {status: 'succeeded' | 'failed' | 'unknown'; source: 'application' | 'agent' | 'unknown'}}>;
 }
 export interface EvaluationResult {
   assessment: Assessment; risk_score: number; score_type: 'heuristic_not_probability';

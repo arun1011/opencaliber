@@ -4,9 +4,7 @@ Advisory risk evaluation of AI agent actions, with a local dashboard, findings, 
 
 ## Watch the walkthrough
 
-[![Watch the OpenCaliber walkthrough: download, evaluate agent actions, inspect findings and verify corrections](web/media/opencaliber-poster.jpg)](https://opencaliber.net/#walkthrough)
-
-**[Watch the captioned video](https://opencaliber.net/#walkthrough)** · [Open the MP4 directly](https://github.com/arun1011/opencaliber/raw/refs/heads/main/web/media/opencaliber-walkthrough.mp4)
+[![Watch the OpenCaliber walkthrough: download, evaluate agent actions, inspect findings and verify corrections](web/media/opencaliber-poster.jpg)](https://github.com/arun1011/opencaliber/blob/main/web/media/opencaliber-walkthrough.mp4)
 
 A five-and-a-half-minute demonstration of setup, agent integrations, findings, configuration and regression checks. Includes male narration at a moderate instructional pace and English captions.
 
@@ -124,3 +122,13 @@ These checks use synthetic fixtures and mock provider calls; they do not establi
 ## Public website on GitHub Pages
 
 The included Pages workflow publishes the static website and downloads. Select **GitHub Actions** in Settings → Pages, then push to main. See [GitHub Pages setup](docs/github-pages.md). The Python evaluation console remains a downloadable application.
+
+## Sequence-dependent checks
+
+Engine 0.4 supports opt-in rules such as backup-before-delete for the same resource. Configure them in the console, supply application-recorded execution outcomes, and inspect matched or missing prerequisite evidence. [Configuration, runnable examples and trust limits](docs/sequence-rules.md).
+
+## One repository, two deployment targets
+
+Use this repository as the single source for development, GitHub Pages and Elastic Beanstalk. GitHub Pages publishes the public static website and downloads through `.github/workflows/pages.yml`; the Python service deploys through `application.py`, `Procfile` and `deploy/build_bundle.py`. See docs/github-pages.md and docs/elastic-beanstalk.md. Build outputs and runtime history stay ignored under dist/ and artifacts/.
+
+Media-production tools and internal publishing notes are maintained outside this repository. They are not required to adopt, run, test or deploy OpenCaliber.

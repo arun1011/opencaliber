@@ -37,7 +37,7 @@ def initialize():
 
 
 def configuration():
-    with connect() as c:return json.loads(c.execute('SELECT config FROM settings WHERE id=1').fetchone()[0])
+    with connect() as c:return validate_config(json.loads(c.execute('SELECT config FROM settings WHERE id=1').fetchone()[0]))
 
 
 def cases():return json.loads((ROOT/'data/agent_cases.json').read_text(encoding='utf-8'))

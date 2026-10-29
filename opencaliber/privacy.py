@@ -20,6 +20,7 @@ def minimize_evidence(trace, result):
         trace['task']['allowed_resources'] = [resource_label(x) for x in trace['task']['allowed_resources']]
     for action in trace['actions']:
         action['resource'] = resource_label(action['resource'])
+        if 'resource_version' in action: action['resource_version'] = '[redacted-version]'
         if 'untrusted_text' in action: action['untrusted_text'] = '[redacted]'
         args = action.get('arguments', {})
         if 'command' in args: args['command'] = '[redacted]'

@@ -25,6 +25,16 @@ class CloudTests(unittest.TestCase):
     def tearDown(self):
         self.client.__exit__(None,None,None);self.temp.cleanup()
 
+    def test_sequence_rules_in_hosted_api(self):
+        cfg=json.loads((store.ROOT/'examples/sequence_config.json').read_text())
+        trace=json.loads((store.ROOT/'examples/sequence_trace.json').read_text())
+        self.assertEqual(self.client.post('/api/config',json=cfg,headers=self.headers).status_code,200)
+        response=self.client.post('/api/evaluate',json={'trace':trace},headers=self.headers)
+        self.assertEqual(response.status_code,201)
+        check=response.json()['result']['actions'][-1]['sequence_checks'][0]
+        self.assertTrue(check['satisfied'])
+        self.assertEqual(check['evidence_ids'],['backup-01','delete-01'])
+
     def test_clean_page_routes_and_redirects(self):
         for old,new in (('/index.html','/'),('/agents.html','/agents'),('/console.html','/console'),('/agents/','/agents'),('/console/','/console')):
             response=self.client.get(old+'?review=links',headers=self.headers,follow_redirects=False)

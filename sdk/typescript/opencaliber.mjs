@@ -2,7 +2,7 @@
 import { createHash } from 'node:crypto';
 const own = (o, k) => Object.prototype.hasOwnProperty.call(o, k);
 const object = x => x !== null && typeof x === 'object' && !Array.isArray(x);
-const known = new Set(['database.read','database.write','database.delete','file.read','file.write','file.delete','http.get','http.send','email.send','shell.exec','iam.create_key','payments.refund','calendar.read','calendar.write','search.query']);
+const known = new Set(['database.backup','file.backup','database.read','database.write','database.delete','file.read','file.write','file.delete','http.get','http.send','email.send','shell.exec','iam.create_key','payments.refund','calendar.read','calendar.write','search.query']);
 const canonical = x => Array.isArray(x) ? `[${x.map(canonical).join(',')}]` : object(x) ? `{${Object.keys(x).sort().map(k=>`${JSON.stringify(k)}:${canonical(x[k])}`).join(',')}}` : JSON.stringify(x);
 const text = (x, n=300) => typeof x === 'string' && x.trim().length > 0 && x.length <= n;
 const select = (args, path) => {

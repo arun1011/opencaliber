@@ -1,6 +1,6 @@
 # Deploy OpenCaliber to Elastic Beanstalk
 
-This structure follows the sibling Impact Studio project: `application.py`, an ASGI `Procfile`, root runtime requirements, `.ebextensions`, nginx configuration, retained EBS bootstrap, an allowlisted source ZIP, and an optional CloudFormation helper. No Impact Studio credentials, company data, accounts, model services or databases are copied.
+Deploy the authenticated Python service using the included ASGI entry point, runtime configuration, retained-storage setup and source-bundle builder.
 
 ## Deployment shape
 

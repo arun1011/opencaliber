@@ -16,7 +16,7 @@ Open http://127.0.0.1:8787/console . The home page is http://127.0.0.1:8787/ . S
 
 ## Narrated user walkthrough
 
-The home page has a ten-chapter video covering setup, agent identity, findings, result interpretation, provider mappings, corrections, configuration, regression checks, SDKs and redacted storage. It uses current console screenshots, labeled illustrations and Microsoft David synthetic narration at a moderate instructional pace. English captions are burned in; WebVTT captions and a transcript are available on the home page. The runtime ZIP excludes the marketing page and video files.
+The home page includes a twelve-chapter narrated walkthrough covering setup, policy configuration, provider integrations, sequence checks, coverage, enforcement and interpreting findings. English captions are included. The runtime download focuses on the console and evaluation examples.
 
 ## Integrate with an agent
 
@@ -67,13 +67,13 @@ python -m unittest discover -s tests -v
 
 `violation`: an explicit declared task or policy rule triggered. `review`: uncertainty or a review signal. `clear`: no implemented rule triggered, never a guarantee of safety. Scores are heuristic severities, not calibrated probabilities. The current engine does not semantically infer arbitrary goals and has no trained LLM connection.
 
-Scope, approval and sensitivity labels are caller-supplied and unauthenticated. There is no tool execution, network firewall, DNS resolution, sandbox, live-agent connector or automatic containment. Resource budgets cover one trace only. Shell inspection uses incomplete patterns. Normalize paths to absolute POSIX paths. Untrusted text checks do not establish prompt injection or causality.
+Scope, approval and sensitivity labels are caller-supplied and unauthenticated. The evaluator does not execute tools. The optional Python GuardedExecutor can reject callbacks before dispatch in enforce mode. No network firewall, DNS resolution, sandbox or automatic live-agent connector is included. Resource budgets cover one trace only. Shell inspection uses incomplete patterns. Normalize paths to absolute POSIX paths. Untrusted text checks do not establish prompt injection or causality.
 
 The 70 synthetic cases test implemented rules, not independent security effectiveness. The suite uses active configuration plus fixture-specific overrides; inspect mismatches after changing policies.
 
 History and configuration are stored in `artifacts/agent-console.sqlite3` under the extracted folder. The server binds only to loopback, checks host/origin, and serves the `web/` directory. It has no multi-user authentication or at-rest encryption. Do not expose it to a network. Redact sensitive traces and protect the local files.
 
-The downloadable ZIP is assembled from a fixed source allowlist and excludes your database, private traces, model weights and credentials. It does not include the separate model-training research. Original software is licensed under Apache-2.0. See LICENSE, NOTICE and LICENSING.md in every package; third-party materials retain their own terms.
+The downloadable ZIP is assembled from a fixed source allowlist and excludes your database, private traces, model weights and credentials. Original software is licensed under Apache-2.0. See LICENSE, NOTICE and LICENSING.md in every package; third-party materials retain their own terms.
 
 ## Agent attribution and fix guidance
 

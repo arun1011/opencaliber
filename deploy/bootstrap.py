@@ -1,4 +1,4 @@
-"""Retained EBS mount adapted from Impact Studio; no forced detach or overwrite."""
+"""Retained EBS mounting with no forced detach or overwrite."""
 import json,os,re,subprocess,time,urllib.request
 from pathlib import Path
 MOUNT=Path('/mnt/opencaliber')

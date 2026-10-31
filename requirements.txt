@@ -1,3 +1,10 @@
-fastapi==0.135.1
+# Hosted service: Python 3.11+; Elastic Beanstalk uses Python 3.12+.
+fastapi==0.162.0
 uvicorn==0.41.0
 boto3==1.43.18
+# Pin patched transitive dependencies for the hosted service.
+starlette==1.10.0
+anyio==4.15.1
+urllib3==2.8.0
+idna==3.20
+certifi==2026.10.23

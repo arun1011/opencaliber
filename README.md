@@ -8,7 +8,7 @@ Advisory risk evaluation of AI agent actions, with a local dashboard, findings, 
 
 [![Watch the OpenCaliber walkthrough: download, evaluate agent actions, inspect findings and verify corrections](web/media/opencaliber-poster.jpg)](https://github.com/arun1011/opencaliber/blob/main/web/media/opencaliber-walkthrough.mp4)
 
-A five-and-a-half-minute demonstration of setup, agent integrations, findings, configuration and regression checks. Includes male narration at a moderate instructional pace and English captions.
+A six-minute walkthrough of setup, tool policies, sequence checks, integrations, enforcement and interpreting findings, with narration and English captions.
 
 ## Start
 
@@ -78,68 +78,34 @@ python -m unittest discover -s tests -v
 
 `violation`: an explicit declared task or policy rule triggered. `review`: uncertainty or a review signal. `clear`: no implemented rule triggered, never a guarantee of safety. Scores are heuristic severities, not calibrated probabilities. The current engine does not semantically infer arbitrary goals and has no trained LLM connection.
 
-Scope, approval and sensitivity labels are caller-supplied and unauthenticated. There is no tool execution, network firewall, DNS resolution, sandbox, live-agent connector or automatic containment. Resource budgets cover one trace only. Shell inspection uses incomplete patterns. Normalize paths to absolute POSIX paths. Untrusted text checks do not establish prompt injection or causality.
+Scope, approval and sensitivity labels are caller-supplied and unauthenticated. The evaluator does not execute tools. The optional Python GuardedExecutor can reject callbacks before dispatch in enforce mode. No network firewall, DNS resolution, sandbox or automatic live-agent connector is included. Resource budgets cover one trace only. Shell inspection uses incomplete patterns. Normalize paths to absolute POSIX paths. Untrusted text checks do not establish prompt injection or causality.
 
 The 70 synthetic cases test implemented rules, not independent security effectiveness. The suite uses active configuration plus fixture-specific overrides; inspect mismatches after changing policies.
 
 History and configuration are stored in `artifacts/agent-console.sqlite3` under the extracted folder. The server binds only to loopback, checks host/origin, and serves the `web/` directory. It has no multi-user authentication or at-rest encryption. Do not expose it to a network. Redact sensitive traces and protect the local files.
 
-The downloadable ZIP is assembled from a fixed source allowlist and excludes your database, private traces, model weights and credentials. It does not include the separate model-training research. OpenCaliber original software is licensed under Apache-2.0. See [LICENSE](LICENSE), [NOTICE](NOTICE), and [licensing scope](LICENSING.md). Every downloadable runtime and agent pack includes these files.
-
-## Creator & Open Source Lead
-
-**[Arun Kumar](https://www.linkedin.com/in/arunkumar1011/)**
-
-I created OpenCaliber as an open-source project to learn and collaborate with developers on evaluating AI agent actions and inspecting policy findings. [Connect on LinkedIn](https://www.linkedin.com/in/arunkumar1011/) to discuss the project and collaboration.
+The downloadable ZIP is assembled from a fixed source allowlist and excludes your database, private traces, model weights and credentials. OpenCaliber original software is licensed under Apache-2.0. See [LICENSE](LICENSE), [NOTICE](NOTICE), and [licensing scope](LICENSING.md). Every downloadable runtime and agent pack includes these files.
 
 ## Project and contribution
 
-OpenCaliber is an independent personal open-source project, not affiliated with or endorsed by the maintainer's employer. See CONTRIBUTING.md and SECURITY.md.
+OpenCaliber is an independent personal open-source project. See [contribution guidance](CONTRIBUTING.md) and [security reporting](SECURITY.md).
 
-The current release is a deterministic evaluation toolkit. It does not include a trained anomaly model or the separate experimental training work.
+The current release is a deterministic evaluation toolkit; it does not include a trained anomaly model.
 
 ## Walkthrough
 
 The home page includes a captioned walkthrough. Media and branding reuse have separate considerations described in LICENSING.md.
 
-## Elastic Beanstalk deployment
+## Developer documentation
 
-Hosted entry point: `application:application`, launched by the root `Procfile`. Build `dist/opencaliber-elasticbeanstalk.zip` with `python deploy/build_bundle.py` and validate it with `python tools/check_deployment.py`. See [deployment instructions](docs/elastic-beanstalk.md). No AWS resources are created by building or checking. The model-training experiments are excluded from this repository.
-
-## Build downloadable packages
-
-```sh
-python tools/build_agent_library.py
-python -m opencaliber.local_package
-python deploy/build_bundle.py
-python tools/check_deployment.py
-```
-
-Agent packs are generated in web/downloads/agents. The console package is generated in artifacts, and the Elastic Beanstalk bundle in dist. Attach generated ZIPs to GitHub Releases.
-
-## Development checks
-
-```sh
-python -m pip install -r requirements-dev.txt
-python -m unittest discover -s tests -v
-node tests/test_node_sdk.mjs
-```
-
-These checks use synthetic fixtures and mock provider calls; they do not establish real-world security effectiveness.
-
-## Public website on GitHub Pages
-
-The included Pages workflow publishes the static website and downloads. Select **GitHub Actions** in Settings → Pages, then push to main. See [GitHub Pages setup](docs/github-pages.md). The Python evaluation console remains a downloadable application.
+- [Integrating agents and provider tool calls](ADOPTION.md)
+- [Configuring and running evaluations](LOCAL_TOOL.md)
+- [Deployment instructions](docs/elastic-beanstalk.md)
+- [Contributing and testing changes](CONTRIBUTING.md)
 
 ## Sequence-dependent checks
 
 Engine 0.4 supports opt-in rules such as backup-before-delete for the same resource. Configure them in the console, supply application-recorded execution outcomes, and inspect matched or missing prerequisite evidence. [Configuration, runnable examples and trust limits](docs/sequence-rules.md).
-
-## One repository, two deployment targets
-
-Use this repository as the single source for development, GitHub Pages and Elastic Beanstalk. GitHub Pages publishes the public static website and downloads through `.github/workflows/pages.yml`; the Python service deploys through `application.py`, `Procfile` and `deploy/build_bundle.py`. See docs/github-pages.md and docs/elastic-beanstalk.md. Build outputs and runtime history stay ignored under dist/ and artifacts/.
-
-Media-production tools and internal publishing notes are maintained outside this repository. They are not required to adopt, run, test or deploy OpenCaliber.
 
 ## Adoption utilities
 
@@ -152,3 +118,9 @@ Engine 0.5 adds exact-value allowlists, POSIX directory boundaries, exact URL ho
 ## Database search and summarization example
 
 See [examples/database_summary](examples/database_summary/README.md) for a runnable SQLite-to-mock-LLM workflow with OpenCaliber checks before each callback, policy JSON, five scenarios and tests. It demonstrates blocked transfers and operational failures without credentials or network calls.
+
+## Creator & Open Source Lead
+
+**[Arun Kumar](https://www.linkedin.com/in/arunkumar1011/)**
+
+I created OpenCaliber as an open-source project to learn and collaborate with developers on evaluating AI agent actions and inspecting policy findings. [Connect on LinkedIn](https://www.linkedin.com/in/arunkumar1011/) to discuss the project and collaboration.

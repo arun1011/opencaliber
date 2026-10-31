@@ -1,6 +1,6 @@
 # Repository layout
 
-This is the single application source for both deployment targets.
+This guide maps the source files needed to run, integrate and extend OpenCaliber.
 
 | Area | Purpose |
 |---|---|
@@ -15,8 +15,6 @@ This is the single application source for both deployment targets.
 | docs/ | User, integration and deployment documentation |
 | artifacts/ and dist/ | Ignored runtime data and generated build outputs; never commit |
 
-GitHub Pages hosts the public website, downloads and console setup instructions. It does not run Python evaluation APIs. Elastic Beanstalk hosts the Python service with its configured authentication and storage. Both consume the same engine and UI source; no second application checkout is required.
+GitHub Pages hosts the public website, downloads and console setup instructions. It does not run Python evaluation APIs. Elastic Beanstalk hosts the Python service with its configured authentication and storage.
 
 Use docs/github-pages.md for Pages and docs/elastic-beanstalk.md for AWS. Agent pack generation and the console ZIP build use only the Python standard library. Optional hosted runtime dependencies are in requirements.txt; development checks use requirements-dev.txt.
-
-Video-generation scripts, raw captures, old training experiments, saved private evaluation data and internal publishing notes are not public application source. Keep these outside the repository. Finished video assets remain under web/media for the user walkthrough.

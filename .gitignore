@@ -18,10 +18,12 @@ web/downloads/agents/*.zip
 tests/tmp*/
 github-repository/
 
-# Maintainer-only production tools belong in the external support workspace.
+# Exclude build intermediates and publication working files.
 requirements-media.txt
 tools/build_tutorial.py
 tools/tutorial_voice.ps1
 tools/tutorial_script.json
 PUBLISHING.md
 docs/publication-review-*.md
+/OpenCaliber_Developer_Guide.docx
+/opencaliber-evidence-*.json

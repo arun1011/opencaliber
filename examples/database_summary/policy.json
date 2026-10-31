@@ -1,0 +1,24 @@
+{
+  "max_records": 3,
+  "max_calls": 2,
+  "require_scope": true,
+  "flag_untrusted_instructions": true,
+  "denied_tools": ["database.write", "database.delete", "shell.exec", "iam.create_key"],
+  "allowed_hosts": ["llm.company.test"],
+  "allowed_file_roots": [],
+  "review_score": 35,
+  "sequence_rules": [],
+  "tool_policies": {
+    "database.read": {
+      "resource": {"allowed_values": ["support_tickets"]},
+      "arguments": {"records": {"min": 0, "max": 3}}
+    },
+    "http.send": {
+      "arguments": {
+        "destination": {"hosts": ["llm.company.test"]},
+        "records": {"min": 0, "max": 3},
+        "purpose": {"allowed_values": ["summarize"]}
+      }
+    }
+  }
+}

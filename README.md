@@ -1,3 +1,5 @@
+<img src="web/assets/logo.svg" alt="OpenCaliber logo" width="64" height="64">
+
 # OpenCaliber
 
 Advisory risk evaluation of AI agent actions, with a local dashboard, findings, configurable rules, evidence export and 70 labeled regression scenarios. The evaluation engine and desktop console require no external inference, subscriptions or API keys and use the Python 3.10+ standard library. Optional live agent starters require provider credentials and may incur charges; hosted deployment uses the dependencies in requirements.txt.
@@ -84,6 +86,12 @@ History and configuration are stored in `artifacts/agent-console.sqlite3` under 
 
 The downloadable ZIP is assembled from a fixed source allowlist and excludes your database, private traces, model weights and credentials. It does not include the separate model-training research. OpenCaliber original software is licensed under Apache-2.0. See [LICENSE](LICENSE), [NOTICE](NOTICE), and [licensing scope](LICENSING.md). Every downloadable runtime and agent pack includes these files.
 
+## Creator & Open Source Lead
+
+**[Arun Kumar](https://www.linkedin.com/in/arunkumar1011/)**
+
+I created OpenCaliber as an open-source project to learn and collaborate with developers on evaluating AI agent actions and inspecting policy findings. [Connect on LinkedIn](https://www.linkedin.com/in/arunkumar1011/) to discuss the project and collaboration.
+
 ## Project and contribution
 
 OpenCaliber is an independent personal open-source project, not affiliated with or endorsed by the maintainer's employer. See CONTRIBUTING.md and SECURITY.md.
@@ -140,3 +148,7 @@ Use policy profiles, the application execution wrapper, offline MCP and Databric
 ## Per-tool resource and argument policies
 
 Engine 0.5 adds exact-value allowlists, POSIX directory boundaries, exact URL hostnames and inclusive numeric limits per canonical tool. Rules narrow existing global/task restrictions. Configure them in Console Configuration or import [the example config](examples/tool-policy-config.json). See [policy semantics, integration and execution limits](docs/tool-policies.md). Custom flat scalar arguments are supported by Python and Node projections and removed from redacted history.
+
+## Database search and summarization example
+
+See [examples/database_summary](examples/database_summary/README.md) for a runnable SQLite-to-mock-LLM workflow with OpenCaliber checks before each callback, policy JSON, five scenarios and tests. It demonstrates blocked transfers and operational failures without credentials or network calls.

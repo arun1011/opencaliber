@@ -1,0 +1,13 @@
+<!-- GitHub Pages' default theme adds a linked heading before README content.
+     README headings have IDs; preserve them and hide only the generated title.
+     The standalone website built by tools/build_pages.py does not use this file. -->
+<style>
+  body > .markdown-body > h1:first-child:not([id]) {
+    display: none;
+  }
+</style>
+{% if page.url == "/" %}
+<script>
+  document.title = "OpenCaliber | Evaluation of AI agent actions";
+</script>
+{% endif %}

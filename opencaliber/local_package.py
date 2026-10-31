@@ -12,6 +12,8 @@ def build_package():
            'data/agent_cases.json','web/console.html','web/console.js','web/agents.html','web/agents.js','web/agents.json','web/integration.js','web/styles.css','web/assets/favicon.svg','web/assets/logo.svg',
            'examples/sequence_config.json','examples/sequence_trace.json','examples/sequence_failed_trace.json','docs/sequence-rules.md','examples/agent_trace.json','examples/integrate_agent.py','ADOPTION.md','sdk/typescript/opencaliber.mjs','sdk/typescript/opencaliber.d.mts','examples/adoption/bundle.json','examples/adoption/context.json','examples/adoption/provider_demo.py','examples/adoption/provider_demo.mjs','examples/adoption/live_response.py','examples/adoption/live_agent.py','examples/adoption/regression-suite.json']
     files+=['opencaliber/profiles.py', 'opencaliber/execution.py', 'opencaliber/coverage.py', 'opencaliber/ingestion.py', 'opencaliber/ci.py', 'opencaliber/enterprise_cli.py', 'opencaliber/adoption_api.py', 'web/adoption.js', 'docs/enterprise-adoption.md', 'profiles/backup-before-delete.json', 'profiles/read-only-analytics.json', 'profiles/sensitive-data-transfer.json', 'examples/enterprise/ci-suite.json', 'examples/enterprise/databricks-context.json', 'examples/enterprise/databricks-rows.json', 'examples/enterprise/guarded_execution.py', 'examples/enterprise/mcp-context.json', 'examples/enterprise/mcp-events.json']
+    files += ['examples/database_summary/agent.py', 'examples/database_summary/policy.json',
+              'examples/database_summary/README.md', 'examples/database_summary/test_agent.py']
     catalog=json.loads((ROOT/'web/agents.json').read_text(encoding='utf-8'))
     for entry in catalog:
         if re.fullmatch('[a-z0-9-]+',entry['id']) is None:raise ValueError('Invalid catalog ID')

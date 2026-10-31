@@ -1,0 +1,40 @@
+{
+  "policy": {
+    "version": "mcp-demo-1",
+    "tools": {
+      "backup_report": {
+        "tool": "file.backup",
+        "resource_from": "path",
+        "data_class": "internal"
+      },
+      "delete_report": {
+        "tool": "file.delete",
+        "resource_from": "path",
+        "data_class": "internal"
+      }
+    }
+  },
+  "agent": {
+    "id": "cleanup-agent",
+    "version": "demo-v1"
+  },
+  "task": {
+    "goal": "Back up a report, then delete it",
+    "allowed_tools": [
+      "file.backup",
+      "file.delete",
+      "file.write"
+    ],
+    "allowed_resources": [
+      "/workspace/report.csv"
+    ],
+    "approved_action_ids": [
+      "delete-01"
+    ]
+  },
+  "workflow_id": "mcp-cleanup-demo",
+  "success_selectors": {
+    "backup_report": "structuredContent.success",
+    "delete_report": "structuredContent.success"
+  }
+}

@@ -4,39 +4,47 @@
     "start_seconds": 0
   },
   {
-    "title": "Extract and start",
-    "start_seconds": 30.699
+    "title": "Start the console",
+    "start_seconds": 21.046
   },
   {
-    "title": "Identify the agent",
-    "start_seconds": 53.859
+    "title": "Identify your agent",
+    "start_seconds": 43.546
   },
   {
-    "title": "Inspect a finding",
-    "start_seconds": 87.002
+    "title": "Set evaluation boundaries",
+    "start_seconds": 66.307
   },
   {
-    "title": "Read the assessment",
-    "start_seconds": 117.596
+    "title": "Restrict individual tool arguments",
+    "start_seconds": 90.278
+  },
+  {
+    "title": "Inspect and correct a finding",
+    "start_seconds": 127.08
+  },
+  {
+    "title": "Check earlier workflow steps",
+    "start_seconds": 158.973
   },
   {
     "title": "Connect provider tools",
-    "start_seconds": 144.62
+    "start_seconds": 186.313
   },
   {
-    "title": "Verify a correction",
-    "start_seconds": 177.738
+    "title": "Import records and inspect coverage",
+    "start_seconds": 211.078
   },
   {
-    "title": "Configure evaluation rules",
-    "start_seconds": 208.747
+    "title": "Choose observation or enforcement",
+    "start_seconds": 239.692
   },
   {
-    "title": "Run regression checks",
-    "start_seconds": 239.675
+    "title": "Run repeatable checks",
+    "start_seconds": 280.914
   },
   {
-    "title": "Integrate and store evidence",
-    "start_seconds": 272.503
+    "title": "Interpret results and store evidence",
+    "start_seconds": 307.221
   }
 ]

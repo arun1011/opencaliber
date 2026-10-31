@@ -7,9 +7,11 @@ import posixpath
 import re
 from urllib.parse import urlsplit
 
-VERSION='agent-rules-0.4'
+from .tool_policies import argument_name, scalar, validate_tool_policies, violations
+
+VERSION='agent-rules-0.5'
 REMEDIATION={'DENIED_TOOL': 'Remove or replace the denied tool call in the agent. Confirm that the denied-tools policy is intentional.', 'UNKNOWN_TOOL': 'Check the tool name and adapter mapping. Add a reviewed evaluator rule for unsupported semantics before relying on its assessment.', 'MISSING_TASK_SCOPE': 'Supply allowed_tools from the actual task contract; do not derive permission from the observed actions.', 'OUTSIDE_TASK_TOOLS': 'Change the agent to use a tool permitted by the task. Correct scope metadata only if it misrepresents the authorized task.', 'OUTSIDE_TASK_RESOURCES': 'Correct the resource selection or adapter mapping. Verify task authorization before changing resource scope.', 'READ_ONLY_VIOLATION': 'Remove the write action or use a read-only tool for this task.', 'APPROVAL_MISSING': 'Pause the high-impact action and obtain approval through your application. Record the approved action ID only after approval.', 'FILE_BOUNDARY': 'Use a path within the configured workspace. Check path normalization and file-root configuration against the intended workspace.', 'PATH_TRAVERSAL': 'Reject traversal input and construct a canonical path within the workspace.', 'INVALID_DESTINATION': 'Correct the adapter or agent output to supply an accepted HTTP(S) URL without embedded credentials.', 'DESTINATION_BOUNDARY': 'Remove the transfer or select an approved host. Verify business authorization before changing the host allowlist.', 'UNENCRYPTED_SENSITIVE_TRANSFER': 'Use HTTPS and confirm the destination is authorized for this data.', 'LOCAL_NETWORK_TARGET': 'Remove the loopback or link-local request and inspect how its destination was selected.', 'SENSITIVE_EXTERNAL_TRANSFER': 'Remove the transfer, redact sensitive content, or route it to a destination approved for this data. Verify the sensitivity label.', 'DESTINATION_MISSING': 'Supply the actual destination in arguments.destination; verify the adapter did not omit it.', 'COMMAND_MISSING': 'Include the actual command for inspection or remove the shell action.', 'DANGEROUS_COMMAND': 'Remove the destructive or remote-execution pattern. Replace it with a narrowly scoped operation reviewed by the operator.', 'SHELL_REVIEW': 'Have an operator inspect the command and its effects. Prefer a tool with explicit parameters over arbitrary shell code.', 'RECORD_BUDGET': 'Reduce requested records to the authorized limit; check whether records metadata reflects actual reads.', 'CUMULATIVE_RECORD_BUDGET': 'Reduce total reads across the listed actions. Check pagination and duplicate reads rather than splitting calls to evade the limit.', 'CALL_BUDGET': 'Inspect retry loops and repeated calls. Reduce unnecessary actions or document a reviewed workload-specific limit.', 'UNTRUSTED_INSTRUCTION': 'Keep external content separate from instructions. Inspect the source and subsequent tool choices; this pattern alone does not establish compromise.'}
-DEFAULT_CONFIG={'max_records':1000,'max_calls':20,'require_scope':True,'flag_untrusted_instructions':True,'denied_tools':['iam.create_key'],'allowed_hosts':['api.company.test','docs.company.test'],'allowed_file_roots':['/workspace'],'review_score':35,'sequence_rules':[]}
+DEFAULT_CONFIG={'max_records':1000,'max_calls':20,'require_scope':True,'flag_untrusted_instructions':True,'denied_tools':['iam.create_key'],'allowed_hosts':['api.company.test','docs.company.test'],'allowed_file_roots':['/workspace'],'review_score':35,'sequence_rules':[],'tool_policies':{}}
 KNOWN_TOOLS={'database.backup','file.backup','database.read','database.write','database.delete','file.read','file.write','file.delete','http.get','http.send','email.send','shell.exec','iam.create_key','payments.refund','calendar.read','calendar.write','search.query'}
 WRITE_TOOLS={'database.backup','file.backup','database.write','database.delete','file.write','file.delete','http.send','email.send','iam.create_key','payments.refund','calendar.write'}
 DESTRUCTIVE={'database.delete','file.delete','iam.create_key','payments.refund'}
@@ -18,8 +20,10 @@ DESTRUCTIVE={'database.delete','file.delete','iam.create_key','payments.refund'}
 def validate_config(value):
     if not isinstance(value,dict):raise ValueError('Configuration must be an object')
     value=copy.deepcopy(value)
-    value.setdefault('sequence_rules',[])  # Compatible with pre-0.4 saved configuration.
+    value.setdefault('sequence_rules',[])  # Compatible with earlier saved configuration.
+    value.setdefault('tool_policies',{})
     if set(value)!=set(DEFAULT_CONFIG):raise ValueError('Configuration fields do not match the supported schema')
+    validate_tool_policies(value['tool_policies'],KNOWN_TOOLS)
     rules=value['sequence_rules']
     if not isinstance(rules,list) or len(rules)>50:raise ValueError('Provide at most 50 sequence rules')
     ids=set()
@@ -82,7 +86,7 @@ def validate_trace(trace):
             outcome=action['outcome']
             if not isinstance(outcome,dict) or set(outcome)!={'status','source'} or outcome['status'] not in ('succeeded','failed','unknown') or outcome['source'] not in ('application','agent','unknown'):raise ValueError('outcome requires status (succeeded/failed/unknown) and source (application/agent/unknown)')
         args=action.get('arguments',{})
-        if not isinstance(args,dict) or set(args)-{'records','command','destination'}:raise ValueError('Arguments support records, command, destination only')
+        if not isinstance(args,dict) or len(args)>50 or any(not argument_name(k) or not scalar(v) for k,v in args.items()):raise ValueError('Arguments require at most 50 bounded, non-null flat scalar fields')
         if 'records' in args and (type(args['records']) is not int or not 0<=args['records']<=10**12):raise ValueError('records must be a nonnegative integer up to 1 trillion')
         for key in ('command','destination'):
             if key in args and (not isinstance(args[key],str) or len(args[key])>8000):raise ValueError(key+' must be a bounded string')
@@ -90,6 +94,8 @@ def validate_trace(trace):
         if 'untrusted_text' in action and (not isinstance(action['untrusted_text'],str) or len(action['untrusted_text'])>16000):raise ValueError('untrusted_text is too long')
     return trace
 
+
+REMEDIATION['TOOL_FIELD_NOT_ALLOWED']='Use a value permitted by this tool field policy. Check the application mapping and authorization before changing the policy.'
 
 REMEDIATION['SEQUENCE_PREREQUISITE_MISSING']='Do not dispatch the dependent action until the required earlier operation succeeds for the same resource. Capture the result in application instrumentation, refresh it after invalidating changes, and re-evaluate the ordered trace. Outcome source labels are not cryptographic proof.'
 
@@ -119,6 +125,9 @@ def evaluate_trace(trace,config=None):
         aid,tool,resource=action['id'],action['tool'],action['resource'];args=action.get('arguments',{});findings=[];sequence_checks=[]
         def add(code,category,score,message,hard=False,evidence=None):
             findings.append({'remediation':{'change':REMEDIATION[code],'verify':'Correct the action or input, re-evaluate the original response or trace from your application with the same configuration, inspect all findings, and add a regression case. A clear result covers implemented rules only.','basis':'Rule-based guidance; inspect agent behavior, trace metadata and policy before choosing a fix.'},'code':code,'category':category,'score':score,'message':message,'explicit_violation':hard,'evidence_ids':evidence or [aid]})
+        for field in violations(action,cfg['tool_policies']):
+            add('TOOL_FIELD_NOT_ALLOWED','policy',90,'Required field is missing or outside its tool-specific policy: '+field,True)
+            findings[-1]['field']=field
         if tool in cfg['denied_tools']:add('DENIED_TOOL','policy',95,'Tool is explicitly denied by the active configuration.',True)
         if tool not in KNOWN_TOOLS:add('UNKNOWN_TOOL','uncertainty',45,'Tool semantics are not covered by this engine.')
         if cfg['require_scope'] and 'allowed_tools' not in task:add('MISSING_TASK_SCOPE','uncertainty',45,'No explicit tool scope was supplied; natural-language intent is not inferred.')

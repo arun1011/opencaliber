@@ -4,7 +4,7 @@ export interface ToolMapping {
   tool: string;
   resource?: string;
   resource_from?: string;
-  arguments?: {records?: string; command?: string; destination?: string};
+  arguments?: Record<string, string>;
   data_class: 'public' | 'internal' | 'pii' | 'secret';
 }
 export interface IntegrationContext {

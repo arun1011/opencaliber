@@ -20,7 +20,7 @@ export function normalizeResponse(provider, response, context) {
   if(workflow_id!==undefined&&!text(workflow_id,120)) throw Error('Invalid workflow ID');
   for(const [name,spec] of Object.entries(policy.tools)) {
     if(!text(name)||!object(spec)||Object.keys(spec).some(k=>!['tool','resource','resource_from','arguments','data_class'].includes(k))||!known.has(spec.tool)||own(spec,'resource')===own(spec,'resource_from')||!text(spec.resource??spec.resource_from,1000)||!['public','internal','pii','secret'].includes(spec.data_class)) throw Error('Invalid tool mapping');
-    if(spec.arguments!==undefined&&(!object(spec.arguments)||Object.entries(spec.arguments).some(([k,v])=>!['records','command','destination'].includes(k)||!text(v)))) throw Error('Invalid argument mapping');
+    if(spec.arguments!==undefined&&(!object(spec.arguments)||Object.keys(spec.arguments).length>50||Object.entries(spec.arguments).some(([k,v])=>!/^[A-Za-z_][A-Za-z0-9_]{0,79}$/.test(k)||!text(v)))) throw Error('Invalid argument mapping');
   }
   let calls=[];
   if(provider==='openai-responses') {
@@ -60,6 +60,7 @@ export function normalizeResponse(provider, response, context) {
     const resource=own(spec,'resource')?spec.resource:select(args,spec.resource_from);
     if(!text(resource,1000)) throw Error('Invalid mapped resource');
     const projected=Object.fromEntries(Object.entries(spec.arguments??{}).map(([key,path])=>[key,select(args,path)]));
+    if(Object.values(projected).some(v=>!(typeof v==='boolean'||typeof v==='string'&&v.length<=8000||typeof v==='number'&&Number.isFinite(v)&&Math.abs(v)<=1e12))) throw Error('Arguments require bounded non-null scalar values');
     if(projected.records!==undefined&&(!Number.isSafeInteger(projected.records)||projected.records<0||projected.records>1e12)) throw Error('Invalid records');
     for(const key of ['command','destination']) if(projected[key]!==undefined&&(typeof projected[key]!=='string'||projected[key].length>8000)) throw Error('Invalid mapped argument');
     return {id,source_tool:name,tool:spec.tool,resource,arguments:projected,data_class:spec.data_class};

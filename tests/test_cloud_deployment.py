@@ -25,6 +25,16 @@ class CloudTests(unittest.TestCase):
     def tearDown(self):
         self.client.__exit__(None,None,None);self.temp.cleanup()
 
+    def test_adoption_routes_require_auth_and_normalize(self):
+        self.assertEqual(self.client.get('/api/adoption/profiles').status_code,401)
+        profiles=self.client.get('/api/adoption/profiles',headers=self.headers).json();self.assertIn('read-only-analytics',profiles)
+        examples=self.client.get('/api/adoption/examples',headers=self.headers).json()
+        imported=self.client.post('/api/adoption/databricks',json={'events':examples['databricks-rows.json'],'context':examples['databricks-context.json']},headers=self.headers)
+        self.assertEqual(imported.status_code,200)
+        coverage=self.client.post('/api/adoption/coverage',json={'trace':imported.json()['trace']},headers=self.headers)
+        self.assertEqual(coverage.status_code,200);self.assertEqual(coverage.json()['missing_application_outcome_ids'],['db-audit-01'])
+        self.assertEqual(self.client.post('/api/adoption/profile',json={'profile':{}},headers=self.headers).status_code,400)
+
     def test_sequence_rules_in_hosted_api(self):
         cfg=json.loads((store.ROOT/'examples/sequence_config.json').read_text())
         trace=json.loads((store.ROOT/'examples/sequence_trace.json').read_text())

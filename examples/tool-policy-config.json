@@ -1,0 +1,52 @@
+{
+  "max_records": 1000,
+  "max_calls": 20,
+  "require_scope": true,
+  "flag_untrusted_instructions": true,
+  "denied_tools": [
+    "iam.create_key"
+  ],
+  "allowed_hosts": [
+    "api.company.test",
+    "docs.company.test"
+  ],
+  "allowed_file_roots": [
+    "/workspace"
+  ],
+  "review_score": 35,
+  "sequence_rules": [],
+  "tool_policies": {
+    "file.read": {
+      "resource": {
+        "path_roots": [
+          "/workspace/reports"
+        ]
+      }
+    },
+    "file.write": {
+      "resource": {
+        "path_roots": [
+          "/workspace/exports"
+        ]
+      }
+    },
+    "http.send": {
+      "arguments": {
+        "destination": {
+          "hosts": [
+            "api.company.test"
+          ]
+        },
+        "account_id": {
+          "allowed_values": [
+            "approved-account"
+          ]
+        },
+        "amount": {
+          "min": 0,
+          "max": 100
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,30 @@
+[
+  {
+    "id": "backup-01",
+    "name": "backup_report",
+    "arguments": {
+      "path": "/workspace/report.csv"
+    },
+    "resource_version": "revision-7",
+    "result": {
+      "isError": false,
+      "structuredContent": {
+        "success": true
+      }
+    }
+  },
+  {
+    "id": "delete-01",
+    "name": "delete_report",
+    "arguments": {
+      "path": "/workspace/report.csv"
+    },
+    "resource_version": "revision-7",
+    "result": {
+      "isError": false,
+      "structuredContent": {
+        "success": true
+      }
+    }
+  }
+]

@@ -1,126 +1,114 @@
 WEBVTT
 
 1
-00:00:00.000 --> 00:00:10.718
-OpenCaliber checks agent tool calls against your rules. Identify the agent version, inspect the action, and test a correction.
+00:00:00.000 --> 00:00:11.643
+OpenCaliber evaluates agent tool calls against declared task scope and configured rules. Use it to find the action that needs attention and test a correction.
 
 2
-00:00:10.718 --> 00:00:17.166
-Select Download package on the home page, then extract the ZIP into a new folder.
+00:00:11.643 --> 00:00:21.046
+Download the package from the home page and extract the ZIP. The included console and examples need no model API key.
 
 3
-00:00:17.166 --> 00:00:30.699
-The package includes the console, evaluation engine, launchers, SDK helpers, and working examples. Start with the included samples; no API key is needed.
+00:00:21.046 --> 00:00:33.268
+Install Python 3.10+. On Windows, open start-windows.cmd or run python run.py from the extracted folder.
 
 4
-00:00:30.699 --> 00:00:36.583
-Install Python version three point ten or newer before starting the console.
+00:00:33.268 --> 00:00:43.546
+On macOS or Linux, run python3 run.py. Keep the terminal open, then open http://127.0.0.1:8787/console.
 
 5
-00:00:36.583 --> 00:00:44.281
-On Windows, open start-windows.cmd, or run python run.py from the extracted folder.
+00:00:43.546 --> 00:00:53.055
+Choose Evaluate a trace. Load a sample, import a JSON file, or paste the task and its actions.
 
 6
-00:00:44.281 --> 00:00:53.859
-On macOS or Linux, run python3 run.py. Keep the terminal open, then open http://127.0.0.1:8787/console.html.
+00:00:53.055 --> 00:01:06.307
+Set the agent ID and version so findings identify the release to fix. Add a workflow ID to group related runs. Each trace represents one agent and task.
 
 7
-00:00:53.859 --> 00:01:05.342
-Choose Evaluate a trace. Load an example, import a JSON file, or paste a trace: the task and its proposed tool calls.
+00:01:06.307 --> 00:01:17.065
+Open Configuration. Start with a policy profile, then review approved hosts, file roots, denied tools and usage limits.
 
 8
-00:01:05.342 --> 00:01:14.885
-Enter the agent ID and version to identify the release that needs attention. Add a workflow ID to find related runs.
+00:01:17.065 --> 00:01:30.278
+Previewing or importing a profile does not save it. Select Save configuration after review. Existing runs keep the configuration used for their original evaluation.
 
 9
-00:01:14.885 --> 00:01:27.002
-Set permitted tools, resources, and data sensitivity, then select Evaluate and save run. Your application must supply the authorized task scope.
+00:01:30.278 --> 00:01:42.570
+Use per tool field policies to narrow a specific tool. For example, allow file reads from the reports directory and file writes only to the exports directory.
 
 10
-00:01:27.002 --> 00:01:35.006
-Open a finding to see the agent version, tool call, action ID, and rule that triggered it.
+00:01:42.570 --> 00:01:55.293
+Argument rules can require an approved account, an exact destination hostname, or an amount within numeric limits. Missing configured fields produce a violation.
 
 11
-00:01:35.006 --> 00:01:46.729
-Use What triggered this, What to change, and How to verify to investigate the action. Check whether the problem is behavior, metadata, or policy.
+00:01:55.293 --> 00:02:07.080
+These rules add restrictions to global boundaries and task scope. They cannot override a denial. Map the actual arguments your executor uses.
 
 12
-00:01:46.729 --> 00:01:57.596
-For a sensitive external transfer, inspect the destination and data label. Remove the transfer or use a destination approved for that data.
+00:02:07.080 --> 00:02:16.988
+Evaluate the trace, then open its finding. Check the agent version, action ID, affected field and rule message.
 
 13
-00:01:57.596 --> 00:02:07.014
-Violation means an explicit task or policy rule triggered. Review means a signal or missing context needs inspection.
+00:02:16.988 --> 00:02:29.845
+In this example, a file write targets the reports directory, but the tool policy permits writes only to exports. Correct the destination and evaluate a new trace.
 
 14
-00:02:07.014 --> 00:02:14.278
-Clear means no implemented rule triggered. It does not guarantee that an action is safe.
+00:02:29.845 --> 00:02:38.973
+A clear corrected result means no implemented rule triggered. Add the case to your regression checks before adopting the change.
 
 15
-00:02:14.278 --> 00:02:24.620
-The score shows the highest triggered rule severity, from zero to one hundred. It is not an anomaly percentage or probability of harm.
+00:02:38.973 --> 00:02:51.506
+Sequence rules can require a successful backup before a delete on the same resource. Supply completed actions in execution order and record outcomes in your application.
 
 16
-00:02:24.620 --> 00:02:33.903
-Open Connect agents and choose your response format: OpenAI Responses, Chat Completions, or Anthropic Messages.
+00:02:51.506 --> 00:03:06.313
+A missing or failed backup produces a violation. Intervening writes can invalidate it. Matching versions and a clear prerequisite are required; caller supplied labels are not independent proof.
 
 17
-00:02:33.903 --> 00:02:45.201
-Load an example or paste a completed response. Map each application tool to a supported check, and select the arguments the evaluator needs.
+00:03:06.313 --> 00:03:15.056
+In Connect agents, choose the completed response format and map your application tools to supported canonical tools.
 
 18
-00:02:45.201 --> 00:02:57.738
-Preview the standard JSON trace, then evaluate it. Unmapped tools need review. Streaming fragments and provider hosted tools are not supported.
+00:03:15.056 --> 00:03:31.078
+Project the resources and arguments the evaluator must inspect. Preview the normalized trace, then evaluate it. Unmapped tools require review; model output does not prove execution success.
 
 19
-00:02:57.738 --> 00:03:08.581
-Load the unsafe example to see a sensitive transfer to an unapproved host. Then load the corrected example, which uses the approved API.
+00:03:31.078 --> 00:03:45.460
+Adoption and coverage accepts offline MCP execution events and selected Databricks audit exports. Provide the application mapping and task context, then review the normalized trace.
 
 20
-00:03:08.581 --> 00:03:17.514
-Compare demo version one with demo version two. Inspect the changed action and check whether its findings are resolved.
+00:03:45.460 --> 00:03:59.692
+Coverage lists mapped tools, missing outcomes and configured checks. It describes the records you supplied, not detection accuracy, cloud permissions or the quality of a vector index.
 
 21
-00:03:17.514 --> 00:03:28.747
-Add the correction to your regression cases. Workflow and session IDs help you find runs; they do not provide checks across agents or sessions.
+00:03:59.692 --> 00:04:13.614
+The Python and Node observer helpers return findings without dispatching or blocking tools. To gate execution, integrate the Python guarded executor and explicitly select enforce mode.
 
 22
-00:03:28.747 --> 00:03:38.235
-In Configuration, set approved destination hosts, file roots, denied tools, and limits for records and action counts.
+00:04:13.614 --> 00:04:26.961
+Enforce mode rejects review and violation results before calling your callback. Evaluator failures also prevent dispatch. Observe mode can execute flagged actions.
 
 23
-00:03:38.235 --> 00:03:47.948
-Changes apply to future evaluations. Saved runs keep their original settings so you can inspect which rules produced a finding.
+00:04:26.961 --> 00:04:40.914
+Your application still owns authorization, real file paths, redirects and execution side effects. Test the included guarded execution example before connecting real tools.
 
 24
-00:03:47.948 --> 00:03:59.675
-Keep tool mappings and evaluator settings under version control. The console records mapping versions and configuration fingerprints for provider evaluations.
+00:04:40.914 --> 00:04:51.157
+Run the evaluation suite to compare expected and actual results. The seventy included cases check implemented rule contracts.
 
 25
-00:03:59.675 --> 00:04:09.443
-Run all seventy cases in Evaluation suite. Compare expected and actual results, then inspect any mismatch.
+00:04:51.157 --> 00:05:07.221
+The CI command can test your own traces and export JSON and Markdown reports. Expected unsafe examples pass when their expected violations are reproduced. Choose the exit policy for your pipeline.
 
 26
-00:04:09.443 --> 00:04:21.735
-Use the included provider regression command for six additional response cases. It exports a JSON report and returns a failure code when expectations differ.
+00:05:07.221 --> 00:05:20.028
+Violation means an explicit task or policy rule triggered. Review means missing context or a signal needs inspection. Clear means no implemented rule triggered.
 
 27
-00:04:21.735 --> 00:04:32.503
-Run these checks in your build pipeline with a fixed configuration. Passing them tests the covered rules, not every possible security issue.
+00:05:20.028 --> 00:05:30.841
+The zero to one hundred score is the highest rule severity, not a probability of harm. Inspect the findings and configuration behind it.
 
 28
-00:04:32.503 --> 00:04:43.131
-Add the Python or typed Node helper between the completed model response and your tool executor. The developer guide includes runnable examples.
-
-29
-00:04:43.131 --> 00:04:55.973
-The helper observes calls and returns findings. Your application decides whether to execute. Evaluator failures return an error, never a clear assessment.
-
-30
-00:04:55.973 --> 00:05:11.831
-SDK submissions redact evidence before storage. Hosts and identifiers remain, but goals, commands, and resource paths are removed. Recheck the original input to verify a fix.
-
-31
-00:05:11.831 --> 00:05:25.778
-Manual trace submissions retain raw inputs, and the database is unencrypted. Review the storage settings before using sensitive data. Start with an example in Connect agents.
+00:05:30.841 --> 00:05:49.787
+SDK submissions use redacted storage by default. Custom arguments are removed after evaluation. Manual submissions retain raw inputs, and the desktop database is unencrypted. Review storage before using sensitive traces.
 

@@ -116,6 +116,12 @@ class Handler(SimpleHTTPRequestHandler):
             except (ValueError,OSError):return self.json({'error':'Local package source is incomplete'},503)
             self.send_response(200);self.send_header('Content-Type','application/zip');self.send_header('Content-Disposition','attachment; filename="opencaliber-local.zip"');self.send_header('Content-Length',str(len(raw)));self.send_header('Cache-Control','no-store');self.end_headers();self.wfile.write(raw);return
         if path=='/api/cases':return self.json(cases())
+        if path=='/api/adoption/profiles':
+            from .profiles import available_profiles
+            return self.json(available_profiles())
+        if path=='/api/adoption/examples':
+            from .adoption_api import examples
+            return self.json(examples())
         if path=='/api/integration-examples':
             return self.json(json.loads((ROOT/'examples/adoption/bundle.json').read_text(encoding='utf-8')))
         if path=='/api/state':
@@ -141,6 +147,9 @@ class Handler(SimpleHTTPRequestHandler):
                 if set(body)!={'provider','response','context'} or not isinstance(body['context'],dict):raise ValueError('Provide provider, response and context')
                 if set(body['context'])-{'policy','agent','task','session_id','workflow_id'} or not {'policy','agent','task','session_id'}<=set(body['context']):raise ValueError('Invalid integration context fields')
                 return self.json({'trace':normalize_response(body['provider'],body['response'],**body['context'])})
+            if path.startswith('/api/adoption/'):
+                from .adoption_api import handle
+                return self.json(handle(path.rsplit('/',1)[-1],body,configuration()))
             if path=='/api/config':
                 cfg=validate_config(body)
                 with connect() as c:c.execute('UPDATE settings SET config=? WHERE id=1',(json.dumps(cfg),))

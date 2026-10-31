@@ -2,6 +2,7 @@
 import copy
 import hashlib
 import json
+from .tool_policies import argument_name
 from .agent_engine import KNOWN_TOOLS, validate_trace
 
 PROVIDERS = ('openai-responses', 'openai-chat', 'anthropic')
@@ -33,7 +34,7 @@ def validate_policy(policy):
         if spec.get('data_class') not in ('public', 'internal', 'pii', 'secret'):
             raise ValueError('Each mapping requires an application-owned data_class')
         args = spec.get('arguments', {})
-        if not isinstance(args, dict) or set(args) - {'records', 'command', 'destination'}:
+        if not isinstance(args, dict) or len(args) > 50 or any(not argument_name(k) for k in args):
             raise ValueError('Only supported argument projections may be configured')
         if any(not isinstance(v, str) or not v for v in args.values()):
             raise ValueError('Argument selectors must be nonempty dotted paths')

@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "name": "Read only analytics",
+  "config": {
+    "max_records": 1000,
+    "max_calls": 20,
+    "require_scope": true,
+    "flag_untrusted_instructions": true,
+    "denied_tools": [
+      "database.write",
+      "database.delete",
+      "file.write",
+      "file.delete",
+      "file.backup",
+      "database.backup",
+      "http.send",
+      "email.send",
+      "shell.exec",
+      "iam.create_key",
+      "payments.refund",
+      "calendar.write"
+    ],
+    "allowed_hosts": [
+      "api.company.test",
+      "docs.company.test"
+    ],
+    "allowed_file_roots": [
+      "/workspace"
+    ],
+    "review_score": 35,
+    "sequence_rules": []
+  }
+}

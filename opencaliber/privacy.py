@@ -23,6 +23,8 @@ def minimize_evidence(trace, result):
         if 'resource_version' in action: action['resource_version'] = '[redacted-version]'
         if 'untrusted_text' in action: action['untrusted_text'] = '[redacted]'
         args = action.get('arguments', {})
+        for key in args:
+            if key not in ('records', 'command', 'destination'): args[key] = '[redacted]'
         if 'command' in args: args['command'] = '[redacted]'
         if 'destination' in args: args['destination'] = resource_label(args['destination'])
     for action in result['actions']:

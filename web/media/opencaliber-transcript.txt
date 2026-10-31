@@ -1,54 +1,55 @@
 OpenCaliber user walkthrough
-Synthetic narration: Microsoft David Desktop, moderate instructional pace. Actual UI screenshots; startup and interpretation panels are illustrations.
+Setup, policy configuration, integrations and interpreting findings.
 
 00:00:00.000 — Download OpenCaliber
-OpenCaliber checks agent tool calls against your rules. Identify the agent version, inspect the action, and test a correction.
-Select Download package on the home page, then extract the ZIP into a new folder.
-The package includes the console, evaluation engine, launchers, SDK helpers, and working examples. Start with the included samples; no API key is needed.
+OpenCaliber evaluates agent tool calls against declared task scope and configured rules. Use it to find the action that needs attention and test a correction.
+Download the package from the home page and extract the ZIP. The included console and examples need no model API key.
 
-00:00:30.699 — Extract and start
-Install Python version three point ten or newer before starting the console.
-On Windows, open start-windows.cmd, or run python run.py from the extracted folder.
-On macOS or Linux, run python3 run.py. Keep the terminal open, then open http://127.0.0.1:8787/console.html.
+00:00:21.046 — Start the console
+Install Python 3.10+. On Windows, open start-windows.cmd or run python run.py from the extracted folder.
+On macOS or Linux, run python3 run.py. Keep the terminal open, then open http://127.0.0.1:8787/console.
 
-00:00:53.859 — Identify the agent
-Choose Evaluate a trace. Load an example, import a JSON file, or paste a trace: the task and its proposed tool calls.
-Enter the agent ID and version to identify the release that needs attention. Add a workflow ID to find related runs.
-Set permitted tools, resources, and data sensitivity, then select Evaluate and save run. Your application must supply the authorized task scope.
+00:00:43.546 — Identify your agent
+Choose Evaluate a trace. Load a sample, import a JSON file, or paste the task and its actions.
+Set the agent ID and version so findings identify the release to fix. Add a workflow ID to group related runs. Each trace represents one agent and task.
 
-00:01:27.002 — Inspect a finding
-Open a finding to see the agent version, tool call, action ID, and rule that triggered it.
-Use What triggered this, What to change, and How to verify to investigate the action. Check whether the problem is behavior, metadata, or policy.
-For a sensitive external transfer, inspect the destination and data label. Remove the transfer or use a destination approved for that data.
+00:01:06.307 — Set evaluation boundaries
+Open Configuration. Start with a policy profile, then review approved hosts, file roots, denied tools and usage limits.
+Previewing or importing a profile does not save it. Select Save configuration after review. Existing runs keep the configuration used for their original evaluation.
 
-00:01:57.596 — Read the assessment
-Violation means an explicit task or policy rule triggered. Review means a signal or missing context needs inspection.
-Clear means no implemented rule triggered. It does not guarantee that an action is safe.
-The score shows the highest triggered rule severity, from zero to one hundred. It is not an anomaly percentage or probability of harm.
+00:01:30.278 — Restrict individual tool arguments
+Use per tool field policies to narrow a specific tool. For example, allow file reads from the reports directory and file writes only to the exports directory.
+Argument rules can require an approved account, an exact destination hostname, or an amount within numeric limits. Missing configured fields produce a violation.
+These rules add restrictions to global boundaries and task scope. They cannot override a denial. Map the actual arguments your executor uses.
 
-00:02:24.620 — Connect provider tools
-Open Connect agents and choose your response format: OpenAI Responses, Chat Completions, or Anthropic Messages.
-Load an example or paste a completed response. Map each application tool to a supported check, and select the arguments the evaluator needs.
-Preview the standard JSON trace, then evaluate it. Unmapped tools need review. Streaming fragments and provider hosted tools are not supported.
+00:02:07.080 — Inspect and correct a finding
+Evaluate the trace, then open its finding. Check the agent version, action ID, affected field and rule message.
+In this example, a file write targets the reports directory, but the tool policy permits writes only to exports. Correct the destination and evaluate a new trace.
+A clear corrected result means no implemented rule triggered. Add the case to your regression checks before adopting the change.
 
-00:02:57.738 — Verify a correction
-Load the unsafe example to see a sensitive transfer to an unapproved host. Then load the corrected example, which uses the approved API.
-Compare demo version one with demo version two. Inspect the changed action and check whether its findings are resolved.
-Add the correction to your regression cases. Workflow and session IDs help you find runs; they do not provide checks across agents or sessions.
+00:02:38.973 — Check earlier workflow steps
+Sequence rules can require a successful backup before a delete on the same resource. Supply completed actions in execution order and record outcomes in your application.
+A missing or failed backup produces a violation. Intervening writes can invalidate it. Matching versions and a clear prerequisite are required; caller supplied labels are not independent proof.
 
-00:03:28.747 — Configure evaluation rules
-In Configuration, set approved destination hosts, file roots, denied tools, and limits for records and action counts.
-Changes apply to future evaluations. Saved runs keep their original settings so you can inspect which rules produced a finding.
-Keep tool mappings and evaluator settings under version control. The console records mapping versions and configuration fingerprints for provider evaluations.
+00:03:06.313 — Connect provider tools
+In Connect agents, choose the completed response format and map your application tools to supported canonical tools.
+Project the resources and arguments the evaluator must inspect. Preview the normalized trace, then evaluate it. Unmapped tools require review; model output does not prove execution success.
 
-00:03:59.675 — Run regression checks
-Run all seventy cases in Evaluation suite. Compare expected and actual results, then inspect any mismatch.
-Use the included provider regression command for six additional response cases. It exports a JSON report and returns a failure code when expectations differ.
-Run these checks in your build pipeline with a fixed configuration. Passing them tests the covered rules, not every possible security issue.
+00:03:31.078 — Import records and inspect coverage
+Adoption and coverage accepts offline MCP execution events and selected Databricks audit exports. Provide the application mapping and task context, then review the normalized trace.
+Coverage lists mapped tools, missing outcomes and configured checks. It describes the records you supplied, not detection accuracy, cloud permissions or the quality of a vector index.
 
-00:04:32.503 — Integrate and store evidence
-Add the Python or typed Node helper between the completed model response and your tool executor. The developer guide includes runnable examples.
-The helper observes calls and returns findings. Your application decides whether to execute. Evaluator failures return an error, never a clear assessment.
-SDK submissions redact evidence before storage. Hosts and identifiers remain, but goals, commands, and resource paths are removed. Recheck the original input to verify a fix.
-Manual trace submissions retain raw inputs, and the database is unencrypted. Review the storage settings before using sensitive data. Start with an example in Connect agents.
+00:03:59.692 — Choose observation or enforcement
+The Python and Node observer helpers return findings without dispatching or blocking tools. To gate execution, integrate the Python guarded executor and explicitly select enforce mode.
+Enforce mode rejects review and violation results before calling your callback. Evaluator failures also prevent dispatch. Observe mode can execute flagged actions.
+Your application still owns authorization, real file paths, redirects and execution side effects. Test the included guarded execution example before connecting real tools.
+
+00:04:40.914 — Run repeatable checks
+Run the evaluation suite to compare expected and actual results. The seventy included cases check implemented rule contracts.
+The CI command can test your own traces and export JSON and Markdown reports. Expected unsafe examples pass when their expected violations are reproduced. Choose the exit policy for your pipeline.
+
+00:05:07.221 — Interpret results and store evidence
+Violation means an explicit task or policy rule triggered. Review means missing context or a signal needs inspection. Clear means no implemented rule triggered.
+The zero to one hundred score is the highest rule severity, not a probability of harm. Inspect the findings and configuration behind it.
+SDK submissions use redacted storage by default. Custom arguments are removed after evaluation. Manual submissions retain raw inputs, and the desktop database is unencrypted. Review storage before using sensitive traces.
 

@@ -1,0 +1,27 @@
+{
+  "policy": {
+    "version": "databricks-demo-1",
+    "tools": {
+      "unityCatalog.getTable": {
+        "tool": "database.read",
+        "resource_from": "full_name",
+        "data_class": "internal"
+      }
+    }
+  },
+  "agent": {
+    "id": "analytics-agent",
+    "version": "demo-1"
+  },
+  "task": {
+    "goal": "Inspect metadata for an approved table",
+    "allowed_tools": [
+      "database.read"
+    ],
+    "allowed_resources": [
+      "main.sales.invoices"
+    ],
+    "read_only": true
+  },
+  "workflow_id": "databricks-audit-demo"
+}

@@ -89,6 +89,16 @@ def create_app(settings=None):
         if private:response.headers['Cache-Control']='no-store'
         return response
 
+    @app.get('/api/adoption/profiles')
+    def profiles():
+        from .profiles import available_profiles
+        return available_profiles()
+
+    @app.get('/api/adoption/examples')
+    def adoption_examples():
+        from .adoption_api import examples
+        return examples()
+
     @app.get('/health/live')
     def live():return {'status':'alive'}
 
@@ -137,7 +147,7 @@ def create_app(settings=None):
         if not r:return JSONResponse({'error':'Run not found'},404)
         return {**dict(r),**{k:json.loads(r[k]) for k in ('trace','result','config')}}
 
-    @app.post('/api/{operation}')
+    @app.post('/api/{operation:path}')
     async def mutate(operation:str,request:Request):
         if request.headers.get('content-type','').split(';')[0]!='application/json':return JSONResponse({'error':'JSON required'},415)
         raw=bytearray()
@@ -150,6 +160,9 @@ def create_app(settings=None):
             if operation=='normalize':
                 if set(body)!={'provider','response','context'} or not isinstance(body['context'],dict) or set(body['context'])-{'policy','agent','task','session_id','workflow_id'} or not {'policy','agent','task','session_id'}<=set(body['context']):raise ValueError('Invalid normalization request')
                 return {'trace':normalize_response(body['provider'],body['response'],**body['context'])}
+            if operation.startswith('adoption/'):
+                from .adoption_api import handle
+                return handle(operation.split('/',1)[1],body,store.configuration())
             if operation=='config':
                 cfg=validate_config(body)
                 with store.connect() as c:c.execute('UPDATE settings SET config=? WHERE id=1',(json.dumps(cfg),))

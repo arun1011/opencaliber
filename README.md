@@ -132,3 +132,11 @@ Engine 0.4 supports opt-in rules such as backup-before-delete for the same resou
 Use this repository as the single source for development, GitHub Pages and Elastic Beanstalk. GitHub Pages publishes the public static website and downloads through `.github/workflows/pages.yml`; the Python service deploys through `application.py`, `Procfile` and `deploy/build_bundle.py`. See docs/github-pages.md and docs/elastic-beanstalk.md. Build outputs and runtime history stay ignored under dist/ and artifacts/.
 
 Media-production tools and internal publishing notes are maintained outside this repository. They are not required to adopt, run, test or deploy OpenCaliber.
+
+## Adoption utilities
+
+Use policy profiles, the application execution wrapper, offline MCP and Databricks audit imports, coverage reports and CI evaluations. Start at [enterprise integration building blocks](docs/enterprise-adoption.md) or the console Adoption and coverage page. These utilities do not add cloud authorization or datasource inspection.
+
+## Per-tool resource and argument policies
+
+Engine 0.5 adds exact-value allowlists, POSIX directory boundaries, exact URL hostnames and inclusive numeric limits per canonical tool. Rules narrow existing global/task restrictions. Configure them in Console Configuration or import [the example config](examples/tool-policy-config.json). See [policy semantics, integration and execution limits](docs/tool-policies.md). Custom flat scalar arguments are supported by Python and Node projections and removed from redacted history.

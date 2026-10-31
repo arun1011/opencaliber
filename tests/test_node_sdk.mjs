@@ -61,3 +61,12 @@ test('redirects are not followed',async()=>{
     assert.equal((await client.observe(normalizeResponse('anthropic',bundle.responses.anthropic.unsafe,context))).status,'error');
   } finally {server.closeAllConnections();await new Promise(resolve=>server.close(resolve));}
 });
+
+
+test('projects custom scalar arguments and rejects nested or oversized values',()=>{
+  const policy={version:'fields',tools:{read:{tool:'file.read',resource_from:'path',data_class:'public',arguments:{account_id:'payload.account',amount:'amount'}}}};
+  const response=value=>({id:'r',output:[{type:'function_call',call_id:'a',name:'read',arguments:JSON.stringify({path:'/workspace/reports/a',payload:{account:value},amount:12.5})}]});
+  const trace=normalizeResponse('openai-responses',response('approved'),{...context,policy});
+  assert.deepEqual(trace.actions[0].arguments,{account_id:'approved',amount:12.5});
+  for(const value of [null,{},[], 'a'.repeat(8001)]) assert.throws(()=>normalizeResponse('openai-responses',response(value),{...context,policy}));
+});

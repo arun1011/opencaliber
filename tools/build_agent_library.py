@@ -113,6 +113,7 @@ License: Apache-2.0. See LICENSE, NOTICE and LICENSING.md.
            'requirements.txt':'# Python 3.10+ standard library only; no packages to install.\n',
            'samples/'+spec['sample_name']:spec['sample'],'tests/test_agent.py':TESTS,
            'opencaliber/__init__.py':(ROOT/'opencaliber/__init__.py').read_text(encoding='utf-8'),
+           'opencaliber/tool_policies.py':(ROOT/'opencaliber/tool_policies.py').read_text(encoding='utf-8'),
            'opencaliber/agent_engine.py':(ROOT/'opencaliber/agent_engine.py').read_text(encoding='utf-8')}
     stream=io.BytesIO()
     with zipfile.ZipFile(stream,'w',zipfile.ZIP_DEFLATED) as archive:

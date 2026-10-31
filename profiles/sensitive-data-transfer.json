@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "name": "Sensitive data transfer",
+  "config": {
+    "max_records": 1000,
+    "max_calls": 20,
+    "require_scope": true,
+    "flag_untrusted_instructions": true,
+    "denied_tools": [
+      "iam.create_key",
+      "shell.exec"
+    ],
+    "allowed_hosts": [
+      "api.company.test"
+    ],
+    "allowed_file_roots": [
+      "/workspace"
+    ],
+    "review_score": 35,
+    "sequence_rules": []
+  }
+}

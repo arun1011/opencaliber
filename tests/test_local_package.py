@@ -14,6 +14,8 @@ class PackageTests(unittest.TestCase):
         with zipfile.ZipFile(io.BytesIO(build_package())) as z:
             self.assertIsNone(z.testzip())
             names=z.namelist()
+            self.assertIn('opencaliber/ingestion.py',names);self.assertIn('profiles/backup-before-delete.json',names);self.assertIn('web/adoption.js',names)
+            self.assertIn(b"/api/adoption/profiles",z.read('opencaliber/agent_server.py'))
             self.assertIn('run.py',names);self.assertIn('web/console.html',names)
             self.assertNotIn('web/index.html',names)
             self.assertFalse(any(n.startswith(('web/media/','tests/','tools/','notebooks/')) for n in names))
@@ -25,7 +27,10 @@ class PackageTests(unittest.TestCase):
             self.assertFalse(any('sqlite' in n or 'private/' in n or '.safetensors' in n or '.git/' in n for n in names))
     def test_extracted_cli_independent_of_checkout(self):
         with tempfile.TemporaryDirectory(dir=Path(__file__).parent) as directory:
-            with zipfile.ZipFile(io.BytesIO(build_package())) as z:z.extractall(directory)
+            with zipfile.ZipFile(io.BytesIO(build_package())) as z:
+                self.assertIn('opencaliber/tool_policies.py',z.namelist())
+                self.assertIn('examples/tool-policy-config.json',z.namelist())
+                z.extractall(directory)
             p=subprocess.run([sys.executable,'-m','opencaliber.agent_cli','benchmark'],cwd=directory,capture_output=True,text=True,check=True)
             self.assertEqual(json.loads(p.stdout)['passed'],70)
             p=subprocess.run([sys.executable,'examples/integrate_agent.py'],cwd=directory,capture_output=True,text=True,check=True)
@@ -38,7 +43,10 @@ class PackageTests(unittest.TestCase):
 
     def test_extracted_console_and_api(self):
         with tempfile.TemporaryDirectory(dir=Path(__file__).parent) as directory:
-            with zipfile.ZipFile(io.BytesIO(build_package())) as z:z.extractall(directory)
+            with zipfile.ZipFile(io.BytesIO(build_package())) as z:
+                self.assertIn('opencaliber/tool_policies.py',z.namelist())
+                self.assertIn('examples/tool-policy-config.json',z.namelist())
+                z.extractall(directory)
             script="""
 import json,threading,urllib.request
 from http.server import ThreadingHTTPServer

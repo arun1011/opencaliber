@@ -55,7 +55,7 @@ class AdapterTests(unittest.TestCase):
             normalize_response('anthropic',BUNDLE['responses']['anthropic']['unsafe'],**ctx)
 
     def test_invalid_mapping_rejected(self):
-        for patch in [{'tool':'arbitrary.eval'},{'resource_from':'url'}, {'data_class':'model_says_safe'}, {'arguments':{'payload':'payload'}}]:
+        for patch in [{'tool':'arbitrary.eval'},{'resource_from':'url'}, {'data_class':'model_says_safe'}, {'arguments':{'payload.nested':'payload'}}]:
             ctx=context();ctx['policy']['tools']['lookup_invoices'].update(patch)
             with self.subTest(patch=patch),self.assertRaises(ValueError):validate_policy(ctx['policy'])
 

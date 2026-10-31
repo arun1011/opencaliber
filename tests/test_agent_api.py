@@ -34,6 +34,14 @@ class ApiTests(unittest.TestCase):
         try:
             with urllib.request.urlopen(request) as r:return r.status,json.loads(r.read())
         except urllib.error.HTTPError as e:return e.code,json.loads(e.read())
+    def test_adoption_endpoints(self):
+        code,profiles=self.request('/api/adoption/profiles');self.assertEqual(code,200);self.assertIn('backup-before-delete',profiles)
+        code,examples=self.request('/api/adoption/examples');self.assertEqual(code,200)
+        code,normalized=self.request('/api/adoption/mcp',{'events':examples['mcp-events.json'],'context':examples['mcp-context.json']});self.assertEqual(code,200)
+        code,coverage=self.request('/api/adoption/coverage',{'trace':normalized['trace']});self.assertEqual(code,200);self.assertEqual(coverage['unmapped_tools'],[])
+        self.assertEqual(self.request('/api/adoption/profile',{'profile':profiles['backup-before-delete']})[0],200)
+        self.assertEqual(self.request('/api/adoption/mcp',{'events':[],'context':{}})[0],400)
+
     def test_sequence_configuration_evaluation_and_persistence(self):
         cfg=json.loads((server.ROOT/'examples/sequence_config.json').read_text())
         trace=json.loads((server.ROOT/'examples/sequence_failed_trace.json').read_text())

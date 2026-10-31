@@ -1,0 +1,14 @@
+[
+  {
+    "request_id": "db-audit-01",
+    "event_time": "2026-10-30T00:00:01Z",
+    "service_name": "unityCatalog",
+    "action_name": "getTable",
+    "request_params": {
+      "full_name": "main.sales.invoices"
+    },
+    "response": {
+      "status_code": 200
+    }
+  }
+]

@@ -121,6 +121,7 @@ See [examples/database_summary](examples/database_summary/README.md) for a runna
 
 ## Creator & Open Source Lead
 
-**[Arun Kumar](https://www.linkedin.com/in/arunkumar1011/)**
+**[Arun Kumar](https://www.linkedin.com/in/arunkumar1011/)**\
+*Causal Inference & AI Research*
 
 I created OpenCaliber as an open-source project to learn and collaborate with developers on evaluating AI agent actions and inspecting policy findings. [Connect on LinkedIn](https://www.linkedin.com/in/arunkumar1011/) to discuss the project and collaboration.

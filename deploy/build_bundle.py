@@ -16,7 +16,7 @@ DEPLOY_FILES=('application.py','Procfile','requirements.txt','opencaliber/cloud_
  'deploy/elasticbeanstalk.json','deploy/build_bundle.py','deploy/aws_deploy.py',
  'docs/elastic-beanstalk.md','tools/check_deployment.py',
  'web/media/opencaliber-walkthrough.mp4','web/media/opencaliber-walkthrough.vtt',
- 'web/media/opencaliber-poster.jpg','web/media/opencaliber-chapters.json','web/media/opencaliber-transcript.txt')
+ 'web/media/opencaliber-poster.jpg','web/media/black-t-photo.jpeg','web/media/opencaliber-chapters.json','web/media/opencaliber-transcript.txt')
 
 
 def build(destination=None):

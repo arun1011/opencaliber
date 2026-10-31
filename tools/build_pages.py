@@ -35,7 +35,8 @@ def build(destination,base_path=''):
     def page(text):
         return re.sub(r'\b(href|src|poster)="([^"]+)"',lambda m:m[1]+'="'+url(m[2])+'"',text)
     for name in ('styles.css','marketing.js','assets/favicon.svg','assets/logo.svg',
-                 'media/opencaliber-walkthrough.mp4','media/opencaliber-walkthrough.vtt','media/opencaliber-poster.jpg'):
+                 'media/opencaliber-walkthrough.mp4','media/opencaliber-walkthrough.vtt','media/opencaliber-poster.jpg',
+                 'media/black-t-photo.jpeg'):
         write(name,(ROOT/'web'/name).read_bytes())
     for name in ('LICENSE','NOTICE','LICENSING.md'):write(name,(ROOT/name).read_bytes())
     write('.nojekyll','')

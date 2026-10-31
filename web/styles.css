@@ -86,3 +86,8 @@ input::placeholder,textarea::placeholder{color:#62625b;opacity:1}
 
 /* Compact, accessible vector example. */
 .workflow-example{padding:24px}.workflow-example .art-label{margin-bottom:15px}.agent-workflow{display:block;width:100%;height:auto;overflow:visible}.agent-workflow text{font-family:'Segoe UI',Arial,sans-serif}.flow-title{font-size:17px;font-weight:600;fill:#292927}.flow-caption{font-size:14px;fill:#52524b}.flow-result{font-size:17px;font-weight:600;fill:#fff}.flow-result-caption{font-size:14px;fill:#f2f2ed}.workflow-fix{font-size:15px;line-height:1.7;margin-top:16px;color:#292927}.hero .workflow-example small{font-size:13px;margin-top:12px;color:#52524b}@media(max-width:480px){.workflow-example{padding:14px}.flow-title,.flow-result{font-size:18px}.flow-caption,.flow-result-caption{font-size:15px}}
+
+/* Creator portrait follows the shared neutral theme. */
+.creator-card{display:flex;align-items:center;gap:28px;max-width:900px}.creator-card .section-heading{margin-bottom:0}.creator-photo{display:block;width:120px;height:120px;flex:0 0 120px;object-fit:cover;object-position:center 35%;border-radius:50%;border:1px solid var(--line);background:var(--white)}@media(max-width:600px){.creator-card{align-items:flex-start;flex-direction:column;gap:20px}.creator-photo{width:96px;height:96px;flex-basis:96px}}
+
+.creator-card .creator-identity{margin:8px 0 16px;color:var(--muted);font-size:16px;line-height:1.5}

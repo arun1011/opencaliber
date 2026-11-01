@@ -4,11 +4,23 @@
 
 Advisory risk evaluation of AI agent actions, with a local dashboard, findings, configurable rules, evidence export and 70 labeled regression scenarios. The evaluation engine and desktop console require no external inference, subscriptions or API keys and use the Python 3.10+ standard library. Optional live agent starters require provider credentials and may incur charges; hosted deployment uses the dependencies in requirements.txt.
 
+## Automatic monitoring
+
+Start the console, then run a library agent or add `TrackedExecutor` wrappers to your own Python tool operations. Agents register a tracking ID and send action metadata to your console. Use **Monitored agents**, **Rules & policies**, **Activity** and **Problems** for everyday work. New agents start in report-only mode; enforcement is an explicit per-agent setting. Direct `evaluate_trace` calls remain offline and do not automatically save dashboard history.
+
+See [Automatic tracking and internal-domain setup](docs/automatic-tracking.md). GitHub Pages hosts the public website and packages; deploy the authenticated Python service for a shared internal console.
+
+## Contract cases and download counts
+
+Use Developer tools → Add contract cases to preview and save workspace regression tests. Test rule examples runs them alongside the included fixtures. [Tracking guide](docs/automatic-tracking.md) explains expected results, overrides and storage.
+
+Public package downloads can use GitHub Release assets. The publish workflow switches Pages links only after every package is uploaded. Hourly counts are retained in a versioned JSON file on the separate download-metrics branch, so site deployments do not reset recorded history. [Download-count setup](docs/download-counts.md) explains activation and what the counts measure. Earlier static Pages downloads remain unknown.
+
 ## Watch the walkthrough
 
 [![Watch the OpenCaliber walkthrough: download, evaluate agent actions, inspect findings and verify corrections](web/media/opencaliber-poster.jpg)](https://github.com/arun1011/opencaliber/blob/main/web/media/opencaliber-walkthrough.mp4)
 
-A six-minute walkthrough of setup, tool policies, sequence checks, integrations, enforcement and interpreting findings, with narration and English captions.
+A walkthrough of the current console: connect an agent, set rules, inspect problems and configure an internal HTTPS workspace, with male narration and English captions.
 
 ## Start
 
@@ -114,6 +126,10 @@ Use policy profiles, the application execution wrapper, offline MCP and Databric
 ## Per-tool resource and argument policies
 
 Engine 0.5 adds exact-value allowlists, POSIX directory boundaries, exact URL hostnames and inclusive numeric limits per canonical tool. Rules narrow existing global/task restrictions. Configure them in Console Configuration or import [the example config](examples/tool-policy-config.json). See [policy semantics, integration and execution limits](docs/tool-policies.md). Custom flat scalar arguments are supported by Python and Node projections and removed from redacted history.
+
+## Browser and document workflow packs
+
+The Agents Library includes Browser Research Assistant, Report Collection Agent, Application Test Agent and Document Workflow Agent. Each ZIP provides a credential-free offline demo, reviewed configuration, source and tests. Browser live mode requires Playwright and explicit configuration approval; portal sign-in is manual. These are bounded code-driven workflows, not general desktop-control or autonomous LLM agents. See the included README before live use.
 
 ## Database search and summarization example
 

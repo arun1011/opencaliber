@@ -11,7 +11,10 @@ from tools.build_agent_library import main as build_agents
 from opencaliber.local_package import build_package
 
 
-def build(destination,base_path=''):
+def build(destination,base_path='',release_tag='',release_repository='arun1011/opencaliber',metrics_file=''):
+    if release_tag and not re.fullmatch(r'v[0-9]+\.[0-9]+\.[0-9]+(?:-[A-Za-z0-9.-]+)?',release_tag):raise ValueError('Invalid release tag')
+    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.-]{0,100}/[A-Za-z0-9][A-Za-z0-9_.-]{0,100}',release_repository):raise ValueError('Invalid release repository')
+    release_base=f'https://github.com/{release_repository}/releases/download/{release_tag}/' if release_tag else ''
     base_path=base_path.rstrip('/')
     if base_path and not re.fullmatch(r'/[A-Za-z0-9_-]+(?:/[A-Za-z0-9_-]+)*',base_path):
         raise ValueError('Invalid Pages base path')
@@ -28,6 +31,7 @@ def build(destination,base_path=''):
         p.write_bytes(data if isinstance(data,bytes) else data.encode('utf-8'))
     def url(value):
         if value.startswith(('#','https://','http://','mailto:','data:')):return value
+        if release_base and value=='/api/package':return release_base+'opencaliber.zip'
         parsed=urlsplit(value)
         routes={'/':'','/agents':'agents/','/console':'console/','/api/package':'downloads/opencaliber.zip'}
         path=routes.get(parsed.path,parsed.path.lstrip('/'))
@@ -40,6 +44,11 @@ def build(destination,base_path=''):
         write(name,(ROOT/'web'/name).read_bytes())
     for name in ('LICENSE','NOTICE','LICENSING.md'):write(name,(ROOT/name).read_bytes())
     write('.nojekyll','')
+    if metrics_file:
+        from opencaliber.download_stats import snapshot_report
+        snapshot=json.loads(Path(metrics_file).read_text(encoding='utf-8'))
+        snapshot_report(snapshot,release_repository)
+        write('download-counts.json',json.dumps(snapshot,indent=2))
     home=(ROOT/'web/index.html').read_text(encoding='utf-8').replace('Open the console →','Console setup →').replace('Open console ↗','Console setup ↗')
     write('index.html',page(home))
     library=(ROOT/'web/agents.html').read_text(encoding='utf-8').replace('Open console ↗','Console setup ↗')
@@ -48,7 +57,7 @@ def build(destination,base_path=''):
     write('agents.js',script)
     catalog=json.loads((ROOT/'web/agents.json').read_text(encoding='utf-8'))
     for entry in catalog:
-        path=entry['download'];write(path,(ROOT/'web'/path).read_bytes());entry['download']=prefix+path
+        path=entry['download'];write(path,(ROOT/'web'/path).read_bytes());entry['download']=release_base+entry['id']+'.zip' if release_base else prefix+path
     write('agents.json',json.dumps(catalog,indent=2))
     write('downloads/opencaliber.zip',build_package())
     write('console/index.html',page((ROOT/'web/pages-console.html').read_text(encoding='utf-8')))
@@ -62,4 +71,7 @@ if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output',type=Path,default=ROOT/'dist/pages')
     parser.add_argument('--base-path',default='')
-    args=parser.parse_args();build(args.output,args.base_path)
+    parser.add_argument('--release-tag',default='')
+    parser.add_argument('--release-repository',default='arun1011/opencaliber')
+    parser.add_argument('--metrics-file',default='')
+    args=parser.parse_args();build(args.output,args.base_path,args.release_tag,args.release_repository,args.metrics_file)

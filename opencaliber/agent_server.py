@@ -33,6 +33,10 @@ def initialize():
     DB.parent.mkdir(parents=True,exist_ok=True)
     with connect() as c:
         c.executescript('CREATE TABLE IF NOT EXISTS settings (id INTEGER PRIMARY KEY, config TEXT NOT NULL); CREATE TABLE IF NOT EXISTS runs (id TEXT PRIMARY KEY, created_at TEXT NOT NULL, name TEXT NOT NULL, trace TEXT NOT NULL, result TEXT NOT NULL, config TEXT NOT NULL, status TEXT NOT NULL DEFAULT "open", note TEXT NOT NULL DEFAULT ""); CREATE TABLE IF NOT EXISTS benchmarks (id TEXT PRIMARY KEY, created_at TEXT NOT NULL, report TEXT NOT NULL);')
+        from .tracking_store import initialize as initialize_tracking
+        initialize_tracking(c)
+        from .contract_cases import initialize as initialize_cases
+        initialize_cases(c)
         c.execute('INSERT OR IGNORE INTO settings VALUES(1,?)',(json.dumps(DEFAULT_CONFIG),))
 
 
@@ -40,7 +44,15 @@ def configuration():
     with connect() as c:return validate_config(json.loads(c.execute('SELECT config FROM settings WHERE id=1').fetchone()[0]))
 
 
-def cases():return json.loads((ROOT/'data/agent_cases.json').read_text(encoding='utf-8'))
+def cases():
+    from .contract_cases import list_cases
+    bundle=json.loads((ROOT/'data/agent_cases.json').read_text(encoding='utf-8'))
+    custom=[]
+    if DB.is_file():
+        with connect() as c:has_custom=c.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='custom_cases'").fetchone()
+        if has_custom:custom=list_cases(connect)
+    bundle['cases']=[{**case,'source':'included'} for case in bundle['cases']]+custom
+    return bundle
 def timestamp():return datetime.now(timezone.utc).isoformat()
 
 
@@ -116,6 +128,10 @@ class Handler(SimpleHTTPRequestHandler):
             except (ValueError,OSError):return self.json({'error':'Local package source is incomplete'},503)
             self.send_response(200);self.send_header('Content-Type','application/zip');self.send_header('Content-Disposition','attachment; filename="opencaliber-local.zip"');self.send_header('Content-Length',str(len(raw)));self.send_header('Cache-Control','no-store');self.end_headers();self.wfile.write(raw);return
         if path=='/api/cases':return self.json(cases())
+        if path=='/api/downloads':
+            from .download_stats import report
+            return self.json(report(json.loads((ROOT/'web/agents.json').read_text(encoding='utf-8'))))
+
         if path=='/api/adoption/profiles':
             from .profiles import available_profiles
             return self.json(available_profiles())
@@ -124,11 +140,18 @@ class Handler(SimpleHTTPRequestHandler):
             return self.json(examples())
         if path=='/api/integration-examples':
             return self.json(json.loads((ROOT/'examples/adoption/bundle.json').read_text(encoding='utf-8')))
+        if path=='/api/tracking/agents':
+            from .tracking_store import agents
+            return self.json(agents(connect,configuration(),cases()['cases']))
+        if path.startswith('/api/tracking/events/'):
+            from .tracking_store import events
+            try:return self.json(events(path.rsplit('/',1)[-1],connect))
+            except ValueError:return self.json({'error':'Invalid workflow ID'},400)
         if path=='/api/state':
             with connect() as c:
                 rows=c.execute('SELECT * FROM runs ORDER BY created_at DESC LIMIT 100').fetchall();last=c.execute('SELECT report,created_at FROM benchmarks ORDER BY created_at DESC LIMIT 1').fetchone()
             findings=[{'run_id':r['id'],'run_name':r['name'],'agent':json.loads(r['trace']).get('agent'),'workflow_id':json.loads(r['trace']).get('workflow_id'),'context':json.loads(r['trace']).get('context'),'status':r['status'],'created_at':r['created_at'],'action_id':a['action_id'],**f} for r in rows for a in json.loads(r['result'])['actions'] for f in a['findings']]
-            return self.json({'engine_version':VERSION,'config':configuration(),'findings':findings,'runs':[{'id':r['id'],'created_at':r['created_at'],'name':r['name'],'agent':json.loads(r['trace']).get('agent'),'workflow_id':json.loads(r['trace']).get('workflow_id'),'context':json.loads(r['trace']).get('context'),'status':r['status'],'note':r['note'],**{k:json.loads(r['result'])[k] for k in ('assessment','risk_score','action_count','finding_count')}} for r in rows],'benchmark':{**json.loads(last['report']),'created_at':last['created_at']} if last else None})
+            return self.json({'engine_version':VERSION,'config':configuration(),'findings':findings,'runs':[{'id':r['id'],'created_at':r['created_at'],'name':r['name'],'agent':json.loads(r['trace']).get('agent'),'workflow_id':json.loads(r['trace']).get('workflow_id'),'context':json.loads(r['trace']).get('context'),'status':r['status'],'note':r['note'],'tracking':json.loads(r['result']).get('tracking'),**{k:json.loads(r['result'])[k] for k in ('assessment','risk_score','action_count','finding_count')}} for r in rows],'benchmark':{**json.loads(last['report']),'created_at':last['created_at']} if last else None})
         if path.startswith('/api/runs/'):
             with connect() as c:r=c.execute('SELECT * FROM runs WHERE id=?',(path.split('/')[-1],)).fetchone()
             if not r:return self.json({'error':'Run not found'},404)
@@ -143,6 +166,18 @@ class Handler(SimpleHTTPRequestHandler):
             if not 0<length<=1048576:return self.json({'error':'Body must be 1 byte to 1 MiB'},413)
             body=json.loads(self.rfile.read(length));path=urlsplit(self.path).path
             if not isinstance(body,dict):raise ValueError('Expected a JSON object')
+            if path=='/api/tracking/events':
+                from .tracking_store import ingest
+                return self.json(ingest(body,connect,timestamp,configuration()))
+            if path=='/api/tracking/policy':
+                from .tracking_store import save_policy
+                return self.json(save_policy(body,connect))
+            if path in ('/api/cases/custom','/api/cases/preview'):
+                from .contract_cases import preview,save
+                if set(body)!={'case'}:raise ValueError('Provide a case object')
+                if path.endswith('/preview'):return self.json(preview(body['case'],configuration()))
+                builtin=json.loads((ROOT/'data/agent_cases.json').read_text(encoding='utf-8'))['cases']
+                return self.json(save(body['case'],connect,{c['id'] for c in builtin},configuration(),timestamp),201)
             if path=='/api/normalize':
                 if set(body)!={'provider','response','context'} or not isinstance(body['context'],dict):raise ValueError('Provide provider, response and context')
                 if set(body['context'])-{'policy','agent','task','session_id','workflow_id'} or not {'policy','agent','task','session_id'}<=set(body['context']):raise ValueError('Invalid integration context fields')

@@ -1,50 +1,42 @@
 [
   {
-    "title": "Download OpenCaliber",
+    "title": "Download and start",
     "start_seconds": 0
   },
   {
-    "title": "Start the console",
-    "start_seconds": 21.046
+    "title": "Three everyday steps",
+    "start_seconds": 32.648
   },
   {
-    "title": "Identify your agent",
-    "start_seconds": 43.546
+    "title": "Connect an agent",
+    "start_seconds": 51.469
   },
   {
-    "title": "Set evaluation boundaries",
-    "start_seconds": 66.307
+    "title": "Find the right agent",
+    "start_seconds": 75.219
   },
   {
-    "title": "Restrict individual tool arguments",
-    "start_seconds": 90.278
+    "title": "Set action rules",
+    "start_seconds": 98.136
   },
   {
-    "title": "Inspect and correct a finding",
-    "start_seconds": 127.08
+    "title": "Inspect a problem",
+    "start_seconds": 129.053
   },
   {
-    "title": "Check earlier workflow steps",
-    "start_seconds": 158.973
+    "title": "Create and test traces",
+    "start_seconds": 154.723
   },
   {
-    "title": "Connect provider tools",
-    "start_seconds": 186.313
+    "title": "Turn fixes into tests",
+    "start_seconds": 180.179
   },
   {
-    "title": "Import records and inspect coverage",
-    "start_seconds": 211.078
+    "title": "Use your internal domain",
+    "start_seconds": 206.915
   },
   {
-    "title": "Choose observation or enforcement",
-    "start_seconds": 239.692
-  },
-  {
-    "title": "Run repeatable checks",
-    "start_seconds": 280.914
-  },
-  {
-    "title": "Interpret results and store evidence",
-    "start_seconds": 307.221
+    "title": "Operate and improve",
+    "start_seconds": 234.739
   }
 ]

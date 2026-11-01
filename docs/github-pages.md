@@ -1,6 +1,6 @@
 # Publish the public website with GitHub Pages
 
-This repository includes `.github/workflows/pages.yml`. On each push to main (or a manual workflow run), it builds a static website and deploys only `dist/pages`. The workflow needs no AWS credentials, provider keys or Python dependencies beyond the standard library. The public site includes the home page/video, searchable 64-agent library, console setup instructions, downloadable console ZIP and all agent ZIPs. Downloadable packages include Apache 2.0 licensing. Python APIs, saved evaluation history and the interactive evaluator are not hosted by Pages.
+This repository includes `.github/workflows/pages.yml`. On each push to main (or a manual workflow run), it builds a static website and deploys only `dist/pages`. The workflow needs no AWS credentials, provider keys or Python dependencies beyond the standard library. The public site includes the home page/video, searchable agent library, console setup instructions, downloadable console ZIP and all agent ZIPs. Downloadable packages include Apache 2.0 licensing. Python APIs, saved evaluation history and the interactive evaluator are not hosted by Pages.
 
 ## Enable deployment
 

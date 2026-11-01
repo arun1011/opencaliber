@@ -7,6 +7,7 @@ import zipfile
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
 from deploy.build_bundle import build,DEPLOY_FILES
+from tools.build_agent_library import AGENTS
 
 
 def check():
@@ -27,11 +28,11 @@ def check():
         names=archive.namelist();assert archive.testzip() is None
         assert all(name in names for name in DEPLOY_FILES)
         assert 'application.py' in names and 'requirements.txt' in names
-        assert len([n for n in names if n.startswith('web/downloads/agents/')])==64
+        assert len([n for n in names if n.startswith('web/downloads/agents/')])==len(AGENTS)
         assert not any(n.startswith(('artifacts/','tests/','.git/','private/','notebooks/')) or n.endswith(('.sqlite3','.db','.env','.safetensors','.pyc')) for n in names)
         assert 'requirements-training.txt' not in names
         assert b'\r\n' not in archive.read('deploy/bootstrap.sh')
-    print('PASS: ASGI source, EB configuration, TLS/secrets, retained-storage declarations, 64 packs, source bundle and exclusions. AWS deployment was not performed.')
+    print('PASS: ASGI source, EB configuration, TLS/secrets, retained-storage declarations, agent packs, source bundle and exclusions. AWS deployment was not performed.')
 
 
 if __name__=='__main__':check()

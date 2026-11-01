@@ -1,5 +1,105 @@
 [
   {
+    "id": "browser-research-assistant",
+    "title": "Browser Research Assistant",
+    "description": "Visit approved websites, collect cited excerpts and prepare a comparison draft using a bounded browser workflow.",
+    "tags": [
+      "Computer use",
+      "Browser",
+      "Research",
+      "Evidence"
+    ],
+    "industry": "Cross-industry",
+    "function": "Research",
+    "output_sections": [
+      "Sources",
+      "Comparison draft",
+      "Review questions"
+    ],
+    "version": "0.2.0",
+    "providers": [],
+    "download": "downloads/agents/browser-research-assistant.zip",
+    "size_bytes": 32629,
+    "requirements": "Python 3.10+",
+    "mode": "Browser / file workflow",
+    "credentials": "Manual portal sign-in when configured"
+  },
+  {
+    "id": "report-collection-agent",
+    "title": "Report Collection Agent",
+    "description": "Open an approved portal, pause for manual sign-in and collect a configured report download for review.",
+    "tags": [
+      "Computer use",
+      "Browser",
+      "Reports",
+      "Manual sign-in"
+    ],
+    "industry": "Cross-industry",
+    "function": "Reporting",
+    "output_sections": [
+      "Collected report",
+      "Source",
+      "Review notes"
+    ],
+    "version": "0.2.0",
+    "providers": [],
+    "download": "downloads/agents/report-collection-agent.zip",
+    "size_bytes": 32497,
+    "requirements": "Python 3.10+",
+    "mode": "Browser / file workflow",
+    "credentials": "Manual portal sign-in when configured"
+  },
+  {
+    "id": "application-test-agent",
+    "title": "Application Test Agent",
+    "description": "Check configured pages and visible text, record assertion results and capture screenshots with browser automation.",
+    "tags": [
+      "Computer use",
+      "Browser",
+      "UI testing",
+      "Screenshots"
+    ],
+    "industry": "Technology",
+    "function": "Quality Assurance",
+    "output_sections": [
+      "Assertions",
+      "Screenshots",
+      "Failures"
+    ],
+    "version": "0.2.0",
+    "providers": [],
+    "download": "downloads/agents/application-test-agent.zip",
+    "size_bytes": 32463,
+    "requirements": "Python 3.10+",
+    "mode": "Browser / file workflow",
+    "credentials": "Manual portal sign-in when configured"
+  },
+  {
+    "id": "document-workflow-agent",
+    "title": "Document Workflow Agent",
+    "description": "Collect bounded text and CSV files, extract configured fields and prepare structured entries for human review.",
+    "tags": [
+      "Workflow",
+      "Files",
+      "Extraction",
+      "Review drafts"
+    ],
+    "industry": "Cross-industry",
+    "function": "Document Operations",
+    "output_sections": [
+      "Extracted entries",
+      "Source files",
+      "Missing fields"
+    ],
+    "version": "0.2.0",
+    "providers": [],
+    "download": "downloads/agents/document-workflow-agent.zip",
+    "size_bytes": 32496,
+    "requirements": "Python 3.10+",
+    "mode": "Browser / file workflow",
+    "credentials": "Manual portal sign-in when configured"
+  },
+  {
     "id": "document-summarizer",
     "title": "Document Summarizer",
     "description": "Read text or Markdown files from a configured folder and save a draft summary.",
@@ -21,7 +121,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/document-summarizer.zip",
-    "size_bytes": 21841,
+    "size_bytes": 28672,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -48,7 +148,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/invoice-report-assistant.zip",
-    "size_bytes": 21970,
+    "size_bytes": 28829,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -75,7 +175,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/support-reply-drafter.zip",
-    "size_bytes": 21908,
+    "size_bytes": 28747,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -102,7 +202,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/meeting-action-tracker.zip",
-    "size_bytes": 22046,
+    "size_bytes": 28888,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -129,7 +229,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/project-status-reporter.zip",
-    "size_bytes": 22091,
+    "size_bytes": 28940,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -156,7 +256,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/risk-register-drafter.zip",
-    "size_bytes": 22035,
+    "size_bytes": 28872,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -183,7 +283,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/sop-writer.zip",
-    "size_bytes": 21689,
+    "size_bytes": 28461,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -210,7 +310,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/knowledge-base-drafter.zip",
-    "size_bytes": 22056,
+    "size_bytes": 28904,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -237,7 +337,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/release-notes-drafter.zip",
-    "size_bytes": 22032,
+    "size_bytes": 28871,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -264,7 +364,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/bug-report-organizer.zip",
-    "size_bytes": 21996,
+    "size_bytes": 28828,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -291,7 +391,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/api-documentation-drafter.zip",
-    "size_bytes": 22154,
+    "size_bytes": 29019,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -318,7 +418,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/code-review-brief.zip",
-    "size_bytes": 21906,
+    "size_bytes": 28719,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -345,7 +445,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/test-plan-builder.zip",
-    "size_bytes": 21925,
+    "size_bytes": 28744,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -372,7 +472,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/incident-timeline-builder.zip",
-    "size_bytes": 22147,
+    "size_bytes": 29014,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -399,7 +499,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/security-alert-brief.zip",
-    "size_bytes": 22003,
+    "size_bytes": 28836,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -426,7 +526,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/access-review-worksheet.zip",
-    "size_bytes": 22111,
+    "size_bytes": 28963,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -453,7 +553,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/data-quality-report.zip",
-    "size_bytes": 21976,
+    "size_bytes": 28804,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -480,7 +580,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/experiment-results-brief.zip",
-    "size_bytes": 22154,
+    "size_bytes": 29013,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -507,7 +607,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/dashboard-requirements-writer.zip",
-    "size_bytes": 22313,
+    "size_bytes": 29205,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -534,7 +634,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/sales-call-brief.zip",
-    "size_bytes": 21858,
+    "size_bytes": 28668,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -561,7 +661,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/proposal-outline-writer.zip",
-    "size_bytes": 22096,
+    "size_bytes": 28952,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -588,7 +688,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/crm-cleanup-planner.zip",
-    "size_bytes": 21977,
+    "size_bytes": 28805,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -615,7 +715,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/campaign-brief-writer.zip",
-    "size_bytes": 22051,
+    "size_bytes": 28892,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -642,7 +742,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/content-repurposing-planner.zip",
-    "size_bytes": 22236,
+    "size_bytes": 29110,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -669,7 +769,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/customer-feedback-grouper.zip",
-    "size_bytes": 22153,
+    "size_bytes": 29014,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -696,7 +796,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/product-requirements-drafter.zip",
-    "size_bytes": 22255,
+    "size_bytes": 29141,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -723,7 +823,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/onboarding-guide-writer.zip",
-    "size_bytes": 22113,
+    "size_bytes": 28967,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -750,7 +850,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/training-material-drafter.zip",
-    "size_bytes": 22159,
+    "size_bytes": 29025,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -777,7 +877,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/policy-change-explainer.zip",
-    "size_bytes": 22104,
+    "size_bytes": 28957,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -804,7 +904,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/procurement-comparison-brief.zip",
-    "size_bytes": 22258,
+    "size_bytes": 29139,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -831,7 +931,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/contract-obligation-extractor.zip",
-    "size_bytes": 22275,
+    "size_bytes": 29164,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -858,7 +958,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/audit-evidence-organizer.zip",
-    "size_bytes": 22142,
+    "size_bytes": 29000,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -885,7 +985,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/expense-review-brief.zip",
-    "size_bytes": 22008,
+    "size_bytes": 28842,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -912,7 +1012,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/retail-returns-summary.zip",
-    "size_bytes": 22062,
+    "size_bytes": 28908,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -939,7 +1039,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/retail-inventory-brief.zip",
-    "size_bytes": 22049,
+    "size_bytes": 28892,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -966,7 +1066,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/ecommerce-listing-drafter.zip",
-    "size_bytes": 22163,
+    "size_bytes": 29027,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -993,7 +1093,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/ecommerce-review-digest.zip",
-    "size_bytes": 22096,
+    "size_bytes": 28947,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -1020,7 +1120,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/manufacturing-shift-handover.zip",
-    "size_bytes": 22247,
+    "size_bytes": 29135,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -1047,7 +1147,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/manufacturing-defect-brief.zip",
-    "size_bytes": 22193,
+    "size_bytes": 29066,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -1074,7 +1174,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/maintenance-work-order-drafter.zip",
-    "size_bytes": 22340,
+    "size_bytes": 29233,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -1101,7 +1201,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/logistics-exception-brief.zip",
-    "size_bytes": 22156,
+    "size_bytes": 29014,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -1128,7 +1228,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/warehouse-handover-writer.zip",
-    "size_bytes": 22141,
+    "size_bytes": 29005,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -1155,7 +1255,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/supplier-delay-reporter.zip",
-    "size_bytes": 22089,
+    "size_bytes": 28939,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -1182,7 +1282,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/construction-progress-brief.zip",
-    "size_bytes": 22242,
+    "size_bytes": 29117,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -1209,7 +1309,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/construction-rfi-drafter.zip",
-    "size_bytes": 22137,
+    "size_bytes": 28997,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -1236,7 +1336,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/property-maintenance-triage.zip",
-    "size_bytes": 22241,
+    "size_bytes": 29117,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -1263,7 +1363,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/property-listing-draft.zip",
-    "size_bytes": 22054,
+    "size_bytes": 28901,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -1290,7 +1390,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/hospitality-guest-reply-drafter.zip",
-    "size_bytes": 22341,
+    "size_bytes": 29242,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -1317,7 +1417,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/hospitality-shift-brief.zip",
-    "size_bytes": 22099,
+    "size_bytes": 28954,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -1344,7 +1444,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/travel-itinerary-organizer.zip",
-    "size_bytes": 22161,
+    "size_bytes": 29033,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -1371,7 +1471,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/education-lesson-planner.zip",
-    "size_bytes": 22149,
+    "size_bytes": 29011,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -1398,7 +1498,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/education-course-feedback-digest.zip",
-    "size_bytes": 22401,
+    "size_bytes": 29302,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -1425,7 +1525,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/healthcare-appointment-reply-drafter.zip",
-    "size_bytes": 22546,
+    "size_bytes": 29478,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -1452,7 +1552,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/healthcare-procedure-checklist.zip",
-    "size_bytes": 22326,
+    "size_bytes": 29221,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -1479,7 +1579,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/insurance-document-checklist.zip",
-    "size_bytes": 22274,
+    "size_bytes": 29154,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -1506,7 +1606,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/banking-service-faq-drafter.zip",
-    "size_bytes": 22253,
+    "size_bytes": 29129,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -1533,7 +1633,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/nonprofit-grant-report-drafter.zip",
-    "size_bytes": 22326,
+    "size_bytes": 29214,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -1560,7 +1660,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/nonprofit-volunteer-guide.zip",
-    "size_bytes": 22132,
+    "size_bytes": 28997,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -1587,7 +1687,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/public-service-notice-drafter.zip",
-    "size_bytes": 22287,
+    "size_bytes": 29178,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -1614,7 +1714,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/energy-outage-brief.zip",
-    "size_bytes": 21974,
+    "size_bytes": 28801,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -1641,7 +1741,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/agriculture-field-notes-digest.zip",
-    "size_bytes": 22329,
+    "size_bytes": 29224,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -1668,7 +1768,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/telecom-service-incident-brief.zip",
-    "size_bytes": 22333,
+    "size_bytes": 29225,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -1695,7 +1795,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/media-editorial-brief.zip",
-    "size_bytes": 22073,
+    "size_bytes": 28911,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"
@@ -1722,7 +1822,7 @@
       "Anthropic"
     ],
     "download": "downloads/agents/research-literature-matrix.zip",
-    "size_bytes": 22202,
+    "size_bytes": 29071,
     "requirements": "Python 3.10+",
     "mode": "Draft workflow",
     "credentials": "Not needed for demo; provider key and model for live use"

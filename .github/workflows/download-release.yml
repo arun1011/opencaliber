@@ -1,0 +1,52 @@
+name: Publish download packages
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'New version tag, for example v0.6.0 (existing releases are never replaced)'
+        required: true
+        type: string
+permissions:
+  contents: read
+concurrency:
+  group: publish-download-packages
+  cancel-in-progress: false
+jobs:
+  release:
+    if: github.ref == 'refs/heads/main'
+    concurrency:
+      group: download-count-snapshot
+      cancel-in-progress: false
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: write
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Validate new release tag
+        env:
+          RELEASE_TAG: ${{ inputs.tag }}
+        run: python -c "import os,re; assert re.fullmatch(r'v[0-9]+\.[0-9]+\.[0-9]+(?:-[A-Za-z0-9.-]+)?',os.environ['RELEASE_TAG']), 'Use a version such as v0.6.0'"
+      - name: Test contract storage and runtime packaging
+        run: python -m unittest tests.test_contract_cases tests.test_download_stats tests.test_local_package -v
+      - name: Build release assets
+        run: python tools/build_release.py
+      - name: Publish new release and refresh Pages
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ inputs.tag }}
+        shell: bash
+        run: |
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            echo 'Release already exists. Choose a new tag to preserve asset download counts.'
+            exit 1
+          fi
+          printf '%s\n' 'OpenCaliber console and agent code packs.' 'Extract each ZIP and follow its README. SHA256SUMS.txt lists package checksums.' > release-notes.txt
+          gh release create "$RELEASE_TAG" dist/release/* --target "$GITHUB_SHA" --draft --title "OpenCaliber $RELEASE_TAG" --notes-file release-notes.txt
+          gh release edit "$RELEASE_TAG" --draft=false --latest
+          python tools/update_download_counts.py
+          gh workflow run pages.yml --ref main

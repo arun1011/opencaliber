@@ -91,3 +91,15 @@ input::placeholder,textarea::placeholder{color:#62625b;opacity:1}
 .creator-card{display:flex;align-items:center;gap:28px;max-width:900px}.creator-card .section-heading{margin-bottom:0}.creator-photo{display:block;width:120px;height:120px;flex:0 0 120px;object-fit:cover;object-position:center 35%;border-radius:50%;border:1px solid var(--line);background:var(--white)}@media(max-width:600px){.creator-card{align-items:flex-start;flex-direction:column;gap:20px}.creator-photo{width:96px;height:96px;flex-basis:96px}}
 
 .creator-card .creator-identity{margin:8px 0 16px;color:var(--muted);font-size:16px;line-height:1.5}
+
+.nav-advanced{margin:20px 12px}.nav-advanced summary{cursor:pointer;padding:12px 8px;color:#444;font-size:14px}.nav-advanced nav{padding:0}.onboarding{margin:0 0 24px;gap:12px;flex-wrap:wrap}.onboarding .step-mini{flex:1;min-width:180px;display:block;padding:20px;border:1px solid var(--line);border-radius:10px;background:var(--white)}.onboarding p{font-size:14px;color:#505050}.action-catalog{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}.action-catalog article{padding:16px;border:1px solid var(--line);border-radius:8px}.advanced-policy{margin:20px 0}.advanced-policy summary{cursor:pointer;font-weight:600;padding:12px 0}
+
+.nav-advanced:not([open]) > nav{display:none}@media(max-width:760px){.sidebar>nav{display:flex;flex-wrap:wrap;overflow:visible;gap:4px}.sidebar>nav a{font-size:14px;padding:10px}.nav-advanced nav{display:flex;flex-wrap:wrap;overflow:visible}.nav-advanced{margin:6px 12px}.topbar{gap:12px}.topbar #refresh{flex-shrink:0}}
+
+/* Separate the brand from primary console navigation. */
+.sidebar > .logo + nav { margin-top: 24px; }
+@media (max-width: 760px) { .sidebar > .logo + nav { margin-top: 16px; } }
+
+.tool-help{padding:14px 18px;margin-bottom:22px;background:#f3f3ef;border:1px solid var(--line);border-radius:8px}.tool-help summary{cursor:pointer;font-weight:600}.tool-help p{line-height:1.7;max-width:950px}.tool-help summary:focus-visible{outline:2px solid #444;outline-offset:4px}
+
+.coverage-table{overflow-x:auto}.coverage-table td{vertical-align:top;min-width:150px;white-space:normal}.guide-nav{margin-top:8px}.guide-content pre{overflow:auto;max-height:620px}.guide-content figure{margin:20px 0}.guide-content figure img{width:100%;height:auto;border:1px solid var(--line);border-radius:8px}.guide-content figcaption{font-size:14px;margin-top:8px;color:#505050}.guide-toc{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}

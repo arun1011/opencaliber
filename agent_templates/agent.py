@@ -9,6 +9,7 @@ import sys
 import urllib.error
 import urllib.request
 from opencaliber.agent_engine import DEFAULT_CONFIG, evaluate_trace
+from opencaliber.tracking import TrackedExecutor
 
 ROOT = Path(__file__).resolve().parent
 
@@ -23,18 +24,21 @@ def load_env():
                 os.environ.setdefault(key.strip(), value.strip().strip('"').strip("'"))
 
 
-def read_inputs(config):
+def read_inputs(config, executor=None):
     directory = (ROOT / config['input_dir']).resolve()
     if not directory.is_dir(): raise ValueError('Configured input_dir does not exist')
     paths = sorted(p for p in directory.iterdir() if p.is_file() and p.suffix.lower() in ('.txt', '.md', '.csv', '.json'))
     if not paths or len(paths) > config['max_files']: raise ValueError('Input count must be within max_files')
     rows = []; total = 0
-    for path in paths:
+    for index,path in enumerate(paths):
         # Reject links escaping the configured directory.
         resolved = path.resolve()
         if not resolved.is_relative_to(directory): raise ValueError('Input escapes the configured directory')
         if resolved.stat().st_size > config['max_input_bytes'] - total: raise ValueError('Inputs exceed max_input_bytes')
-        raw = resolved.read_bytes(); total += len(raw)
+        raw = resolved.read_bytes() if executor is None else executor.run(
+            {'id':'read-'+str(index),'tool':'file.read','resource':'/workspace/inputs/'+path.name,'data_class':config['data_class']},
+            resolved.read_bytes,success=lambda value:isinstance(value,bytes))
+        total += len(raw)
         if total > config['max_input_bytes']: raise ValueError('Inputs exceed max_input_bytes')
         text = raw.decode('utf-8')
         rows.append((path.name, text))
@@ -113,15 +117,28 @@ def main():
     if not outputs.is_relative_to(ROOT) or outputs==ROOT:raise ValueError('output_dir must be inside this project')
     if any(not (outputs/name).resolve().is_relative_to(outputs) for name in ('draft.txt','evaluation.json')):raise ValueError('Output file escapes the output directory')
     if not args.overwrite and any((outputs/name).exists() for name in ('draft.txt','evaluation.json')):raise ValueError('Output exists; use --overwrite to replace it')
-    if args.run:
-        prefix='OPENAI' if config['provider']=='openai' else 'ANTHROPIC'
-        if not os.environ.get(prefix+'_API_KEY') or not os.environ.get(prefix+'_MODEL'):raise ValueError('Set '+prefix+'_API_KEY and '+prefix+'_MODEL before --run')
-    inputs=read_inputs(config);result=evaluate(config,inputs,args.run)
-    if result['assessment']!='clear':raise ValueError('Evaluation requires review; no provider request or draft write performed')
-    draft=demo_draft(config,inputs) if args.demo else provider_draft(config,inputs)
-    outputs.mkdir(parents=True,exist_ok=True)
-    (outputs/'draft.txt').write_text(draft,encoding='utf-8')
-    (outputs/'evaluation.json').write_text(json.dumps(result,indent=2),encoding='utf-8')
+    host='api.openai.com' if config['provider']=='openai' else 'api.anthropic.com'
+    local_policy={**DEFAULT_CONFIG,'allowed_hosts':[host],'allowed_file_roots':['/workspace'],'max_calls':config['max_files']+2}
+    with TrackedExecutor(agent={'id':config['agent_id'],'version':config['version']},
+            tracking_id=config.get('tracking_id',config['agent_id']),root=ROOT,config=local_policy,
+            task={'goal':config['instructions'],'allowed_tools':['file.read','file.write']+(['http.send'] if args.run else [])},
+            mode='enforce') as executor:
+        if args.run:
+            prefix='OPENAI' if config['provider']=='openai' else 'ANTHROPIC'
+            if not os.environ.get(prefix+'_API_KEY') or not os.environ.get(prefix+'_MODEL'):
+                raise ValueError('Set '+prefix+'_API_KEY and '+prefix+'_MODEL before --run')
+        inputs=read_inputs(config,executor)
+        if args.demo:
+            draft=demo_draft(config,inputs)
+        else:
+            draft=executor.run({'id':'provider-request','tool':'http.send','resource':'https://'+host,
+                'arguments':{'destination':'https://'+host},'data_class':config['data_class']},
+                lambda:provider_draft(config,inputs),success=lambda value:isinstance(value,str) and bool(value))
+        outputs.mkdir(parents=True,exist_ok=True)
+        executor.run({'id':'save-draft','tool':'file.write','resource':'/workspace/outputs/draft.txt','data_class':config['data_class']},
+            lambda:(outputs/'draft.txt').write_text(draft,encoding='utf-8'),success=lambda value:type(value) is int)
+        result=evaluate_trace(executor.trace,local_policy)
+        (outputs/'evaluation.json').write_text(json.dumps(result,indent=2),encoding='utf-8')
     print('Draft and evaluation saved in the configured output directory. No emails, payments or external tool actions were performed.')
 
 

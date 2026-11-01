@@ -24,10 +24,42 @@ jobs:
         uses: actions/configure-pages@v5
       - name: Test static site builder
         run: python -m unittest discover -s tests -p test_pages.py -v
+      - name: Resolve counted package downloads
+        id: downloads
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          mkdir -p artifacts
+          if gh api "repos/$GH_REPO/releases/latest" > artifacts/latest-release.json; then
+            TAG=$(python tools/release_downloads.py artifacts/latest-release.json)
+            echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+            if [ -z "$TAG" ]; then echo '::warning::Latest release lacks a complete package set; static downloads remain uncounted.'; fi
+          else
+            echo 'tag=' >> "$GITHUB_OUTPUT"
+            echo '::notice::Publish download packages to activate GitHub download counts. Static downloads remain available.'
+          fi
+      - name: Retain download count snapshot
+        id: metrics
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          if gh api -H 'Accept: application/vnd.github.raw+json' "repos/$GH_REPO/contents/download-counts.json?ref=download-metrics" > artifacts/download-counts.json; then
+            echo 'file=artifacts/download-counts.json' >> "$GITHUB_OUTPUT"
+          else
+            echo 'file=' >> "$GITHUB_OUTPUT"
+            echo '::notice::No previous count file yet. Run Record download counts once to initialize it.'
+          fi
       - name: Build public website and downloads
         env:
           PAGES_BASE_PATH: ${{ steps.pages.outputs.base_path }}
-        run: python tools/build_pages.py --base-path "$PAGES_BASE_PATH"
+          DOWNLOAD_RELEASE_TAG: ${{ steps.downloads.outputs.tag }}
+          RELEASE_REPOSITORY: ${{ github.repository }}
+          DOWNLOAD_METRICS_FILE: ${{ steps.metrics.outputs.file }}
+        run: python tools/build_pages.py --base-path "$PAGES_BASE_PATH" --release-tag "$DOWNLOAD_RELEASE_TAG" --release-repository "$RELEASE_REPOSITORY" --metrics-file "$DOWNLOAD_METRICS_FILE"
       - uses: actions/upload-pages-artifact@v4
         with:
           path: dist/pages

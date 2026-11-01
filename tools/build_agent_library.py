@@ -3,8 +3,11 @@ import io
 import json
 from pathlib import Path
 import zipfile
+import sys
 
 ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT))
+from tools.build_computer_agents import COMPUTER_AGENTS,build_computer_agent
 AGENTS=[
     {'id':'document-summarizer','title':'Document Summarizer','kind':'documents',
      'description':'Read text or Markdown files from a configured folder and save a draft summary.',
@@ -26,6 +29,7 @@ AGENTS=[
 for entry,industry,function in zip(AGENTS,['Cross-industry','Cross-industry','Cross-industry'],['Operations','Finance Operations','Customer Support']):
     entry.update(industry=industry,function=function,output_sections=['Draft','Source references','Missing information'])
 AGENTS += json.loads((ROOT/'agent_templates/catalog.json').read_text(encoding='utf-8'))
+AGENTS = COMPUTER_AGENTS + AGENTS
 assert len({entry['id'] for entry in AGENTS})==len(AGENTS)
 
 TESTS='''import json,unittest
@@ -49,7 +53,8 @@ if __name__=='__main__':unittest.main()
 
 
 def build_agent(spec):
-    config={'agent_id':spec['id'],'version':'0.1.0','title':spec['title'],'kind':spec['kind'],
+    if spec.get('runtime')=='computer':return build_computer_agent(spec)
+    config={'tracking_id':spec['id'],'agent_id':spec['id'],'version':'0.1.0','title':spec['title'],'kind':spec['kind'],
             'provider':'openai','input_dir':'samples','output_dir':'outputs','max_files':25,
             'max_input_bytes':500000,'max_output_tokens':1500,'timeout_seconds':30,
             'data_class':spec['data_class'],'instructions':spec['instructions'],'industry':spec['industry'],'function':spec['function'],'output_sections':spec['output_sections']}
@@ -89,7 +94,7 @@ Live mode sends the selected input contents to the configured provider and incur
 
 Edit config.json: choose provider, input_dir, output_dir, data_class, instructions, max_files, max_input_bytes, max_output_tokens and timeout_seconds. Input files can be .txt, .md, .csv or .json in the configured directory (not recursive). Keep sensitivity labels accurate. Output must stay inside the extracted project. Inputs that escape the selected folder through links are rejected. File reads and draft writes are the only filesystem operations; no email, payment or generated-code execution is provided.
 
-OpenCaliber evaluates the workflow's declared operations and records agent/version attribution, findings and configuration fingerprint in evaluation.json. Logical /workspace paths refer to the configured inputs and outputs; the application itself checks real filesystem paths. Evaluation does not inspect model intent or guarantee prompt-injection protection. Changing configuration changes what the application permits. The pack includes the engine but not the console; import its JSON result or use the separate OpenCaliber console integration if you need saved dashboard history.
+OpenCaliber evaluates the workflow's declared operations and records agent/version attribution, findings and configuration fingerprint in evaluation.json. Logical /workspace paths refer to the configured inputs and outputs; the application itself checks real filesystem paths. Evaluation does not inspect model intent or guarantee prompt-injection protection. Changing configuration changes what the application permits. The pack includes the engine and TrackedExecutor instrumentation. Keep your console running: the agent registers its config.json tracking_id and sends wrapped action metadata automatically to http://127.0.0.1:8787. Use Monitored agents to edit its policy and inspect activity. Remote machines set OPENCALIBER_ENDPOINT to your authenticated HTTPS console and OPENCALIBER_TOKEN privately. New agents start in report-only mode; select Enforce in the console and set OPENCALIBER_MODE=enforce for enforcement from the first action. Offline report-only events queue minimized metadata under outputs/.opencaliber-tracking. Only wrapped operations are observed; callback contents are not automatically collected. Set OPENCALIBER_TRACKING=off for an intentionally disconnected run. Direct evaluate_trace calls alone do not send console history.
 
 ## Tests and limits
 
@@ -108,12 +113,15 @@ License: Apache-2.0. See LICENSE, NOTICE and LICENSING.md.
            'LICENSING.md':(ROOT/'LICENSING.md').read_text(encoding='utf-8'),
            'agent.py':(ROOT/'agent_templates/agent.py').read_text(encoding='utf-8'),
            'config.json':json.dumps(config,indent=2),'README.md':readme,
-           '.env.example':'# Select a provider in config.json and supply its key and model.\nOPENAI_API_KEY=\nOPENAI_MODEL=\nANTHROPIC_API_KEY=\nANTHROPIC_MODEL=\n',
+           '.env.example':'# Select a provider in config.json and supply its key and model.\nOPENAI_API_KEY=\nOPENAI_MODEL=\nANTHROPIC_API_KEY=\nANTHROPIC_MODEL=\n# Automatic console tracking; no Google/third-party analytics.\nOPENCALIBER_ENDPOINT=http://127.0.0.1:8787\nOPENCALIBER_TOKEN=\nOPENCALIBER_TRACKING=on\n',
            '.gitignore':'.env\noutputs/\n__pycache__/\n.venv/\n',
            'requirements.txt':'# Python 3.10+ standard library only; no packages to install.\n',
            'samples/'+spec['sample_name']:spec['sample'],'tests/test_agent.py':TESTS,
            'opencaliber/__init__.py':(ROOT/'opencaliber/__init__.py').read_text(encoding='utf-8'),
            'opencaliber/tool_policies.py':(ROOT/'opencaliber/tool_policies.py').read_text(encoding='utf-8'),
+           'opencaliber/tracking.py':(ROOT/'opencaliber/tracking.py').read_text(encoding='utf-8'),
+           'opencaliber/execution.py':(ROOT/'opencaliber/execution.py').read_text(encoding='utf-8'),
+           'opencaliber/privacy.py':(ROOT/'opencaliber/privacy.py').read_text(encoding='utf-8'),
            'opencaliber/agent_engine.py':(ROOT/'opencaliber/agent_engine.py').read_text(encoding='utf-8')}
     stream=io.BytesIO()
     with zipfile.ZipFile(stream,'w',zipfile.ZIP_DEFLATED) as archive:
@@ -127,8 +135,8 @@ def main():
     for spec in AGENTS:
         raw=build_agent(spec);(destination/(spec['id']+'.zip')).write_bytes(raw)
         catalog.append({k:spec[k] for k in ('id','title','description','tags','industry','function','output_sections')} | {
-            'version':'0.1.0','providers':['OpenAI','Anthropic'],'download':'downloads/agents/'+spec['id']+'.zip',
-            'size_bytes':len(raw),'requirements':'Python 3.10+','mode':'Draft workflow','credentials':'Not needed for demo; provider key and model for live use'})
+            'version':'0.2.0' if spec.get('runtime')=='computer' else '0.1.0','providers':[] if spec.get('runtime')=='computer' else ['OpenAI','Anthropic'],'download':'downloads/agents/'+spec['id']+'.zip',
+            'size_bytes':len(raw),'requirements':'Python 3.10+','mode':'Browser / file workflow' if spec.get('runtime')=='computer' else 'Draft workflow','credentials':'Manual portal sign-in when configured' if spec.get('runtime')=='computer' else 'Not needed for demo; provider key and model for live use'})
     (ROOT/'web/agents.json').write_text(json.dumps(catalog,indent=2),encoding='utf-8')
     print('Built',len(catalog),'agent packs')
 

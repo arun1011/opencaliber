@@ -6,7 +6,7 @@ Deploy the authenticated Python service using the included ASGI entry point, run
 
 - Python on Amazon Linux 2023; use a current supported Python 3.12+ platform release supporting environment secrets (released March 26, 2025 or later).
 - Uvicorn `application:application`, port 8000, exactly one worker and one app instance. Do not use Gunicorn's default WSGI worker for this ASGI app.
-- Public home page, walkthrough, Agents Library, 64 starter ZIPs and the desktop console download.
+- Public home page, walkthrough, Agents Library, agent code packs and the desktop console download.
 - `/console` and evaluation APIs require HTTPS and shared-workspace authentication. Browser username is `admin`; password is the generated access token. API clients may use `Authorization: Bearer TOKEN`. Never include tokens in URLs.
 - This is one shared workspace, not user accounts or tenant isolation. Every authenticated operator can see the same runs and change settings. The existing downloaded desktop SDK remains loopback-only; use a separate authenticated HTTPS client for the hosted API.
 - The template provisions an HTTPS Application Load Balancer with an existing ACM certificate. HTTP listener is disabled. One instance subnet pins the data volume's AZ; the ALB needs two subnets in distinct AZs. The instance subnet must have outbound connectivity to download Python dependencies and reach AWS APIs.
@@ -25,7 +25,7 @@ python -m unittest tests.test_cloud_deployment -v
 
 Source bundle: `dist/opencaliber-elasticbeanstalk.zip`. `application.py`, `Procfile`, and `requirements.txt` are at ZIP root, not under a parent directory. The bundle contains the site/video, evaluator, library downloads, desktop-download source dependencies and deployment configuration. It excludes artifacts, SQLite databases, `.env` files, AWS credentials, model weights, training code, development tests and the sibling repository. Generated agent ZIPs contain only synthetic examples, `.env.example`, code, configuration and their own runnable tests.
 
-`requirements.txt` now contains only the hosted runtime dependencies. The earlier classifier dependencies are preserved in `requirements-training.txt`; Colab uses `requirements-colab.txt`. Downloaded console/agent packs still use Python's standard library.
+`requirements.txt` contains the hosted runtime dependencies. Downloaded console/agent packs use Python's standard library; browser workflows require their documented optional dependencies.
 
 ## AWS configuration
 
@@ -71,3 +71,9 @@ Hosted evaluations default to redacted evidence, unlike manual evaluations in th
 Check public home/library and a ZIP download; `/health/ready` should return 200. Confirm unauthenticated HTTPS `/api/state` returns 401, HTTP workspace requests refuse credentials, wrong Host/Origin returns 403, and authenticated sample evaluation saves a redacted run. Play and seek the walkthrough. Re-deploy the same source and verify saved history remains. Instance replacement and volume restore require an actual AWS rehearsal; offline tests do not establish those outcomes.
 
 References: [AWS Python Procfile](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/python-configuration-procfile.html), [environment secrets](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.secrets.env-vars.html), [platform hooks](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/platforms-linux-extend.hooks.html).
+
+## Internal company domains and tracking
+
+Set `OPENCALIBER_PUBLIC_ORIGIN` to the exact HTTPS origin used by developers, for example `https://agents.internal.example`. No public-domain suffix is hardcoded. Point company DNS at the hosted application, install a trusted TLS certificate, preserve the Host header, and configure forwarded protocol trust only for your reverse proxy. Open `/console`; browser authentication uses `admin` and the workspace token. Agents set `OPENCALIBER_ENDPOINT` to the same origin and `OPENCALIBER_TOKEN` privately. Do not send traces to the GitHub Pages website. Its console route provides setup instructions because Pages cannot execute Python.
+
+The console serves assets and APIs from the same origin, so CORS is unnecessary. Wrong origins remain rejected. Keep the default loopback launcher for one machine; use the hosted service for shared network access. See `automatic-tracking.md` for tracking IDs, per-agent policies, report-only/enforce modes and offline delivery.

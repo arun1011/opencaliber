@@ -30,7 +30,8 @@ class AgentLibraryTests(unittest.TestCase):
                 again=subprocess.run([sys.executable,'agent.py','--demo'],cwd=folder,env=env,capture_output=True,text=True)
                 self.assertNotEqual(again.returncode,0);self.assertIn('Output exists',again.stderr)
                 live=subprocess.run([sys.executable,'agent.py','--run','--overwrite'],cwd=folder,env=env,capture_output=True,text=True)
-                self.assertNotEqual(live.returncode,0);self.assertIn('OPENAI_API_KEY',live.stderr)
+                self.assertNotEqual(live.returncode,0)
+                self.assertIn('--approve-config' if spec.get('runtime')=='computer' else 'OPENAI_API_KEY',live.stderr)
                 tests=subprocess.run([sys.executable,'-m','unittest','discover','-s','tests','-q'],cwd=folder,env=env,capture_output=True,text=True)
                 self.assertEqual(tests.returncode,0,tests.stderr)
 

@@ -118,11 +118,27 @@ def create_app(settings=None):
         from .local_package import build_package
         return Response(build_package(),media_type='application/zip',headers={'Content-Disposition':'attachment; filename="opencaliber.zip"'})
 
+    @app.get('/api/downloads')
+    def download_report():
+        from .download_stats import report
+        return report(json.loads((store.ROOT/'web/agents.json').read_text(encoding='utf-8')))
+
     @app.get('/api/cases')
     def cases():return store.cases()
 
     @app.get('/api/integration-examples')
     def examples():return json.loads((store.ROOT/'examples/adoption/bundle.json').read_text(encoding='utf-8'))
+
+    @app.get('/api/tracking/agents')
+    def tracked_agents():
+        from .tracking_store import agents
+        return agents(store.connect,store.configuration(),store.cases()['cases'])
+
+    @app.get('/api/tracking/events/{run_id}')
+    def tracked_events(run_id:str):
+        from .tracking_store import events
+        try:return events(run_id,store.connect)
+        except ValueError:return JSONResponse({'error':'Invalid workflow ID'},400)
 
     @app.get('/api/state')
     def state():
@@ -133,7 +149,7 @@ def create_app(settings=None):
         for r in rows:
             trace,result=json.loads(r['trace']),json.loads(r['result'])
             identity={k:trace.get(k) for k in ('agent','workflow_id','context')}
-            runs.append({'id':r['id'],'created_at':r['created_at'],'name':r['name'],'status':r['status'],'note':r['note'],**identity,
+            runs.append({'id':r['id'],'created_at':r['created_at'],'name':r['name'],'status':r['status'],'note':r['note'],'tracking':result.get('tracking'),**identity,
                          **{k:result[k] for k in ('assessment','risk_score','action_count','finding_count')}})
             for action in result['actions']:
                 for finding in action['findings']:
@@ -157,6 +173,18 @@ def create_app(settings=None):
         try:
             body=json.loads(raw)
             if not isinstance(body,dict):raise ValueError('Expected a JSON object')
+            if operation=='tracking/events':
+                from .tracking_store import ingest
+                return ingest(body,store.connect,store.timestamp,store.configuration())
+            if operation=='tracking/policy':
+                from .tracking_store import save_policy
+                return save_policy(body,store.connect)
+            if operation in ('cases/custom','cases/preview'):
+                from .contract_cases import preview,save
+                if set(body)!={'case'}:raise ValueError('Provide a case object')
+                if operation.endswith('/preview'):return preview(body['case'],store.configuration())
+                builtin=json.loads((store.ROOT/'data/agent_cases.json').read_text(encoding='utf-8'))['cases']
+                return JSONResponse(save(body['case'],store.connect,{c['id'] for c in builtin},store.configuration(),store.timestamp),201)
             if operation=='normalize':
                 if set(body)!={'provider','response','context'} or not isinstance(body['context'],dict) or set(body['context'])-{'policy','agent','task','session_id','workflow_id'} or not {'policy','agent','task','session_id'}<=set(body['context']):raise ValueError('Invalid normalization request')
                 return {'trace':normalize_response(body['provider'],body['response'],**body['context'])}

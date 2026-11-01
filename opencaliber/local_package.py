@@ -8,7 +8,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 
 def build_package():
-    files=['opencaliber/tool_policies.py','docs/tool-policies.md','examples/tool-policy-config.json','LICENSE','NOTICE','LICENSING.md','opencaliber/__init__.py','opencaliber/agent_engine.py','opencaliber/agent_server.py','opencaliber/agent_cli.py','opencaliber/adapters.py','opencaliber/sdk.py','opencaliber/privacy.py','opencaliber/regression.py',
+    files=['docs/sequence-rules.md','docs/elastic-beanstalk.md','examples/controlled_workflow/agent.py','examples/controlled_workflow/policy.json','examples/controlled_workflow/README.md','web/developer-guide.js','opencaliber/policy_readiness.py','web/policy-guidance.js','docs/download-counts.md','opencaliber/download_ledger.py','opencaliber/download_stats.py','opencaliber/contract_cases.py','web/developer-tools.js','web/monitoring.js','opencaliber/tracking.py','opencaliber/tracking_store.py','docs/automatic-tracking.md','opencaliber/tool_policies.py','docs/tool-policies.md','examples/tool-policy-config.json','LICENSE','NOTICE','LICENSING.md','opencaliber/__init__.py','opencaliber/agent_engine.py','opencaliber/agent_server.py','opencaliber/agent_cli.py','opencaliber/adapters.py','opencaliber/sdk.py','opencaliber/privacy.py','opencaliber/regression.py',
            'data/agent_cases.json','web/console.html','web/console.js','web/agents.html','web/agents.js','web/agents.json','web/integration.js','web/styles.css','web/assets/favicon.svg','web/assets/logo.svg',
            'examples/sequence_config.json','examples/sequence_trace.json','examples/sequence_failed_trace.json','docs/sequence-rules.md','examples/agent_trace.json','examples/integrate_agent.py','ADOPTION.md','sdk/typescript/opencaliber.mjs','sdk/typescript/opencaliber.d.mts','examples/adoption/bundle.json','examples/adoption/context.json','examples/adoption/provider_demo.py','examples/adoption/provider_demo.mjs','examples/adoption/live_response.py','examples/adoption/live_agent.py','examples/adoption/regression-suite.json']
     files+=['opencaliber/profiles.py', 'opencaliber/execution.py', 'opencaliber/coverage.py', 'opencaliber/ingestion.py', 'opencaliber/ci.py', 'opencaliber/enterprise_cli.py', 'opencaliber/adoption_api.py', 'web/adoption.js', 'docs/enterprise-adoption.md', 'profiles/backup-before-delete.json', 'profiles/read-only-analytics.json', 'profiles/sensitive-data-transfer.json', 'examples/enterprise/ci-suite.json', 'examples/enterprise/databricks-context.json', 'examples/enterprise/databricks-rows.json', 'examples/enterprise/guarded_execution.py', 'examples/enterprise/mcp-context.json', 'examples/enterprise/mcp-events.json']
@@ -18,16 +18,20 @@ def build_package():
     for entry in catalog:
         if re.fullmatch('[a-z0-9-]+',entry['id']) is None:raise ValueError('Invalid catalog ID')
         files.append('web/downloads/agents/'+entry['id']+'.zip')
+    files += ['web/assets/guide/'+name+'.png' for name in ('policy','coverage','cases','findings')]
+    files=list(dict.fromkeys(files))
     stream=io.BytesIO()
     with zipfile.ZipFile(stream,'w',zipfile.ZIP_DEFLATED) as archive:
         for name in files:
             path=(ROOT/name).resolve()
             if not path.is_relative_to(ROOT.resolve()) or not path.is_file():raise ValueError('Required package file is missing: '+name)
-            if path.suffix=='.zip':
+            if path.suffix in ('.zip','.png'):
                 archive.write(path,name);continue
             text=path.read_text(encoding='utf-8')
             if name in ('web/console.html','web/agents.html'):
                 text=text.replace('href="/"','href="/console#docs"').replace('About OpenCaliber','Developer guide')
+            elif name=='web/developer-guide.js':
+                text=text.replace('<a class="btn" href="/#walkthrough">Watch the walkthrough</a>','')
             elif name=='web/console.js':
                 text=re.sub(r'<a class="btn primary" href="/#walkthrough">.*?</a>','',text)
                 text=text.replace('python -m unittest discover -s tests -v','')

@@ -16,7 +16,13 @@ Open http://127.0.0.1:8787/console . The home page is http://127.0.0.1:8787/ . S
 
 ## Narrated user walkthrough
 
-The home page includes a twelve-chapter narrated walkthrough covering setup, policy configuration, provider integrations, sequence checks, coverage, enforcement and interpreting findings. English captions are included. The runtime download focuses on the console and evaluation examples.
+The home page includes a ten-chapter narrated walkthrough covering setup, automatic tracking, per-agent policies, findings and internal HTTPS hosting. English captions are included. The runtime download focuses on the console and evaluation examples.
+
+## Automatic monitoring
+
+Start the console, then run a library agent or add `TrackedExecutor` wrappers to your own Python tool operations. Agents register a tracking ID and send action metadata to your console. Use **Monitored agents**, **Rules & policies**, **Activity** and **Problems** for everyday work. New agents start in report-only mode; enforcement is an explicit per-agent setting. Direct `evaluate_trace` calls remain offline and do not automatically save dashboard history.
+
+See [Automatic tracking and internal-domain setup](docs/automatic-tracking.md). GitHub Pages hosts the public website and packages; deploy the authenticated Python service for a shared internal console.
 
 ## Integrate with an agent
 

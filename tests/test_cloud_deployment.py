@@ -1,3 +1,4 @@
+from tools.build_agent_library import AGENTS
 import base64
 import io
 import json
@@ -24,6 +25,37 @@ class CloudTests(unittest.TestCase):
 
     def tearDown(self):
         self.client.__exit__(None,None,None);self.temp.cleanup()
+
+    def test_download_report_requires_workspace_auth(self):
+        from unittest.mock import patch
+        self.assertEqual(self.client.get('/api/downloads').status_code,401)
+        with patch('opencaliber.download_stats.report',return_value={'status':'setup_required','total_downloads':None}):
+            self.assertEqual(self.client.get('/api/downloads',headers=self.headers).json()['status'],'setup_required')
+
+    def test_custom_contract_case_api(self):
+        case={'id':'WORKSPACE-001','name':'Ticket read','trace':{'task':{'goal':'Read ticket','allowed_tools':['database.read']},'actions':[{'id':'r1','tool':'database.read','resource':'tickets','arguments':{'records':1}}]},'expected':{'assessment':'clear','required_codes':[]},'config_patch':{}}
+        body={'case':case}
+        self.assertEqual(self.client.post('/api/cases/custom',json=body).status_code,401)
+        self.assertEqual(self.client.post('/api/cases/preview',json=body,headers=self.headers).status_code,200)
+        self.assertEqual(len(self.client.get('/api/cases',headers=self.headers).json()['cases']),70)
+        response=self.client.post('/api/cases/custom',json=body,headers=self.headers)
+        self.assertEqual(response.status_code,201)
+        self.assertEqual(len(self.client.get('/api/cases',headers=self.headers).json()['cases']),71)
+        self.assertEqual(self.client.post('/api/cases/custom',json=body,headers=self.headers).status_code,400)
+        result=self.client.post('/api/benchmark',json={'case_ids':['WORKSPACE-001']},headers=self.headers)
+        self.assertEqual(result.json()['passed'],1)
+        case['trace']={}
+        self.assertEqual(self.client.post('/api/cases/custom',json=body,headers=self.headers).status_code,400)
+
+    def test_internal_domain_console_and_tracking(self):
+        # A company DNS suffix is valid; only the configured origin is trusted.
+        with TestClient(create_app(Settings('https://agents.corp.internal',TOKEN,Path(self.temp.name).resolve(),False)),base_url='https://agents.corp.internal') as client:
+            self.assertEqual(client.get('/console').status_code,401)
+            for path in ('/console','/api/state','/api/tracking/agents'):
+                self.assertEqual(client.get(path,headers=self.headers).status_code,200)
+            self.assertEqual(client.get('/api/state',headers={**self.headers,'Origin':'https://agents.corp.internal'}).status_code,200)
+            self.assertEqual(client.get('/api/state',headers={**self.headers,'Host':'other.corp.internal'}).status_code,403)
+            self.assertEqual(client.get('/api/state',headers={**self.headers,'Origin':'https://other.corp.internal'}).status_code,403)
 
     def test_adoption_routes_require_auth_and_normalize(self):
         self.assertEqual(self.client.get('/api/adoption/profiles').status_code,401)
@@ -58,7 +90,7 @@ class CloudTests(unittest.TestCase):
     def test_public_site_and_library_without_auth(self):
         for path in ('/','/index.html','/agents.html','/assets/logo.svg','/agents.json','/health/live','/health/ready'):
             with self.subTest(path=path):self.assertEqual(self.client.get(path).status_code,200)
-        entries=self.client.get('/agents.json').json();self.assertEqual(len(entries),64)
+        entries=self.client.get('/agents.json').json();self.assertEqual(len(entries),len(AGENTS))
         response=self.client.get('/'+entries[-1]['download']);self.assertEqual(response.status_code,200)
         with zipfile.ZipFile(io.BytesIO(response.content)) as archive:self.assertIsNone(archive.testzip())
 
@@ -127,7 +159,7 @@ class BundleTests(unittest.TestCase):
                 names=archive.namelist();self.assertIsNone(archive.testzip())
                 for name in ('application.py','Procfile','requirements.txt','deploy/bootstrap.py','.ebextensions/01_runtime.config','web/index.html'):
                     self.assertIn(name,names)
-                self.assertEqual(len([n for n in names if n.startswith('web/downloads/agents/')]),64)
+                self.assertEqual(len([n for n in names if n.startswith('web/downloads/agents/')]),len(AGENTS))
                 self.assertFalse(any(n.startswith(('artifacts/','notebooks/','tests/')) or n.endswith(('.sqlite3','.env','.safetensors')) for n in names))
                 self.assertNotIn('torch',archive.read('requirements.txt').decode())
 

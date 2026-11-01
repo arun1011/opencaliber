@@ -119,7 +119,7 @@ Engine 0.5 adds exact-value allowlists, POSIX directory boundaries, exact URL ho
 
 See [examples/database_summary](examples/database_summary/README.md) for a runnable SQLite-to-mock-LLM workflow with OpenCaliber checks before each callback, policy JSON, five scenarios and tests. It demonstrates blocked transfers and operational failures without credentials or network calls.
 
-## Creator & Open Source Lead
+## Creator & Research Lead
 
 **[Arun Kumar](https://www.linkedin.com/in/arunkumar1011/)**\
 *Causal Inference & AI Research*

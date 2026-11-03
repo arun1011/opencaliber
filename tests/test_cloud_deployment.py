@@ -16,6 +16,74 @@ TOKEN='development-test-token-'+'x'*32
 
 
 class CloudTests(unittest.TestCase):
+    def test_trajectory_authenticated_roundtrip(self):
+        from opencaliber.trajectory import Trajectory
+        events=[]
+        graph=Trajectory('cloud-graph',sender=lambda body:events.append(json.loads(json.dumps(body))))
+        with graph.span('Lookup','reader'):pass
+        self.assertEqual(self.client.post('/api/trajectories/spans',json=events[0]).status_code,401)
+        for event in events:
+            self.assertEqual(self.client.post('/api/trajectories/spans',json=event,headers=self.headers).status_code,200)
+        response=self.client.get('/api/trajectories/cloud-graph',headers=self.headers)
+        self.assertEqual(response.status_code,200)
+        self.assertEqual(response.json()['nodes'][0]['status'],'succeeded')
+        self.assertEqual(len(self.client.get('/api/trajectories',headers=self.headers).json()),1)
+
+    def test_diagnosis_authenticated_and_ephemeral(self):
+        from opencaliber.diagnosis import example
+        body={'bundle':example(),'use_semantic':False}
+        self.assertEqual(self.client.post('/api/diagnosis',json=body).status_code,401)
+        response=self.client.post('/api/diagnosis',json=body,headers=self.headers)
+        self.assertEqual(response.status_code,200)
+        self.assertEqual(response.json()['policy_assessment'],'clear')
+        self.assertEqual(response.json()['assessment'],'failure_detected')
+        self.assertEqual(self.client.get('/api/state',headers=self.headers).json()['runs'],[])
+        body['use_semantic']='yes'
+        self.assertEqual(self.client.post('/api/diagnosis',json=body,headers=self.headers).status_code,400)
+
+    def test_connected_diagnosis_api(self):
+        from opencaliber.tracking import TrackingClient,TrackedExecutor
+        def send(raw):
+            response=self.client.post('/api/tracking/events',content=raw,headers={**self.headers,'Content-Type':'application/json'})
+            self.assertEqual(response.status_code,200)
+            return response.json()
+        tracker=TrackingClient(sender=send,spool_dir=Path(self.temp.name)/'spool',enabled=True)
+        with TrackedExecutor(agent={'id':'connected-test','version':'1'},task={'goal':'Read tickets','allowed_tools':['database.read'],'allowed_resources':['tickets']},tracker=tracker,diagnosis=True,capture_output=lambda a,v:{'count':len(v)}) as agent:
+            agent.run({'id':'read','tool':'database.read','resource':'tickets','arguments':{'records':1}},lambda:[1],success=lambda value:True)
+        rows=self.client.get('/api/diagnosis/runs',headers=self.headers).json()
+        self.assertEqual(rows[0]['captured_outputs'],1)
+        body={'run_id':rows[0]['id'],'use_semantic':False}
+        self.assertEqual(self.client.post('/api/diagnosis/run',json=body).status_code,401)
+        response=self.client.post('/api/diagnosis/run',json=body,headers=self.headers)
+        self.assertEqual(response.status_code,200)
+        self.assertTrue(response.json()['context_available'])
+
+    def test_connected_platform_endpoints(self):
+        self.assertEqual(self.client.get('/api/platform/dashboard').status_code,401)
+        response=self.client.get('/api/platform/dashboard',headers=self.headers)
+        self.assertEqual(response.status_code,200)
+        self.assertIn('supported_tools',response.json())
+        config=response.json()['config']
+        response=self.client.post('/api/platform/settings',json={'config':config,'mode':'enforce','replace_overrides':False},headers=self.headers)
+        self.assertEqual(response.status_code,200)
+        self.assertEqual(self.client.get('/api/platform/dashboard',headers=self.headers).json()['settings']['mode'],'enforce')
+        self.assertEqual(self.client.post('/api/platform/compare',json={'baseline':'same','candidate':'same'},headers=self.headers).status_code,400)
+
+    def test_detector_api_is_authenticated_and_requires_tests(self):
+        from tests.test_custom_checks import example
+        self.assertEqual(self.client.get('/api/checks').status_code,401)
+        self.assertEqual(self.client.get('/api/check-model').status_code,401)
+        self.assertEqual(self.client.post('/api/checks/save',json={'spec':example(),'revision':0}).status_code,401)
+        r=self.client.post('/api/checks/save',json={'spec':example(),'revision':0},headers=self.headers)
+        self.assertEqual(r.status_code,200)
+        body={'id':'budget','revision':1,'operation':'enable'}
+        self.assertEqual(self.client.post('/api/checks/manage',json=body,headers=self.headers).status_code,400)
+        r=self.client.post('/api/checks/manage',json={**body,'operation':'test'},headers=self.headers)
+        self.assertTrue(r.json()['report']['passed'])
+        self.assertEqual(self.client.post('/api/checks/manage',json=body,headers=self.headers).status_code,200)
+        self.assertTrue(self.client.get('/api/checks',headers=self.headers).json()[0]['enabled'])
+        self.assertNotIn('secret',self.client.get('/api/check-model',headers=self.headers).json())
+
     def setUp(self):
         self.temp=tempfile.TemporaryDirectory(dir=Path(__file__).parent)
         self.settings=Settings('https://opencaliber.test',TOKEN,Path(self.temp.name).resolve(),False)
@@ -25,6 +93,20 @@ class CloudTests(unittest.TestCase):
 
     def tearDown(self):
         self.client.__exit__(None,None,None);self.temp.cleanup()
+
+    def test_version_comparison_is_private_and_review_only(self):
+        self.assertEqual(self.client.get('/api/comparisons/example').status_code,401)
+        self.assertEqual(self.client.post('/api/comparisons',json={}).status_code,401)
+        cfg=self.client.get('/api/state',headers=self.headers).json()['config']
+        bundle=self.client.get('/api/comparisons/example',headers=self.headers).json()
+        result=self.client.post('/api/comparisons',json={'comparison':bundle},headers=self.headers)
+        self.assertEqual(result.status_code,201)
+        saved=result.json();self.assertEqual(saved['report']['candidate']['task_successes'],3)
+        self.assertEqual(self.client.get('/api/comparisons/'+saved['id'],headers=self.headers).status_code,200)
+        self.assertEqual(len(self.client.get('/api/comparisons',headers=self.headers).json()),1)
+        self.assertEqual(self.client.get('/api/state',headers=self.headers).json()['config'],cfg)
+        self.assertTrue(all(p['review_required'] and not p['applied'] for p in saved['report']['proposals']))
+        self.assertEqual(self.client.post('/api/comparisons/apply',json={},headers=self.headers).status_code,404)
 
     def test_download_report_requires_workspace_auth(self):
         from unittest.mock import patch

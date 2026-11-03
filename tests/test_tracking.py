@@ -75,3 +75,14 @@ class TrackingFlowTests(unittest.TestCase):
         self.assertEqual(called,[])
 
 if __name__=='__main__':unittest.main()
+
+class TrackingErrorMessages(unittest.TestCase):
+    def test_schema_rejection_explains_restart(self):
+        import urllib.error
+        message=TrackingClient.connection_error(urllib.error.HTTPError('http://localhost',400,'bad',{},None))
+        self.assertIn('Restart the console',message)
+    def test_authorization_is_distinct(self):
+        import urllib.error
+        self.assertIn('authentication',TrackingClient.connection_error(urllib.error.HTTPError('http://localhost',401,'bad',{},None)))
+    def test_unreachable_is_distinct(self):
+        self.assertIn('unreachable',TrackingClient.connection_error(TimeoutError()))

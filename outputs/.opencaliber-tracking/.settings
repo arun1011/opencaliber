@@ -1,1 +1,1 @@
-{"endpoint": "http://127.0.0.1:8788", "mode": "enforce"}
+{"endpoint": "http://127.0.0.1:8891", "mode": "observe"}

@@ -16,7 +16,7 @@ Open http://127.0.0.1:8787/console . The home page is http://127.0.0.1:8787/ . S
 
 ## Narrated user walkthrough
 
-The home page includes a ten-chapter narrated walkthrough covering setup, automatic tracking, per-agent policies, findings and internal HTTPS hosting. English captions are included. The runtime download focuses on the console and evaluation examples.
+The home page includes a nine-chapter narrated walkthrough covering setup, automatic tracking, per-agent policies, findings and internal HTTPS hosting. English captions are included. The runtime download focuses on the console and evaluation examples.
 
 ## Automatic monitoring
 
@@ -94,3 +94,7 @@ Use the console Connect agents page for completed OpenAI Responses, OpenAI Chat 
 ## Sequence rules
 
 In Configuration, use the backup-before-delete sample or enter a sequence_rules JSON array. See docs/sequence-rules.md and examples/sequence_config.json. Instrument outcomes in your executor; model responses alone do not prove tool success. These checks evaluate only the supplied ordered trace and do not execute or block actions.
+
+## Tool-step checks
+
+The console separates task outcome, policy findings and tool-step evidence. Use examples/step_checks/agent.py for a real synthetic lookup-and-write workflow with rejection and recovery. Explicit contracts and extractors check typed returned values and state; missing evidence stays unknown. Compare agent versions uses connected tracked runs with shared case and input metadata. See docs/step-reliability.md and Developer Guide.

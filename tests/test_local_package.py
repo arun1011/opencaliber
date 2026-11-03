@@ -63,6 +63,15 @@ base='http://127.0.0.1:'+str(http.server_address[1])
 try:
     with urllib.request.urlopen(base+'/') as r:
         html=r.read().decode();assert 'id="app"' in html and 'index.html' not in html
+    with urllib.request.urlopen(base+'/api/platform/dashboard') as r:assert 'agents' in json.load(r)
+    with urllib.request.urlopen(base+'/api/checks') as r:assert json.load(r)==[]
+    with urllib.request.urlopen(base+'/api/check-model') as r:assert json.load(r)['config']['enabled'] is False
+    with urllib.request.urlopen(base+'/api/comparisons/example') as r:bundle=json.load(r)
+    comparison=urllib.request.Request(base+'/api/comparisons',data=json.dumps({'comparison':bundle}).encode(),headers={'Content-Type':'application/json'})
+    with urllib.request.urlopen(comparison) as r:
+        assert r.status==201
+        saved=json.load(r);assert saved['report']['candidate']['task_successes']==3
+    with urllib.request.urlopen(base+'/api/comparisons/'+saved['id']) as r:assert json.load(r)['report']['agent_id']=='report-agent-demo'
     data=json.dumps({'trace':s.cases()['cases'][0]['trace']}).encode()
     req=urllib.request.Request(base+'/api/evaluate',data=data,headers={'Content-Type':'application/json'})
     with urllib.request.urlopen(req) as r:assert r.status==201 and 'assessment' in json.load(r)['result']

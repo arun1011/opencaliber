@@ -103,3 +103,46 @@ input::placeholder,textarea::placeholder{color:#62625b;opacity:1}
 .tool-help{padding:14px 18px;margin-bottom:22px;background:#f3f3ef;border:1px solid var(--line);border-radius:8px}.tool-help summary{cursor:pointer;font-weight:600}.tool-help p{line-height:1.7;max-width:950px}.tool-help summary:focus-visible{outline:2px solid #444;outline-offset:4px}
 
 .coverage-table{overflow-x:auto}.coverage-table td{vertical-align:top;min-width:150px;white-space:normal}.guide-nav{margin-top:8px}.guide-content pre{overflow:auto;max-height:620px}.guide-content figure{margin:20px 0}.guide-content figure img{width:100%;height:auto;border:1px solid var(--line);border-radius:8px}.guide-content figcaption{font-size:14px;margin-top:8px;color:#505050}.guide-toc{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+
+.drawer .coverage-table td { min-width: 0; overflow-wrap: anywhere; }
+.drawer .coverage-table th { white-space: normal; }
+
+/* Overview sections use one consistent vertical rhythm. */
+.overview-layout{display:grid;gap:24px;min-width:0}
+.overview-layout> *{min-width:0;margin-top:0;margin-bottom:0}
+.overview-layout>.onboarding{padding:0;gap:12px}
+.overview-layout .onboarding .step-mini{min-width:180px}
+@media(max-width:720px){.overview-layout{gap:16px}.overview-layout .onboarding .step-mini{min-width:140px;padding:16px}}
+
+.connected-agent{margin:20px 0}.connected-agent details{margin-top:16px}.table-scroll{overflow:auto;max-width:100%}.table-scroll table{width:100%}#connected-dashboard,#connected-comparison{min-width:0}#platform-policy-form>.btn{margin-top:16px}
+
+/* Guided detector development */
+#detector-wizard{margin-top:24px;padding:24px;border:1px solid #ccc;border-radius:12px;background:#fafafa} .wizard-progress{display:flex;gap:28px;flex-wrap:wrap;padding-left:20px}.wizard-progress [aria-current]{font-weight:700;text-decoration:underline}.wizard-navigation{margin-top:20px}.code-input{font-family:Consolas,monospace!important;line-height:1.6;min-width:0;width:100%}#platform-gaps li{margin-bottom:14px}#check-development [hidden]{display:none!important}
+
+/* Markdown screenshots can be direct paragraph children as well as figures. */
+.guide-content{min-width:0;max-width:100%;overflow-wrap:anywhere}
+.guide-content img{display:block;width:100%;max-width:100%;height:auto;border:1px solid var(--line);border-radius:8px}
+.guide-content p,.guide-content figure{min-width:0;max-width:100%}
+.guide-content pre{min-width:0;max-width:100%;overflow-x:auto;overflow-wrap:normal}
+
+.agents-table{width:100%;table-layout:fixed;min-width:900px}.agents-table th,.agents-table td{vertical-align:top;white-space:normal;overflow-wrap:anywhere}.agents-table th:first-child{width:18%}.agents-table th:nth-child(2){width:17%}.agents-table th:nth-child(3){width:13%}.agents-table th:nth-child(4){width:10%}.agents-table th:nth-child(5){width:13%}.agents-table th:last-child{width:29%}.agent-row-actions{display:flex;flex-wrap:wrap;gap:6px}.agent-row-actions .btn{padding:7px 10px}.agents-table [data-agent-detail]>td{background:#fafafa;padding:20px}.agents-table [hidden]{display:none!important}.agent-table-scroll{max-width:100%;min-width:0}
+
+.dashboard-back{margin-bottom:18px}
+
+/* Separate recorded evidence navigation from evaluation operations. */
+.agents-table th:first-child{width:16%}.agents-table th:nth-child(2){width:15%}.agents-table th:nth-child(3){width:12%}.agents-table th:nth-child(4){width:10%}.agents-table th:nth-child(5){width:12%}.agents-table th:nth-child(6){width:24%}.agents-table th:nth-child(7){width:11%}
+
+.agent-search-bar{display:flex;gap:12px;align-items:flex-end;margin-bottom:20px}.agent-search-bar .field{flex:1;margin:0}.agent-search-bar .btn{flex-shrink:0;margin-bottom:0}@media(max-width:600px){.agent-search-bar{align-items:stretch;flex-direction:column}.agent-search-bar .btn{align-self:flex-start}}
+
+.agent-search-bar .agent-status-filter{flex:0 1 240px}.agent-status-filter select{width:100%}@media(max-width:600px){.agent-search-bar .agent-status-filter{flex:auto}}
+
+.agents-table th:first-child{width:14%}.agents-table th:nth-child(2){width:14%}.agents-table th:nth-child(3){width:11%}.agents-table th:nth-child(4){width:10%}.agents-table th:nth-child(5){width:11%}.agents-table th:nth-child(6){width:14%}.agents-table th:nth-child(7){width:16%}.agents-table th:nth-child(8){width:10%}
+
+/* Keep control labels intact; scroll the table on narrow screens. */
+.agents-table{table-layout:auto;min-width:1180px}
+.agents-table th{width:auto!important;white-space:nowrap}
+.agents-table th:nth-child(6){min-width:130px}
+.agents-table th:nth-child(7){min-width:210px}
+.agents-table th:nth-child(8){min-width:150px}
+.agents-table .agent-row-actions .btn{white-space:nowrap;overflow-wrap:normal;word-break:normal;flex:0 0 auto}
+.agents-table td:nth-child(7) .agent-row-actions{flex-direction:column;align-items:flex-start}

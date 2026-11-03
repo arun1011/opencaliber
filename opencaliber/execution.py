@@ -4,6 +4,9 @@ from .agent_engine import evaluate_trace,validate_config,DEFAULT_CONFIG,validate
 
 class ActionBlocked(RuntimeError):pass
 class EvaluationFailed(RuntimeError):pass
+class ExecutionEvidenceFailed(RuntimeError):
+    """Callback ran, but post-execution evidence failed or remained unknown."""
+    tool_may_have_run=True
 
 class GuardedExecutor:
     """One synchronous workflow; no concurrent dispatch, automatic retries or rollback."""

@@ -8,7 +8,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 
 def build_package():
-    files=['docs/sequence-rules.md','docs/elastic-beanstalk.md','examples/controlled_workflow/agent.py','examples/controlled_workflow/policy.json','examples/controlled_workflow/README.md','web/developer-guide.js','opencaliber/policy_readiness.py','web/policy-guidance.js','docs/download-counts.md','opencaliber/download_ledger.py','opencaliber/download_stats.py','opencaliber/contract_cases.py','web/developer-tools.js','web/monitoring.js','opencaliber/tracking.py','opencaliber/tracking_store.py','docs/automatic-tracking.md','opencaliber/tool_policies.py','docs/tool-policies.md','examples/tool-policy-config.json','LICENSE','NOTICE','LICENSING.md','opencaliber/__init__.py','opencaliber/agent_engine.py','opencaliber/agent_server.py','opencaliber/agent_cli.py','opencaliber/adapters.py','opencaliber/sdk.py','opencaliber/privacy.py','opencaliber/regression.py',
+    files=['docs/library-integration.md','opencaliber/library_runtime.py','docs/console-guide.md','opencaliber/custom_checks.py','opencaliber/check_models.py','opencaliber/check_model_worker.py','opencaliber/check_api.py','opencaliber/check_gaps.py','web/check-wizard.js','docs/custom-checks.md','requirements-models.txt','opencaliber/connected_platform.py','opencaliber/run_metrics.py','web/connected-console.js','docs/connected-console.md','examples/connected_versions/run.py','opencaliber/connected_diagnosis.py','opencaliber/diagnosis.py','web/diagnosis.js','docs/context-diagnosis.md','examples/context_diagnosis/run.py','opencaliber/trajectory.py','web/trajectories.js','docs/trajectories.md','examples/multi_agent/run.py','opencaliber/executability.py','web/reliability.js','docs/step-reliability.md','examples/step_checks/agent.py','examples/step_checks/README.md','opencaliber/comparison.py','opencaliber/comparison_demo.py','opencaliber/comparison_store.py','web/comparison.js','docs/version-comparison.md','examples/version_comparison/run.py','examples/version_comparison/README.md','docs/sequence-rules.md','docs/elastic-beanstalk.md','examples/controlled_workflow/agent.py','examples/controlled_workflow/policy.json','examples/controlled_workflow/README.md','web/developer-guide.js','opencaliber/policy_readiness.py','web/policy-guidance.js','docs/download-counts.md','opencaliber/download_ledger.py','opencaliber/download_stats.py','opencaliber/contract_cases.py','web/developer-tools.js','web/monitoring.js','opencaliber/tracking.py','opencaliber/tracking_store.py','docs/automatic-tracking.md','opencaliber/tool_policies.py','docs/tool-policies.md','examples/tool-policy-config.json','LICENSE','NOTICE','LICENSING.md','opencaliber/__init__.py','opencaliber/agent_engine.py','opencaliber/agent_server.py','opencaliber/agent_cli.py','opencaliber/adapters.py','opencaliber/sdk.py','opencaliber/privacy.py','opencaliber/regression.py',
            'data/agent_cases.json','web/console.html','web/console.js','web/agents.html','web/agents.js','web/agents.json','web/integration.js','web/styles.css','web/assets/favicon.svg','web/assets/logo.svg',
            'examples/sequence_config.json','examples/sequence_trace.json','examples/sequence_failed_trace.json','docs/sequence-rules.md','examples/agent_trace.json','examples/integrate_agent.py','ADOPTION.md','sdk/typescript/opencaliber.mjs','sdk/typescript/opencaliber.d.mts','examples/adoption/bundle.json','examples/adoption/context.json','examples/adoption/provider_demo.py','examples/adoption/provider_demo.mjs','examples/adoption/live_response.py','examples/adoption/live_agent.py','examples/adoption/regression-suite.json']
     files+=['opencaliber/profiles.py', 'opencaliber/execution.py', 'opencaliber/coverage.py', 'opencaliber/ingestion.py', 'opencaliber/ci.py', 'opencaliber/enterprise_cli.py', 'opencaliber/adoption_api.py', 'web/adoption.js', 'docs/enterprise-adoption.md', 'profiles/backup-before-delete.json', 'profiles/read-only-analytics.json', 'profiles/sensitive-data-transfer.json', 'examples/enterprise/ci-suite.json', 'examples/enterprise/databricks-context.json', 'examples/enterprise/databricks-rows.json', 'examples/enterprise/guarded_execution.py', 'examples/enterprise/mcp-context.json', 'examples/enterprise/mcp-events.json']
@@ -18,7 +18,7 @@ def build_package():
     for entry in catalog:
         if re.fullmatch('[a-z0-9-]+',entry['id']) is None:raise ValueError('Invalid catalog ID')
         files.append('web/downloads/agents/'+entry['id']+'.zip')
-    files += ['web/assets/guide/'+name+'.png' for name in ('policy','coverage','cases','findings')]
+    files += ['web/assets/guide/'+name+'.png' for name in ('policy','coverage','cases','findings','steps','compare','agents','graphs','checks','connect','models','docs')]
     files=list(dict.fromkeys(files))
     stream=io.BytesIO()
     with zipfile.ZipFile(stream,'w',zipfile.ZIP_DEFLATED) as archive:
@@ -37,7 +37,10 @@ def build_package():
                 text=text.replace('python -m unittest discover -s tests -v','')
             elif name=='opencaliber/agent_server.py':
                 start=text.index("        if path=='/media/opencaliber-walkthrough.mp4':")
-                end=text.index("        if path=='/api/cases':",start)
+                end=text.index("        if path=='/api/package':",start)
+                text=text[:start]+text[end:]
+                start=text.index("        if path=='/api/package':")
+                end=text.index("        if path=='/api/checks':",start)
                 text=text[:start]+text[end:]
             archive.writestr(name,text)
         docs=(ROOT/'LOCAL_TOOL.md').read_text(encoding='utf-8')

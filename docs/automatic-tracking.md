@@ -3,10 +3,9 @@
 ## Daily workflow
 1. Extract the console ZIP. Install Python 3.10+ and run `python run.py` (macOS/Linux: `python3 run.py`). Keep it running and open http://127.0.0.1:8787/console.
 2. Run a downloaded library agent with `python agent.py --demo`, or wrap your project operations with `TrackedExecutor`. The agent registers its tracking ID on its first event.
-3. Open **Monitored agents**. Select **Edit policy** to set rules for that agent, or **Rules & policies** for the shared default.
+3. Open **Agents Dashboard** to inspect the run. Use **Advanced settings** to review shared policy defaults and existing overrides.
 4. Open **Activity** and **Problems**. Select a workflow to inspect action IDs, triggered rules, evidence and suggested changes. Fix the application or policy and run again.
 
-**Trace actions** lists tool names from example traces and lets you create/test JSON traces. It does not install or execute tools. Advanced provider imports, contract tests and detailed API documentation are under **Developer tools**.
 
 ## Add to a Python agent
 Copy the `opencaliber` module from a downloaded agent pack into your project. No published pip package is assumed.
@@ -60,26 +59,10 @@ Online evaluation receives declared tool metadata: IDs, resource paths/URLs, sel
 
 If the console reports a missing endpoint, stop the old server, launch `python run.py` from the updated package and refresh. If an agent does not appear, check endpoint reachability, TLS certificate trust, token, tracking ID and that operations use `TrackedExecutor`. Report-only queues are under `outputs/.opencaliber-tracking`; flush with `python -m opencaliber.tracking flush --spool outputs/.opencaliber-tracking`. Rule scores are severity, not calibrated probabilities. Clear is not a security guarantee.
 
-## Add workspace contract cases
+## Regression tests and custom capabilities
 
-Open **Developer tools → Add contract cases**. Enter a unique case ID and name, choose an example or paste a synthetic trace, and set the expected assessment and required finding codes. Optional configuration overrides replace selected fields of the current default policy. Use a full policy snapshot when you need a reproducible test independent of future defaults. Preview before saving. A mismatch may be saved deliberately to document a failing regression test. Preview does not persist an evaluation or case.
+Open **Regression tests** to select a captured run, set expected policy assessment/codes, preview, save and run tests. No uploads are needed. Open **Detection capabilities** for missing-check guidance, the detector wizard and optional coding models. Custom detector tests are separate from saved-run policy tests.
 
-Saved cases appear alongside the 70 included cases in **Run contract tests**. The suite checks the expected assessment and that required codes are present; additional finding codes are allowed. Cases are rule regression tests, not a security certification. Up to 500 workspace cases are stored in the console SQLite database, preserved across restarts and excluded from release ZIPs. Traces and policy overrides are stored as entered; use synthetic values, never credentials. Export workspace cases as JSON for version control or review. Adding cases does not change the shipped fixture file or your agent's rules. The current editor adds cases; replacing or deleting an existing case is not supported.
+Use **Advanced settings** for shared policy boundaries and mode. A tracking ID selects the existing override or workspace default; overrides are complete policies rather than incremental overlays. Changes affect subsequent online events. Scope and coverage gaps appear in Agents Dashboard and Detection capabilities.
 
-Actionable developer tools have expandable purpose, when-to-use and how-to-use help and a sidebar tooltip. Developer Guide has its own chapter navigation instead.
-
-## Automatic policy assignment and scope review
-
-**Configure agent checks** replaces the earlier Rules & policies label. The wrapper's tracking ID selects an individual policy or the workspace default. An individual policy is complete and replaces the default; it is not an incremental overlay. A different agent ID cannot reuse that tracking ID. The environment variable OPENCALIBER_TRACKING_ID takes precedence over an explicit tracking_id parameter, then the agent ID is the fallback.
-
-The response includes a policy assignment with source, mode and config fingerprint. Inspect `executor.policy_status` after initialization or an operation. The console compares the current configuration and mode with the last recorded online contact. Saving does not push into a running callback; the next online action uses the saved policy. Current-scope metadata is taken only from accepted online events, not minimized offline replays.
-
-The selected-agent coverage view lists declared tools, observed/proposed tools, applicable checks, missing metadata, unsupported semantics and agent-tagged workspace cases. Resource values and argument values are not copied into the scope summary. It flags tools not exercised in the latest workflow. Matching cases are identified by trace.agent.id and tool; their presence is not a passing result or a completeness guarantee. Contract tests use default-plus-case-overrides, so snapshot the intended individual policy when testing it.
-
-Declare the full authorized task.allowed_tools and task.allowed_resources at wrapper creation. Review custom arguments, destructive prerequisites and data classifications, then test allowed and failure paths before enabling enforcement. The engine cannot infer hidden agent capabilities or business requirements from a natural-language goal.
-
-**Developer Guide** is a separate sidebar link after Developer tools. It includes deployment, wrapper setup, policy assignment, coverage, a runnable multi-step workflow, provider-neutral LLM integration, exceptions, queues, tests, multi-agent correlation and synthetic console screenshots. The generic tool-summary box is deliberately omitted from this documentation page.
-
-Run `python examples/controlled_workflow/agent.py --delete-after-backup` for a synthetic SQLite → report → verified backup → guarded deletion workflow. Its README explains missing-backup and callback-failure paths, local-versus-central policies, explicit approval and exit codes.
-
-The console sidebar keeps three developer tools: Test a trace, Add contract cases and Run contract tests. Scope coverage is part of Configure agent checks. Advanced importer APIs remain available for programmatic integrations but do not have separate sidebar screens.
+See [Console guide](console-guide.md) for every menu, current screenshots, wrapper examples and troubleshooting.

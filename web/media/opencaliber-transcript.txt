@@ -1,44 +1,38 @@
-OpenCaliber user walkthrough
-Setup, policy configuration, integrations and interpreting findings.
+OpenCaliber console walkthrough
 
 00:00:00.000 — Download and start
-AI agents do more than answer questions. They read files, call APIs, and change systems. OpenCaliber helps you inspect those actions and catch rule violations.
-Download the console package from the OpenCaliber home page. Extract it into a new folder and install Python three point ten or newer.
-Run python run dot pie, or use the included Windows launcher. Keep the server running and open the console address shown in the terminal.
+Download the package and extract it. Start the console with python run dot py, then open the console address printed in your terminal.
+The default settings let you begin observing. Connect your agent next, and review its permissions before relying on blocking.
 
-00:00:32.648 — Three everyday steps
-The Activity page is your starting point. Connect an agent, set its rules, then inspect problems as the agent runs.
-The main menu separates monitored agents, trace actions, rules, and problems. Advanced imports and test tools stay under Developer tools.
+00:00:17.767 — Agents Dashboard
+Agents Dashboard now lists each connected agent in a table. Search by agent name, or filter by the latest run status to focus on completed, failed, blocked or active work.
+Review details opens the run, history and linked graph. Actions shows Detected problems and Monitoring coverage, each with a count. Select either to expand its evidence beneath that agent's row.
+Evaluate provides Diagnose and Compare versions. Diagnose reviews the selected run's objective and available evidence. Use Back to dashboard to return to the agent table.
 
-00:00:51.469 — Connect an agent
-A downloaded library agent includes tracking code. Keep this console running, then run the agent in demo mode to register its tracking ID.
-For your own project, use Tracked Executor around each tool operation. Supply the action metadata, your callback and a success check. Operations outside the wrapper are not observed.
+00:00:58.518 — Connect an Agent
+Connect an Agent provides a complete working integration. Wrap each external tool operation, give the agent a tracking identifier, and declare its authorized tools and resources.
+Capture only the output fields needed for checks, and report an independently verified task outcome. Across workers, propagate the same job identifier and emit parent, handoff and dependency links.
 
-00:01:15.219 — Find the right agent
-Monitored agents shows the agents that have sent events, their tracking IDs and their latest workflows. Use a distinct tracking ID for each project.
-Open View activity to inspect a workflow, or Edit policy to configure the selected agent. New agents inherit the default rules and start in report only mode.
+00:01:26.589 — Compare agent versions
+Run both versions against the same inputs, then choose a baseline and candidate from agents already reporting to the console. Review matched cases, success, policy findings, cost and latency.
+Inspect failure examples before choosing a version. Missing measurements remain unknown, and these observed comparisons do not establish statistical significance.
 
-00:01:38.136 — Set action rules
-Configure approved destinations, file roots, denied tools and usage limits. Advanced settings add per argument restrictions and sequence rules, such as a successful backup before deletion.
-Report only records central policy violations. Enforce requires a clear evaluation before a wrapped action can run. Application local guards apply independently, and an unavailable evaluator stops enforcement mode actions.
+00:01:52.121 — Detection capabilities
+Use Detection capabilities when an agent needs a missing check. The wizard guides you through defining its scope, developing the code, testing passing and failing examples, and enabling the saved revision.
+Here the check flags a record request above twenty-five. True means a problem. Missing required evidence becomes unknown. Before-action checks can gate dispatch in enforce mode; output checks run after an action.
 
-00:02:09.053 — Inspect a problem
-Open a problem to find the agent, workflow, action ID and triggered rule. The evidence explains what failed, and the suggested correction helps you decide what to change.
-In this example, the report agent tries to write outside its approved export directory. Correct the path or the intended policy, then run the workflow again to verify the fix.
+00:02:21.962 — Optional coding model
+A coding model can help draft the check. Choose a model service with its provider, model name and API key, or download a compatible Hugging Face model and enable it for on-demand use.
+Only the draft and examples you explicitly submit are sent to the assistant. Review its code, test it and enable it yourself. A model cannot silently change your agents or activate its own check.
 
-00:02:34.723 — Create and test traces
-Trace actions explains the tool names used by example workflows. Select an example or create a trace to test your action metadata manually.
-Creating a trace does not execute a tool. Clear means no configured rule triggered, review means uncertainty, and violation means a boundary was crossed. The score is rule severity, not a probability.
+00:02:50.246 — Regression tests
+Regression tests turns a captured connected run into a repeatable policy test. Choose the run, set the expected assessment and finding codes, preview it, then save and run the tests.
+Use this after reproducing a problem or changing a policy. Saved-run tests verify existing policy behavior. Custom detector code has its separate test suite in the check wizard.
 
-00:03:00.179 — Turn fixes into tests
-When you fix a problem, add a contract case to keep testing that behavior. In Developer tools, choose Add contract cases, then enter a trace, expected assessment and required finding codes.
-Preview the result, save the case to your workspace, then run it alongside the included tests. Expand the help summary on any developer tool to see its purpose, when to use it and how to begin.
+00:03:16.759 — Advanced settings
+Advanced settings contains shared policies, tool restrictions and sequence prerequisites. Use it when defaults do not match your application and before depending on blocking.
+Review approved destinations, file roots, record limits and denied tools. Existing agent overrides remain until explicitly reset. Saved settings affect subsequent online actions, while older runs keep their recorded policy.
 
-00:03:26.915 — Use your internal domain
-The public GitHub Pages website provides downloads and setup instructions. It cannot run the Python backend or collect your agent activity.
-For a company workspace, deploy the authenticated Python service on your internal HTTPS domain. Configure its public origin, secret token and persistent storage, then set the same endpoint and token on each agent machine.
-
-00:03:54.739 — Operate and improve
-Tracking sends declared action metadata to your configured console, not callback contents. Avoid secrets in trace fields. Report only events can queue offline with minimized evidence; enforcement requires connectivity.
-Use Problems to review findings, change your code or rules, and rerun. The developer guide explains integration limits, offline queues and internal hosting. OpenCaliber checks instrumented actions; it is not a sandbox or a guarantee of safety.
-
+00:03:46.067 — Developer Guide
+Developer Guide covers every sidebar menu with its purpose, when to use it, an example and the steps to follow. It also explains output capture, multiple agents, model setup and common errors.
+Connect once, inspect the evidence, add the checks your task needs, and compare improvements on shared cases. A clear result means no configured check triggered; missing evidence still needs attention.

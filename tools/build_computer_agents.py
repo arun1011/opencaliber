@@ -33,6 +33,7 @@ if __name__=='__main__':unittest.main()
 
 def build_computer_agent(spec):
     config = {
+        'tool_contracts':{'file.read':{},'file.write':{},'http.get':{},'http.send':{}},'diagnosis_enabled':True,'capture_fields':{},'evaluation':None,'trajectory_id':None,'parent_span_id':None,'allowed_resources':None,'success_checks':{'minimum_characters':1,'required_phrases':[]},'contract_mode':'observe',
         'tracking_id':spec['id'],'agent_id':spec['id'],'version':'0.2.0','title':spec['title'],'kind':spec['kind'],
         'allowed_hosts':['example.com'],'allowed_methods':['GET','HEAD'],
         'targets':[{'url':'https://example.com','must_contain':'Example Domain'}],
@@ -81,10 +82,9 @@ python -m unittest discover -s tests -v
 ```
 
 Results are saved in outputs/draft.txt, result.json and evaluation.json. Wrapped actions also register config.json tracking_id and send metadata automatically
-to a running console at http://127.0.0.1:8787. Open Monitored agents to inspect
-activity and edit the agent policy. For remote machines set OPENCALIBER_ENDPOINT
-to your internal HTTPS service and OPENCALIBER_TOKEN privately. New agents start
-in report-only mode; enable Enforce in the console and OPENCALIBER_MODE=enforce
+to a running console at http://127.0.0.1:8787. Open Agents Dashboard to inspect
+activity and Advanced settings to review shared policies. For remote machines set OPENCALIBER_ENDPOINT
+to your internal HTTPS service and OPENCALIBER_TOKEN privately. New agents inherit console mode; select Block violations in Advanced settings and OPENCALIBER_MODE=enforce
 for enforcement from the first action. Offline report-only events queue minimized
 metadata in outputs/.opencaliber-tracking. Set OPENCALIBER_TRACKING=off for a fully
 disconnected demo. Callback contents are not collected automatically. The redacted
@@ -178,7 +178,7 @@ Original pack software: Apache-2.0. See LICENSE, NOTICE and LICENSING.md.
     engine['tool_policies']={'file.read':{'resource':{'path_roots':['/workspace/samples']}},
                              'file.write':{'resource':{'path_roots':['/workspace/outputs']}}}
     files = {name:(ROOT/name).read_text(encoding='utf-8') for name in ('LICENSE','NOTICE','LICENSING.md')}
-    for name in ('__init__.py','agent_engine.py','tool_policies.py','execution.py','privacy.py','tracking.py'):
+    for name in ('__init__.py','agent_engine.py','tool_policies.py','execution.py','privacy.py','tracking.py','library_runtime.py','trajectory.py','run_metrics.py','diagnosis.py','executability.py'):
         files['opencaliber/'+name]=(ROOT/'opencaliber'/name).read_text(encoding='utf-8')
     files.update({
         'agent.py':(ROOT/'agent_templates/computer/agent.py').read_text(encoding='utf-8'),
@@ -190,6 +190,9 @@ Original pack software: Apache-2.0. See LICENSE, NOTICE and LICENSING.md.
         'samples/invoice.txt':'SYNTHETIC SAMPLE\ninvoice_id: DEMO-001\nowner: Example User\ntotal: 120.50\n',
         'samples/invoices.csv':'invoice_id,owner,total\nDEMO-002,Example Company,79.50\n',
         'tests/test_agent.py':PACK_TESTS})
+    files['compare_versions.py']=(ROOT/'agent_templates/compare_versions.py').read_text(encoding='utf-8')
+    files['MONITORING.md']=(ROOT/'docs/library-integration.md').read_text(encoding='utf-8')
+    files['README.md']+='\n## Current console integration\n\nSee [MONITORING.md](MONITORING.md) for outcomes, output capture, execution graphs, comparisons and current console navigation.\n'
     stream=io.BytesIO()
     with zipfile.ZipFile(stream,'w',zipfile.ZIP_DEFLATED) as archive:
         for name, text in files.items():archive.writestr(spec['id']+'/'+name,text)

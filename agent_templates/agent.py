@@ -9,7 +9,7 @@ import sys
 import urllib.error
 import urllib.request
 from opencaliber.agent_engine import DEFAULT_CONFIG, evaluate_trace
-from opencaliber.tracking import TrackedExecutor
+from opencaliber.library_runtime import LibraryExecutor,draft_success
 
 ROOT = Path(__file__).resolve().parent
 
@@ -55,7 +55,7 @@ def evaluate(config, inputs, live):
              'workflow_id':config['agent_id']+'-draft',
              'task':{'goal':config['instructions'],'allowed_tools':['file.read','file.write']+(['http.send'] if live else []),
                      'allowed_resources':[a['resource'] for a in actions], 'read_only':False}, 'actions':actions}
-    policy = {**DEFAULT_CONFIG, 'allowed_hosts':[host], 'allowed_file_roots':['/workspace'], 'max_calls':config['max_files']+2}
+    policy = {**DEFAULT_CONFIG, 'allowed_hosts':[host], 'allowed_file_roots':['/workspace'], 'max_calls':config['max_files']+3}
     return evaluate_trace(trace, policy)
 
 
@@ -118,11 +118,12 @@ def main():
     if any(not (outputs/name).resolve().is_relative_to(outputs) for name in ('draft.txt','evaluation.json')):raise ValueError('Output file escapes the output directory')
     if not args.overwrite and any((outputs/name).exists() for name in ('draft.txt','evaluation.json')):raise ValueError('Output exists; use --overwrite to replace it')
     host='api.openai.com' if config['provider']=='openai' else 'api.anthropic.com'
-    local_policy={**DEFAULT_CONFIG,'allowed_hosts':[host],'allowed_file_roots':['/workspace'],'max_calls':config['max_files']+2}
-    with TrackedExecutor(agent={'id':config['agent_id'],'version':config['version']},
+    local_policy={**DEFAULT_CONFIG,'allowed_hosts':[host],'allowed_file_roots':['/workspace'],'max_calls':config['max_files']+3}
+    with LibraryExecutor(library_config=config,agent={'id':config['agent_id'],'version':config['version']},
             tracking_id=config.get('tracking_id',config['agent_id']),root=ROOT,config=local_policy,
             task={'goal':config['instructions'],'allowed_tools':['file.read','file.write']+(['http.send'] if args.run else [])},
-            mode='enforce') as executor:
+            mode='enforce',tool_contracts=config.get('tool_contracts',{'file.read':{},'file.write':{},'http.send':{'arguments':{'destination':'string'},'required':['destination']}}),
+            contract_mode=config.get('contract_mode','observe')) as executor:
         if args.run:
             prefix='OPENAI' if config['provider']=='openai' else 'ANTHROPIC'
             if not os.environ.get(prefix+'_API_KEY') or not os.environ.get(prefix+'_MODEL'):
@@ -137,8 +138,13 @@ def main():
         outputs.mkdir(parents=True,exist_ok=True)
         executor.run({'id':'save-draft','tool':'file.write','resource':'/workspace/outputs/draft.txt','data_class':config['data_class']},
             lambda:(outputs/'draft.txt').write_text(draft,encoding='utf-8'),success=lambda value:type(value) is int)
-        result=evaluate_trace(executor.trace,local_policy)
-        (outputs/'evaluation.json').write_text(json.dumps(result,indent=2),encoding='utf-8')
+        saved=executor.run({'id':'verify-draft','tool':'file.read','resource':'/workspace/outputs/draft.txt','data_class':config['data_class']},
+            lambda:(outputs/'draft.txt').read_text(encoding='utf-8'),success=lambda value:value==draft)
+        executor.record_outcome(draft_success(config,draft,saved))
+    result=evaluate_trace(executor.trace,local_policy)
+    result['run_metrics']=executor.metrics
+    result['graph_delivery_errors']=executor.graph.delivery_errors
+    (outputs/'evaluation.json').write_text(json.dumps(result,indent=2),encoding='utf-8')
     print('Draft and evaluation saved in the configured output directory. No emails, payments or external tool actions were performed.')
 
 

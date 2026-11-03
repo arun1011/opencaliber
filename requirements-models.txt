@@ -1,0 +1,7 @@
+# Optional: install only for Hugging Face model download and inference.
+transformers>=4.48,<6
+huggingface-hub>=0.28,<2
+torch>=2.6,<3
+safetensors>=0.5,<1
+# Required on Linux/macOS only when saving encrypted model-service keys.
+cryptography>=44,<48

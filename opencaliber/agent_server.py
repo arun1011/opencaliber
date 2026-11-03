@@ -37,6 +37,8 @@ def initialize():
         initialize_tracking(c)
         from .contract_cases import initialize as initialize_cases
         initialize_cases(c)
+        from .comparison_store import initialize as initialize_comparisons
+        initialize_comparisons(c)
         c.execute('INSERT OR IGNORE INTO settings VALUES(1,?)',(json.dumps(DEFAULT_CONFIG),))
 
 
@@ -127,7 +129,37 @@ class Handler(SimpleHTTPRequestHandler):
             try:raw=build_package()
             except (ValueError,OSError):return self.json({'error':'Local package source is incomplete'},503)
             self.send_response(200);self.send_header('Content-Type','application/zip');self.send_header('Content-Disposition','attachment; filename="opencaliber-local.zip"');self.send_header('Content-Length',str(len(raw)));self.send_header('Cache-Control','no-store');self.end_headers();self.wfile.write(raw);return
+        if path=='/api/checks':
+            from .custom_checks import listing
+            return self.json(listing(connect))
+        if path=='/api/check-model':
+            from .check_models import status
+            return self.json(status(connect))
+        if path=='/api/platform/dashboard':
+            from .connected_platform import dashboard
+            return self.json(dashboard(connect,configuration(),cases()['cases']))
+        if path=='/api/diagnosis/runs':
+            from .connected_diagnosis import runs
+            return self.json(runs(connect))
+        if path=='/api/diagnosis/status':
+            from .diagnosis import model_status
+            return self.json(model_status())
+        if path=='/api/diagnosis/example':
+            from .diagnosis import example
+            return self.json(example())
         if path=='/api/cases':return self.json(cases())
+        if path=='/api/comparisons/example':
+            from .comparison_demo import demo_bundle
+            return self.json(demo_bundle())
+        if path=='/api/comparisons':
+            from .comparison_store import list_reports
+            return self.json(list_reports(connect))
+        if path.startswith('/api/comparisons/'):
+            from .comparison_store import get_report
+            try:report=get_report(path.rsplit('/',1)[-1],connect)
+            except ValueError:return self.json({'error':'Invalid comparison ID'},400)
+            return self.json(report) if report else self.json({'error':'Comparison not found'},404)
+
         if path=='/api/downloads':
             from .download_stats import report
             return self.json(report(json.loads((ROOT/'web/agents.json').read_text(encoding='utf-8'))))
@@ -140,6 +172,13 @@ class Handler(SimpleHTTPRequestHandler):
             return self.json(examples())
         if path=='/api/integration-examples':
             return self.json(json.loads((ROOT/'examples/adoption/bundle.json').read_text(encoding='utf-8')))
+        if path=='/api/trajectories':
+            from .trajectory import listing
+            return self.json(listing(connect))
+        if path.startswith('/api/trajectories/'):
+            from .trajectory import report
+            try:return self.json(report(path.rsplit('/',1)[-1],connect))
+            except ValueError:return self.json({'error':'Invalid trajectory ID'},400)
         if path=='/api/tracking/agents':
             from .tracking_store import agents
             return self.json(agents(connect,configuration(),cases()['cases']))
@@ -166,6 +205,29 @@ class Handler(SimpleHTTPRequestHandler):
             if not 0<length<=1048576:return self.json({'error':'Body must be 1 byte to 1 MiB'},413)
             body=json.loads(self.rfile.read(length));path=urlsplit(self.path).path
             if not isinstance(body,dict):raise ValueError('Expected a JSON object')
+            if path.startswith('/api/checks/') or path.startswith('/api/check-model/'):
+                from .check_api import handle
+                return self.json(handle(path[5:],body,connect))
+            if path=='/api/platform/settings':
+                from .connected_platform import save_settings
+                return self.json(save_settings(body,connect))
+            if path=='/api/platform/compare':
+                from .connected_platform import compare
+                return self.json(compare(body,connect))
+            if path=='/api/platform/contracts':
+                from .connected_platform import contract_from_run
+                return self.json(contract_from_run(body,connect,configuration(),cases()['cases'],timestamp))
+            if path=='/api/diagnosis/run':
+                from .connected_diagnosis import run_report
+                if set(body)!={'run_id','use_semantic'} or type(body['use_semantic']) is not bool:raise ValueError('Provide run_id and use_semantic boolean')
+                return self.json(run_report(body['run_id'],connect,body['use_semantic']))
+            if path=='/api/diagnosis':
+                from .diagnosis import diagnose
+                if set(body)!={'bundle','use_semantic'} or type(body['use_semantic']) is not bool:raise ValueError('Provide bundle and use_semantic boolean')
+                return self.json(diagnose(body['bundle'],use_semantic=body['use_semantic']))
+            if path=='/api/trajectories/spans':
+                from .trajectory import save
+                return self.json(save(body,connect,timestamp))
             if path=='/api/tracking/events':
                 from .tracking_store import ingest
                 return self.json(ingest(body,connect,timestamp,configuration()))
@@ -178,6 +240,10 @@ class Handler(SimpleHTTPRequestHandler):
                 if path.endswith('/preview'):return self.json(preview(body['case'],configuration()))
                 builtin=json.loads((ROOT/'data/agent_cases.json').read_text(encoding='utf-8'))['cases']
                 return self.json(save(body['case'],connect,{c['id'] for c in builtin},configuration(),timestamp),201)
+            if path=='/api/comparisons':
+                from .comparison_store import save
+                if set(body)!={'comparison'}:raise ValueError('Provide a comparison bundle')
+                return self.json(save(body['comparison'],connect,timestamp),201)
             if path=='/api/normalize':
                 if set(body)!={'provider','response','context'} or not isinstance(body['context'],dict):raise ValueError('Provide provider, response and context')
                 if set(body['context'])-{'policy','agent','task','session_id','workflow_id'} or not {'policy','agent','task','session_id'}<=set(body['context']):raise ValueError('Invalid integration context fields')

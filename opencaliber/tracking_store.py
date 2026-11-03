@@ -31,7 +31,7 @@ def initialize(connection):
 
 
 def checked(body):
-    if not isinstance(body,dict) or set(body)!={'event_id','sequence','phase','policy_sha256','trace','result','tracking_id','redacted','error_type'}:
+    if not isinstance(body,dict) or set(body)-{'reliability','diagnosis','metrics'}!={'event_id','sequence','phase','policy_sha256','trace','result','tracking_id','redacted','error_type'}:
         raise ValueError('Invalid tracking event fields')
     if not isinstance(body['tracking_id'],str) or re.fullmatch('[A-Za-z0-9._-]{1,120}',body['tracking_id']) is None or type(body['redacted']) is not bool:
         raise ValueError('Invalid tracking ID or privacy flag')
@@ -43,6 +43,12 @@ def checked(body):
         raise ValueError('Invalid tracking sequence or phase')
     if not isinstance(body['policy_sha256'],str) or re.fullmatch('[0-9a-f]{64}',body['policy_sha256']) is None:
         raise ValueError('Invalid policy fingerprint')
+    if 'reliability' in body:
+        from .executability import validate_report
+        validate_report(body['reliability'])
+    if 'metrics' in body:
+        from .run_metrics import validate
+        validate(body['metrics'])
     trace=body['trace']
     if not isinstance(trace,dict) or not {'agent','workflow_id','task','actions'}<=set(trace):
         raise ValueError('Tracking requires agent, workflow, task and actions')
@@ -53,6 +59,9 @@ def checked(body):
         # Lifecycle-only snapshots have zero actions; reuse the canonical schema
         # validator for other fields without persisting/evaluating a dummy action.
         validate_trace({**trace,'actions':[{'id':'schema-check','tool':'file.read','resource':'/schema'}]})
+    if 'diagnosis' in body:
+        from .connected_diagnosis import capture_context
+        capture_context(body['diagnosis'],trace)
     result=copy.deepcopy(body['result'])
     if result is None:
         result={'engine_version':'not_evaluated','config_sha256':body['policy_sha256'],
@@ -101,10 +110,13 @@ def checked(body):
 def ingest(body, connect, timestamp, default_config):
     trace,result=checked(body)
     with connect() as c:
+        from .connected_platform import initialize as platform_initialize
+        platform_initialize(c)
+        default_mode=c.execute('SELECT mode FROM platform_settings WHERE id=1').fetchone()[0]
         existing=c.execute('SELECT agent_id FROM tracking_agents WHERE tracking_id=?',(body['tracking_id'],)).fetchone()
         if existing and existing['agent_id']!=trace['agent']['id']:raise ValueError('Tracking ID belongs to another agent; use a distinct tracking ID')
-        c.execute('INSERT INTO tracking_agents(tracking_id,agent_id,last_seen) VALUES(?,?,?) ON CONFLICT(tracking_id) DO UPDATE SET last_seen=excluded.last_seen',
-                  (body['tracking_id'],trace['agent']['id'],timestamp()))
+        c.execute('INSERT INTO tracking_agents(tracking_id,agent_id,last_seen,mode) VALUES(?,?,?,?) ON CONFLICT(tracking_id) DO UPDATE SET last_seen=excluded.last_seen',
+                  (body['tracking_id'],trace['agent']['id'],timestamp(),default_mode))
         agent=c.execute('SELECT * FROM tracking_agents WHERE tracking_id=?',(body['tracking_id'],)).fetchone()
         if agent['agent_id']!=trace['agent']['id']:raise ValueError('Tracking ID belongs to another agent')
     cfg=validate_config(json.loads(agent['policy']) if agent['policy'] else default_config)
@@ -115,7 +127,12 @@ def ingest(body, connect, timestamp, default_config):
     # agent-reported instead of pretending their original boundaries were checked.
     if central and body['trace']['actions']:
         result=evaluate_trace(body['trace'],cfg)
+        from .custom_checks import apply as apply_custom_checks
+        result=apply_custom_checks(body,result,connect)
         trace,result=minimize_evidence(body['trace'],result)
+    if not central or not body['trace']['actions']:
+        from .custom_checks import apply as apply_custom_checks
+        result=apply_custom_checks(body,result,connect)
     if central:
         result['limitations']=[v for v in result['limitations'] if not v.startswith('Agent-reported evaluation')]
     rid=hashlib.sha256(json.dumps([body['tracking_id'],trace['agent'],trace['workflow_id']],sort_keys=True).encode()).hexdigest()[:16]
@@ -130,6 +147,9 @@ def ingest(body, connect, timestamp, default_config):
                         'tracking_id':body['tracking_id'],'mode':agent['mode'],
                         'phase':body['phase'],'workflow_status':state,
                         'sequence':body['sequence'],'received_at':now,'error_type':body['error_type'],'policy_source':assignment['source']}
+    if 'reliability' in body:
+        from .executability import validate_report
+        result['reliability']=validate_report(body['reliability'])
     codes=sorted({f['code'] for a in result['actions'] for f in a['findings']})
     with connect() as c:
         # Serialize sequence comparison + upsert across request threads/processes.
@@ -153,13 +173,17 @@ def ingest(body, connect, timestamp, default_config):
           ON CONFLICT(id) DO UPDATE SET created_at=excluded.created_at,name=excluded.name,
           trace=excluded.trace,result=excluded.result,config=excluded.config,status='open' ''',
           (rid,now,trace.get('name',trace['agent']['id']),json.dumps(trace),json.dumps(result),json.dumps(config)))
+        from .connected_diagnosis import record
+        record(c,rid,body,cfg)
+        from .connected_platform import record as record_metrics
+        record_metrics(c,rid,body)
     return {'id':rid,'status':'accepted','mode':agent['mode'],'policy':assignment,'result':result if body['phase']=='proposed' else None}
 
 
 def agents(connect,default_config=None,cases=()):
     from .agent_engine import DEFAULT_CONFIG
     default_config=DEFAULT_CONFIG if default_config is None else default_config
-    with connect() as c:rows=c.execute('SELECT * FROM tracking_agents ORDER BY last_seen DESC LIMIT 500').fetchall()
+    with connect() as c:rows=c.execute('SELECT * FROM tracking_agents ORDER BY last_seen DESC').fetchall()
     case_index={}
     for case in cases:
         if case.get('source')=='workspace':case_index.setdefault(case['trace'].get('agent',{}).get('id'),[]).append(case)

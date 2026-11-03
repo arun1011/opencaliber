@@ -123,11 +123,69 @@ def create_app(settings=None):
         from .download_stats import report
         return report(json.loads((store.ROOT/'web/agents.json').read_text(encoding='utf-8')))
 
+    @app.get('/api/comparisons/example')
+    def comparison_example():
+        from .comparison_demo import demo_bundle
+        return demo_bundle()
+
+    @app.get('/api/comparisons')
+    def comparisons():
+        from .comparison_store import list_reports
+        return list_reports(store.connect)
+
+    @app.get('/api/comparisons/{ident}')
+    def comparison(ident:str):
+        from .comparison_store import get_report
+        try:report=get_report(ident,store.connect)
+        except ValueError:return JSONResponse({'error':'Invalid comparison ID'},400)
+        return report if report else JSONResponse({'error':'Comparison not found'},404)
+
     @app.get('/api/cases')
     def cases():return store.cases()
 
     @app.get('/api/integration-examples')
     def examples():return json.loads((store.ROOT/'examples/adoption/bundle.json').read_text(encoding='utf-8'))
+
+    @app.get('/api/checks')
+    def custom_checks():
+        from .custom_checks import listing
+        return listing(store.connect)
+
+    @app.get('/api/check-model')
+    def check_model():
+        from .check_models import status
+        return status(store.connect)
+
+    @app.get('/api/platform/dashboard')
+    def platform_dashboard():
+        from .connected_platform import dashboard
+        return dashboard(store.connect,store.configuration(),store.cases()['cases'])
+
+    @app.get('/api/diagnosis/runs')
+    def diagnosis_runs():
+        from .connected_diagnosis import runs
+        return runs(store.connect)
+
+    @app.get('/api/diagnosis/status')
+    def diagnosis_status():
+        from .diagnosis import model_status
+        return model_status()
+
+    @app.get('/api/diagnosis/example')
+    def diagnosis_example():
+        from .diagnosis import example
+        return example()
+
+    @app.get('/api/trajectories')
+    def trajectories():
+        from .trajectory import listing
+        return listing(store.connect)
+
+    @app.get('/api/trajectories/{ident}')
+    def trajectory(ident:str):
+        from .trajectory import report
+        try:return report(ident,store.connect)
+        except ValueError:return JSONResponse({'error':'Invalid trajectory ID'},400)
 
     @app.get('/api/tracking/agents')
     def tracked_agents():
@@ -173,6 +231,30 @@ def create_app(settings=None):
         try:
             body=json.loads(raw)
             if not isinstance(body,dict):raise ValueError('Expected a JSON object')
+            if operation.startswith(('checks/','check-model/')):
+                from .check_api import handle
+                from starlette.concurrency import run_in_threadpool
+                return await run_in_threadpool(handle,operation,body,store.connect)
+            if operation=='platform/settings':
+                from .connected_platform import save_settings
+                return save_settings(body,store.connect)
+            if operation=='platform/compare':
+                from .connected_platform import compare
+                return compare(body,store.connect)
+            if operation=='platform/contracts':
+                from .connected_platform import contract_from_run
+                return contract_from_run(body,store.connect,store.configuration(),store.cases()['cases'],store.timestamp)
+            if operation=='diagnosis/run':
+                from .connected_diagnosis import run_report
+                if set(body)!={'run_id','use_semantic'} or type(body['use_semantic']) is not bool:raise ValueError('Provide run_id and use_semantic boolean')
+                return run_report(body['run_id'],store.connect,body['use_semantic'])
+            if operation=='diagnosis':
+                from .diagnosis import diagnose
+                if set(body)!={'bundle','use_semantic'} or type(body['use_semantic']) is not bool:raise ValueError('Provide bundle and use_semantic boolean')
+                return diagnose(body['bundle'],use_semantic=body['use_semantic'])
+            if operation=='trajectories/spans':
+                from .trajectory import save
+                return save(body,store.connect,store.timestamp)
             if operation=='tracking/events':
                 from .tracking_store import ingest
                 return ingest(body,store.connect,store.timestamp,store.configuration())
@@ -185,6 +267,10 @@ def create_app(settings=None):
                 if operation.endswith('/preview'):return preview(body['case'],store.configuration())
                 builtin=json.loads((store.ROOT/'data/agent_cases.json').read_text(encoding='utf-8'))['cases']
                 return JSONResponse(save(body['case'],store.connect,{c['id'] for c in builtin},store.configuration(),store.timestamp),201)
+            if operation=='comparisons':
+                from .comparison_store import save
+                if set(body)!={'comparison'}:raise ValueError('Provide a comparison bundle')
+                return JSONResponse(save(body['comparison'],store.connect,store.timestamp),201)
             if operation=='normalize':
                 if set(body)!={'provider','response','context'} or not isinstance(body['context'],dict) or set(body['context'])-{'policy','agent','task','session_id','workflow_id'} or not {'policy','agent','task','session_id'}<=set(body['context']):raise ValueError('Invalid normalization request')
                 return {'trace':normalize_response(body['provider'],body['response'],**body['context'])}

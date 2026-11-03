@@ -17,7 +17,7 @@ import time
 from urllib.parse import urlsplit, urlunsplit
 
 from opencaliber.agent_engine import DEFAULT_CONFIG, evaluate_trace
-from opencaliber.tracking import TrackedExecutor
+from opencaliber.library_runtime import LibraryExecutor
 from opencaliber.privacy import minimize_evidence
 
 ROOT = Path(__file__).resolve().parent
@@ -114,9 +114,10 @@ def extract_entries(text, suffix, fields):
 
 
 def make_guard(config):
-    return TrackedExecutor(root=ROOT,tracking_id=config.get('tracking_id',config['agent_id']),agent={'id':config['agent_id'],'version':'0.2.0'},
+    return LibraryExecutor(library_config=config,root=ROOT,tracking_id=config.get('tracking_id',config['agent_id']),agent={'id':config['agent_id'],'version':config['version']},
         task={'goal':config['title'],'allowed_tools':['http.get','http.send','file.read','file.write']},
-        workflow_id=config['agent_id']+'-workflow',config=policy(config),mode='enforce')
+        config=policy(config),mode='enforce',
+        tool_contracts=config.get('tool_contracts',{'file.read':{},'file.write':{},'http.get':{},'http.send':{}}),contract_mode=config.get('contract_mode','observe'))
 
 
 def guarded(guard, tool, resource, callback):
@@ -270,13 +271,14 @@ def main():
         guarded(guard,'file.write','/workspace/outputs/draft.txt',lambda:(output/'draft.txt').write_text(prefix+json.dumps(result,indent=2),encoding='utf-8'))
         completed = not any(not a['passed'] for a in result.get('assertions',[]))
     finally:
+        guard.record_outcome(completed)
         guard.finish('completed' if completed else 'failed')
         if guard.trace['actions']:
             report = evaluate_trace(guard.trace,policy(config))
             trace, report = minimize_evidence(guard.trace,report)
             last = minimize_evidence(guard.trace,guard.last_evaluation)[1] if guard.last_evaluation else None
             (output/'evaluation.json').write_text(json.dumps({'trace':trace,**report,
-                'workflow_status':'completed' if completed else 'stopped',
+                'workflow_status':'completed' if completed else 'stopped','run_metrics':guard.metrics,'graph_delivery_errors':guard.graph.delivery_errors,
                 'last_pre_dispatch_evaluation':last},indent=2),encoding='utf-8')
     if result and any(not a['passed'] for a in result.get('assertions',[])):
         raise ValueError('One or more UI assertions failed; inspect result.json')

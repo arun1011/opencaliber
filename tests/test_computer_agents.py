@@ -2,6 +2,7 @@ import copy
 import importlib.util
 import io
 import json
+import os
 from pathlib import Path
 import subprocess
 import sys
@@ -16,6 +17,7 @@ from tools.build_computer_agents import COMPUTER_AGENTS, build_computer_agent
 
 class ComputerWorkflowTests(unittest.TestCase):
     def setUp(self):
+        env=patch.dict(os.environ,{'OPENCALIBER_TRACKING':'off'});env.start();self.addCleanup(env.stop)
         self.directory = tempfile.TemporaryDirectory(dir=Path(__file__).parent)
         self.addCleanup(self.directory.cleanup)
         self.spec = COMPUTER_AGENTS[0]

@@ -4,39 +4,35 @@
     "start_seconds": 0
   },
   {
-    "title": "Three everyday steps",
-    "start_seconds": 32.648
+    "title": "Agents Dashboard",
+    "start_seconds": 17.767
   },
   {
-    "title": "Connect an agent",
-    "start_seconds": 51.469
+    "title": "Connect an Agent",
+    "start_seconds": 58.518
   },
   {
-    "title": "Find the right agent",
-    "start_seconds": 75.219
+    "title": "Compare agent versions",
+    "start_seconds": 86.589
   },
   {
-    "title": "Set action rules",
-    "start_seconds": 98.136
+    "title": "Detection capabilities",
+    "start_seconds": 112.121
   },
   {
-    "title": "Inspect a problem",
-    "start_seconds": 129.053
+    "title": "Optional coding model",
+    "start_seconds": 141.962
   },
   {
-    "title": "Create and test traces",
-    "start_seconds": 154.723
+    "title": "Regression tests",
+    "start_seconds": 170.246
   },
   {
-    "title": "Turn fixes into tests",
-    "start_seconds": 180.179
+    "title": "Advanced settings",
+    "start_seconds": 196.759
   },
   {
-    "title": "Use your internal domain",
-    "start_seconds": 206.915
-  },
-  {
-    "title": "Operate and improve",
-    "start_seconds": 234.739
+    "title": "Developer Guide",
+    "start_seconds": 226.067
   }
 ]

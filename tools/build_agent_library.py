@@ -54,7 +54,7 @@ if __name__=='__main__':unittest.main()
 
 def build_agent(spec):
     if spec.get('runtime')=='computer':return build_computer_agent(spec)
-    config={'tracking_id':spec['id'],'agent_id':spec['id'],'version':'0.1.0','title':spec['title'],'kind':spec['kind'],
+    config={'tool_contracts':{'file.read':{},'file.write':{},'http.send':{'arguments':{'destination':'string'},'required':['destination']}},'diagnosis_enabled':True,'capture_fields':{},'evaluation':None,'trajectory_id':None,'parent_span_id':None,'allowed_resources':None,'success_checks':{'minimum_characters':1,'required_phrases':[]},'contract_mode':'observe','tracking_id':spec['id'],'agent_id':spec['id'],'version':'0.1.0','title':spec['title'],'kind':spec['kind'],
             'provider':'openai','input_dir':'samples','output_dir':'outputs','max_files':25,
             'max_input_bytes':500000,'max_output_tokens':1500,'timeout_seconds':30,
             'data_class':spec['data_class'],'instructions':spec['instructions'],'industry':spec['industry'],'function':spec['function'],'output_sections':spec['output_sections']}
@@ -94,7 +94,7 @@ Live mode sends the selected input contents to the configured provider and incur
 
 Edit config.json: choose provider, input_dir, output_dir, data_class, instructions, max_files, max_input_bytes, max_output_tokens and timeout_seconds. Input files can be .txt, .md, .csv or .json in the configured directory (not recursive). Keep sensitivity labels accurate. Output must stay inside the extracted project. Inputs that escape the selected folder through links are rejected. File reads and draft writes are the only filesystem operations; no email, payment or generated-code execution is provided.
 
-OpenCaliber evaluates the workflow's declared operations and records agent/version attribution, findings and configuration fingerprint in evaluation.json. Logical /workspace paths refer to the configured inputs and outputs; the application itself checks real filesystem paths. Evaluation does not inspect model intent or guarantee prompt-injection protection. Changing configuration changes what the application permits. The pack includes the engine and TrackedExecutor instrumentation. Keep your console running: the agent registers its config.json tracking_id and sends wrapped action metadata automatically to http://127.0.0.1:8787. Use Monitored agents to edit its policy and inspect activity. Remote machines set OPENCALIBER_ENDPOINT to your authenticated HTTPS console and OPENCALIBER_TOKEN privately. New agents start in report-only mode; select Enforce in the console and set OPENCALIBER_MODE=enforce for enforcement from the first action. Offline report-only events queue minimized metadata under outputs/.opencaliber-tracking. Only wrapped operations are observed; callback contents are not automatically collected. Set OPENCALIBER_TRACKING=off for an intentionally disconnected run. Direct evaluate_trace calls alone do not send console history.
+OpenCaliber evaluates the workflow's declared operations and records agent/version attribution, findings and configuration fingerprint in evaluation.json. Logical /workspace paths refer to the configured inputs and outputs; the application itself checks real filesystem paths. Evaluation does not inspect model intent or guarantee prompt-injection protection. Changing configuration changes what the application permits. The pack includes the engine and TrackedExecutor instrumentation. Keep your console running: the agent registers its config.json tracking_id and sends wrapped action metadata automatically to http://127.0.0.1:8787. Use Agents Dashboard to inspect activity and Advanced settings to review shared policies. Remote machines set OPENCALIBER_ENDPOINT to your authenticated HTTPS console and OPENCALIBER_TOKEN privately. New agents inherit console mode; select Block violations in Advanced settings and set OPENCALIBER_MODE=enforce for enforcement from the first action. Offline report-only events queue minimized metadata under outputs/.opencaliber-tracking. Every emitted call is retained, including rejection and recovery attempts. The minimal tool_contracts in config.json check the declared interface and wrapper-reported completion; they do not prove all business-state requirements. Extend them with typed outputs, references and state evidence in your integration. Only wrapped operations are observed; callback contents are not automatically collected. Set OPENCALIBER_TRACKING=off for an intentionally disconnected run. Direct evaluate_trace calls alone do not send console history.
 
 ## Tests and limits
 
@@ -104,7 +104,7 @@ python -m unittest discover -s tests -v
 
 Included tests cover the sample draft, agent attribution and provider destination in the declared workflow. They do not certify security or provider output quality. Live provider calls have not been exercised as part of this release. Provider formats follow https://developers.openai.com/api/docs/guides/text and https://platform.claude.com/docs/en/api/messages .
 
-Credentials stay in .env or environment variables and are sent only in request headers to the chosen provider. The app makes no telemetry calls. Input contents and generated drafts may contain sensitive data; files are unencrypted. Evaluation results contain resource filenames but no source contents or credentials. Protect outputs and review provider data policies before live use.
+Credentials stay in .env or environment variables and are sent only in request headers to the chosen provider. The wrapper sends declared action metadata and minimized attempt summaries to your configured console. No third-party analytics script is included. Input contents and generated drafts may contain sensitive data; files are unencrypted. Evaluation results contain resource filenames but no source contents or credentials. Protect outputs and review provider data policies before live use.
 
 License: Apache-2.0. See LICENSE, NOTICE and LICENSING.md.
 '''
@@ -119,10 +119,18 @@ License: Apache-2.0. See LICENSE, NOTICE and LICENSING.md.
            'samples/'+spec['sample_name']:spec['sample'],'tests/test_agent.py':TESTS,
            'opencaliber/__init__.py':(ROOT/'opencaliber/__init__.py').read_text(encoding='utf-8'),
            'opencaliber/tool_policies.py':(ROOT/'opencaliber/tool_policies.py').read_text(encoding='utf-8'),
+           'opencaliber/library_runtime.py':(ROOT/'opencaliber/library_runtime.py').read_text(encoding='utf-8'),
+           'opencaliber/trajectory.py':(ROOT/'opencaliber/trajectory.py').read_text(encoding='utf-8'),
+           'opencaliber/run_metrics.py':(ROOT/'opencaliber/run_metrics.py').read_text(encoding='utf-8'),
+           'opencaliber/diagnosis.py':(ROOT/'opencaliber/diagnosis.py').read_text(encoding='utf-8'),
+           'opencaliber/executability.py':(ROOT/'opencaliber/executability.py').read_text(encoding='utf-8'),
            'opencaliber/tracking.py':(ROOT/'opencaliber/tracking.py').read_text(encoding='utf-8'),
            'opencaliber/execution.py':(ROOT/'opencaliber/execution.py').read_text(encoding='utf-8'),
            'opencaliber/privacy.py':(ROOT/'opencaliber/privacy.py').read_text(encoding='utf-8'),
            'opencaliber/agent_engine.py':(ROOT/'opencaliber/agent_engine.py').read_text(encoding='utf-8')}
+    files['compare_versions.py']=(ROOT/'agent_templates/compare_versions.py').read_text(encoding='utf-8')
+    files['MONITORING.md']=(ROOT/'docs/library-integration.md').read_text(encoding='utf-8')
+    files['README.md']+='\n## Current console integration\n\nSee [MONITORING.md](MONITORING.md) for captured evidence, explicit outcomes, execution graphs, version comparisons and current sidebar navigation.\n'
     stream=io.BytesIO()
     with zipfile.ZipFile(stream,'w',zipfile.ZIP_DEFLATED) as archive:
         for name,text in files.items():archive.writestr(spec['id']+'/'+name,text)

@@ -2,11 +2,29 @@
 
 # OpenCaliber
 
-Advisory risk evaluation of AI agent actions, with a local dashboard, findings, configurable rules, evidence export and 70 labeled regression scenarios. The evaluation engine and desktop console require no external inference, subscriptions or API keys and use the Python 3.10+ standard library. Optional live agent starters require provider credentials and may incur charges; hosted deployment uses the dependencies in requirements.txt.
+**OpenCaliber helps developers evaluate, diagnose and improve AI agent reliability.**
+
+Track instrumented tool actions, evaluate configured boundaries, and compare agent versions against the same paired tests. Inspect application-reported task success, policy violations, cost and latency, then review proposed tests and improvements. The engine and desktop console use Python 3.10+ standard library; optional live agents and hosted deployment have their documented requirements.
+
+## Check tool steps and recovery
+
+The wrapper retains emitted calls, including rejections and retries. Explicit tool contracts can check typed arguments/outputs, earlier returned identifiers and state requirements. Task success, policy compliance and tool-step validity remain separate. Missing evidence stays unknown. Run `python examples/step_checks/agent.py` and see [Tool step checks](docs/step-reliability.md).
+
+## Compare versions and propose improvements
+
+Use **Compare agent versions**. Run the application-owned callbacks on identical case inputs with `opencaliber.comparison.run_versions`, then import the generated bundle. Both versions use one fixed policy snapshot. The console saves a comparison report with success rates, policy violations, contract matches, reported cost, callback latency and failure examples. Missing measurements stay unknown.
+
+```sh
+python examples/version_comparison/run.py
+```
+
+The included demo is illustrative: it uses synthetic in-memory agents and simulated tool metadata, with no external tool or provider calls. Replace the callbacks with your actual agents and application-owned outcome assertions. See [Version comparison](docs/version-comparison.md).
+
+**Adaptive initially means proposing which tests and improvements to review.** Proposals are deterministic and evidence-driven; they never silently rewrite policies, prompts or code, or modify deployed agents. A single paired run is exploratory evidence, not an independent benchmark or a causal claim. Developer review and repeated held-out testing remain necessary.
 
 ## Automatic monitoring
 
-Start the console, then run a library agent or add `TrackedExecutor` wrappers to your own Python tool operations. Agents register a tracking ID and send action metadata to your console. Use **Monitored agents**, **Rules & policies**, **Activity** and **Problems** for everyday work. New agents start in report-only mode; enforcement is an explicit per-agent setting. Direct `evaluate_trace` calls remain offline and do not automatically save dashboard history.
+Start the console, then run a library agent or add `TrackedExecutor` wrappers to your own Python tool operations. Agents register a tracking ID and send action metadata to your console. Use **Monitored agents**, **Configure agent checks**, **Activity** and **Problems** for everyday work. New agents start in report-only mode; enforcement is an explicit per-agent setting. Direct `evaluate_trace` calls remain offline and do not automatically save dashboard history.
 
 See [Automatic tracking and internal-domain setup](docs/automatic-tracking.md). GitHub Pages hosts the public website and packages; deploy the authenticated Python service for a shared internal console.
 
@@ -121,7 +139,7 @@ Engine 0.4 supports opt-in rules such as backup-before-delete for the same resou
 
 ## Adoption utilities
 
-Use policy profiles, the application execution wrapper, offline MCP and Databricks audit imports, coverage reports and CI evaluations. Start at [enterprise integration building blocks](docs/enterprise-adoption.md) or the console Adoption and coverage page. These utilities do not add cloud authorization or datasource inspection.
+Use policy profiles, the application execution wrapper, offline MCP and Databricks audit imports, coverage reports and CI evaluations. Start at [enterprise integration building blocks](docs/enterprise-adoption.md) and the Developer Guide in the console. These utilities do not add cloud authorization or datasource inspection.
 
 ## Per-tool resource and argument policies
 
@@ -134,6 +152,24 @@ The Agents Library includes Browser Research Assistant, Report Collection Agent,
 ## Database search and summarization example
 
 See [examples/database_summary](examples/database_summary/README.md) for a runnable SQLite-to-mock-LLM workflow with OpenCaliber checks before each callback, policy JSON, five scenarios and tests. It demonstrates blocked transfers and operational failures without credentials or network calls.
+
+### Multi-agent execution graphs
+
+Record agents, tools, retries, handoffs and dependencies under one trajectory ID. Review repeated work, circular delegation, missing evidence and explicitly attributed error propagation in **Execution graphs**. Run `python examples/multi_agent/run.py` for a working example. See [multi-agent integration](docs/trajectories.md) for instrumentation, semantics and limits. Graphs reconstruct reported spans; they do not discover uninstrumented activity.
+
+### Context-aware failure diagnosis
+
+Use **Agents Dashboard → Diagnose run** to review captured objectives, ordered actions and selected outputs against the recorded policy. Enable diagnosis and a safe output extractor once in the wrapper; no manual evidence upload is needed. Policy checks, optional local semantic review and separately supplied verification are reported independently. Try `python examples/context_diagnosis/run.py`; see [diagnosis integration](docs/context-diagnosis.md) for local model setup and application-owned verification callbacks. Model findings remain advisory and do not change execution permissions.
+
+### Develop a missing check
+
+In Detection capabilities, select a gap to open the check wizard: define, develop, test, enable. An optional OpenAI, Claude, Gemini or downloaded Hugging Face coding model can draft the restricted Python check. Enabled revisions apply to new online events; missing evidence stays visible until supplied. See [Custom detection checks](docs/custom-checks.md) for examples, model setup and limitations.
+
+See [Console guide](docs/console-guide.md) for the seven sidebar workflows, examples and current screenshots.
+
+### Library monitoring and version tests
+
+All library packs include configurable versions, explicit outcome checks, bounded output summaries and tool execution graphs. Use `compare_versions.py --candidate ../candidate-folder` with your console running to compare two isolated fixture versions. See [Library integration](docs/library-integration.md) for evidence capture, actual input fingerprints and domain-specific success assertions.
 
 ## Creator & Research Lead
 

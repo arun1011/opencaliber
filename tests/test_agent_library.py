@@ -21,7 +21,8 @@ class AgentLibraryTests(unittest.TestCase):
                     self.assertFalse(any(n.endswith('/.env') or '/outputs/' in n for n in archive.namelist()))
                     archive.extractall(temp)
                 folder=Path(temp)/spec['id']
-                env={k:v for k,v in os.environ.items() if k not in ('OPENAI_API_KEY','OPENAI_MODEL','ANTHROPIC_API_KEY','ANTHROPIC_MODEL')}
+                env={k:v for k,v in os.environ.items() if k not in ('OPENAI_API_KEY','OPENAI_MODEL','ANTHROPIC_API_KEY','ANTHROPIC_MODEL','OPENCALIBER_ENDPOINT','OPENCALIBER_TOKEN','OPENCALIBER_MODE','OPENCALIBER_TRACKING_ID')}
+                env['OPENCALIBER_TRACKING']='off'
                 demo=subprocess.run([sys.executable,'agent.py','--demo'],cwd=folder,env=env,capture_output=True,text=True)
                 self.assertEqual(demo.returncode,0,demo.stderr)
                 self.assertIn('DEMO',(folder/'outputs/draft.txt').read_text(encoding='utf-8'))

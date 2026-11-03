@@ -27,3 +27,9 @@ PUBLISHING.md
 docs/publication-review-*.md
 /OpenCaliber_Developer_Guide.docx
 /opencaliber-evidence-*.json
+
+# Generated context-diagnosis examples; evidence may contain private data.
+outputs/context-diagnosis/
+
+# Private agent output, offline queues and cached enforcement settings.
+outputs/

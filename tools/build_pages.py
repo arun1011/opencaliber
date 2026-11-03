@@ -49,7 +49,7 @@ def build(destination,base_path='',release_tag='',release_repository='arun1011/o
         snapshot=json.loads(Path(metrics_file).read_text(encoding='utf-8'))
         snapshot_report(snapshot,release_repository)
         write('download-counts.json',json.dumps(snapshot,indent=2))
-    home=(ROOT/'web/index.html').read_text(encoding='utf-8').replace('Open the console →','Console setup →').replace('Open console ↗','Console setup ↗')
+    home=(ROOT/'web/index.html').read_text(encoding='utf-8').replace('Open the console →','Console setup →').replace('Open console ↗','Console setup ↗').replace('Compare agent versions →','Set up version comparisons →')
     write('index.html',page(home))
     library=(ROOT/'web/agents.html').read_text(encoding='utf-8').replace('Open console ↗','Console setup ↗')
     write('agents/index.html',page(library))

@@ -25,3 +25,7 @@ Open http://127.0.0.1:8080/. The builder requires an empty output directory; to 
 Console setup explains how to download, start and integrate the evaluator. It does not pretend to run evaluations on GitHub Pages. Home download buttons point to a ZIP built during the workflow, so a separate GitHub Release is optional. Public agent downloads are built from the tracked templates on every deployment.
 
 Generated site files, ZIPs and evaluation databases remain ignored by Git. The workflow uploads the generated static site rather than the entire repository.
+
+## Public developer guide
+
+The public menu links to `/guide/`. Pages builds generate this static guide from the console guide content and include its screenshots. Readers do not need a running console or API to view it. The link goes live after the updated Pages workflow deploys.

@@ -146,3 +146,5 @@ input::placeholder,textarea::placeholder{color:#62625b;opacity:1}
 .agents-table th:nth-child(8){min-width:150px}
 .agents-table .agent-row-actions .btn{white-space:nowrap;overflow-wrap:normal;word-break:normal;flex:0 0 auto}
 .agents-table td:nth-child(7) .agent-row-actions{flex-direction:column;align-items:flex-start}
+
+.public-guide{max-width:1240px;margin:0 auto;padding:36px 24px}.public-guide h2{scroll-margin-top:24px}.public-guide .link{text-decoration:underline}@media(max-width:700px){.marketing .site-nav{flex-wrap:wrap;gap:12px}.marketing .site-links{flex-wrap:wrap}.public-guide{padding:24px 16px}}

@@ -23,6 +23,8 @@ def build(destination,base_path='',release_tag='',release_repository='arun1011/o
         raise ValueError('Output must be a subdirectory of dist')
     if destination.exists() and any(destination.iterdir()):
         raise ValueError('Choose an empty output directory')
+    from tools.build_public_guide import build as build_guide
+    build_guide()
     build_agents()
     destination.mkdir(parents=True,exist_ok=True)
     prefix=base_path+'/'
@@ -33,7 +35,7 @@ def build(destination,base_path='',release_tag='',release_repository='arun1011/o
         if value.startswith(('#','https://','http://','mailto:','data:')):return value
         if release_base and value=='/api/package':return release_base+'opencaliber.zip'
         parsed=urlsplit(value)
-        routes={'/':'','/agents':'agents/','/console':'console/','/api/package':'downloads/opencaliber.zip'}
+        routes={'/':'','/agents':'agents/','/console':'console/','/guide':'guide/','/api/package':'downloads/opencaliber.zip'}
         path=routes.get(parsed.path,parsed.path.lstrip('/'))
         return prefix+path+('?' + parsed.query if parsed.query else '')+('#'+parsed.fragment if parsed.fragment else '')
     def page(text):
@@ -53,6 +55,9 @@ def build(destination,base_path='',release_tag='',release_repository='arun1011/o
     write('index.html',page(home))
     library=(ROOT/'web/agents.html').read_text(encoding='utf-8').replace('Open console ↗','Console setup ↗')
     write('agents/index.html',page(library))
+    write('guide/index.html',page((ROOT/'web/guide.html').read_text(encoding='utf-8')))
+    for asset in (ROOT/'web/assets/guide').glob('*.png'):
+        write('assets/guide/'+asset.name,asset.read_bytes())
     script=(ROOT/'web/agents.js').read_text(encoding='utf-8').replace("fetch('agents.json'","fetch("+json.dumps(prefix+'agents.json'))
     write('agents.js',script)
     catalog=json.loads((ROOT/'web/agents.json').read_text(encoding='utf-8'))
@@ -61,7 +66,7 @@ def build(destination,base_path='',release_tag='',release_repository='arun1011/o
     write('agents.json',json.dumps(catalog,indent=2))
     write('downloads/opencaliber.zip',build_package())
     write('console/index.html',page((ROOT/'web/pages-console.html').read_text(encoding='utf-8')))
-    for old,target in [('agents.html','agents/'),('console.html','console/')]:
+    for old,target in [('agents.html','agents/'),('console.html','console/'),('guide.html','guide/')]:
         write(old,'<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="refresh" content="0;url='+prefix+target+'"><title>OpenCaliber</title></head><body><a href="'+prefix+target+'">Continue to OpenCaliber</a></body></html>')
     write('404.html',page('<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Page not found</title></head><body><h1>Page not found</h1><p><a href="/">OpenCaliber home</a></p></body></html>'))
     print('Static site:',destination,'base path:',base_path or '/')

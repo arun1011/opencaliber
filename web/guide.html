@@ -1,0 +1,146 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Developer Guide | OpenCaliber</title><meta name="description" content="Connect agents, inspect actions, compare versions and develop detection checks with OpenCaliber. Practical examples and console screenshots."><link rel="icon" href="/assets/favicon.svg"><link rel="stylesheet" href="/styles.css"></head><body class="marketing"><header class="site-nav"><a href="/" class="logo"><img src="/assets/logo.svg" width="29" height="29" alt="">OpenCaliber</a><nav class="site-links"><a href="/agents">Agents Library</a><a href="/guide" aria-current="page">Developer Guide</a><a class="btn primary" href="/console">Console</a></nav></header><main class="public-guide"><div class="page-heading"><div><h1>Developer Guide</h1><p>Connect an agent, understand its runs and test improvements. Examples and screenshots for every console menu.</p></div></div><p>This guide is available without running the console. To use the tools, <a class="link" href="/api/package">download OpenCaliber</a> and start your own console.</p><nav class="guide-toc" aria-label="Guide chapters"><a class="btn" href="#guide-dashboard">Agents Dashboard</a><a class="btn" href="#guide-connect">Connect an Agent</a><a class="btn" href="#guide-compare">Compare agent versions</a><a class="btn" href="#guide-checks">Detection capabilities</a><a class="btn" href="#guide-regression">Regression tests</a><a class="btn" href="#guide-config">Advanced settings</a><a class="btn" href="#guide-docs">Developer Guide</a></nav><section class="panel panel-content text-content guide-content"><p>Start with a connected agent. OpenCaliber evaluates the actions your integration reports, retains findings in SQLite and highlights missing evidence. A clear result means no configured check triggered; it does not establish that every possible behavior was checked.</p>
+<h2 id="guide-dashboard" tabindex="-1">1. Agents Dashboard</h2>
+<p><strong>Purpose:</strong> see connected agents, their versions and runs, task outcomes, findings and monitoring gaps.</p>
+<p><strong>When to use:</strong> during development, after each run and when investigating a reported problem.</p>
+<p><strong>Example:</strong> a ticket agent completes its workflow, but its independent task assertion fails because it selected resolved tickets instead of unresolved ones. Open its latest run, inspect the database action and captured output, then use Diagnose run to review the objective and available verification evidence.</p>
+<ol>
+<li>Find the agent by name or tracking ID. Filter by Latest run status to show completed, failed/evaluation-error, blocked, in-progress or waiting agents. This filter uses each agent’s latest run; task success is reported separately. Each agent has one table row with its version, latest status, task result, policy mode, findings, gaps and last contact. Review details groups inspection, history and the execution graph; Actions groups Detected problems and Monitoring coverage with counts; Evaluate groups Diagnose and Compare versions.</li>
+<li>Review Latest status and Task result separately. Completed is not the same as succeeded.</li>
+<li>Use Inspect in the agent row for actions, findings and tool-step evidence.</li>
+<li>Use Diagnose in the same row for captured context and verification results. Semantic model review is advisory and requires its separate diagnosis configuration.</li>
+<li>Select Detected problems, History or Monitoring coverage in the row to expand the corresponding details. Follow Review missing checks to Detection capabilities.</li>
+<li>Select Graph in a linked agent row to inspect its job summary, or Compare to open version comparison. Multi-agent jobs below the table lists all linked jobs.</li>
+</ol>
+<p><img loading="lazy" alt="Agents Dashboard" src="/assets/guide/agents.png" /></p>
+<p>Graphs are created from explicitly reported agent/tool/handoff spans and parent, dependency and retry links. They cannot discover unreported work. Graph-only participants are listed separately from registered executors. Circular delegation and repeated work are review signals; application intent can make them legitimate.</p>
+<p><img loading="lazy" alt="Execution graph" src="/assets/guide/graphs.png" /></p>
+<p>The dashboard shows all registered agents and the latest 1,000 saved records. SQLite history survives a restart. Back up the database while the console is stopped. New downloaded packages contain no existing runtime database.</p>
+<h2 id="guide-connect" tabindex="-1">2. Connect an Agent</h2>
+<p><strong>Purpose:</strong> add the wrapper, tracking identity, output capture and execution links to your application.</p>
+<p><strong>When to use:</strong> when adopting OpenCaliber, adding a tool or instrumenting another worker in a multi-agent job.</p>
+<p><strong>Example:</strong> query a database and summarize the selected records. Put both the database callback and the LLM callback behind <code>agent.run</code>. OpenCaliber checks the declared action before dispatch when enforcement is active and receives the outcome afterward. It does not automatically observe SDK calls outside the wrapper.</p>
+<ol>
+<li>Start the console with <code>python run.py</code> from the downloaded package. In a source checkout use <code>python -m opencaliber.agent_server</code>.</li>
+<li>In another terminal run <code>python examples/connected_versions/run.py</code> to create two tracked example versions.</li>
+<li>Copy the complete connection example into your project and replace its synthetic query with your own callback.</li>
+<li>Give each agent a tracking ID and explicit version. Distinct version IDs or a stable agent ID with explicit versions can identify comparison cohorts; never reuse a tracking ID for a different agent ID.</li>
+<li>Declare authorized tools/resources and per-tool argument/output contracts.</li>
+<li>Capture selected safe outputs and independently evaluate task success.</li>
+<li>Run allowed, denied and failure paths, then inspect the dashboard and gaps.</li>
+</ol>
+<p><img loading="lazy" alt="Connection example" src="/assets/guide/connect.png" /></p>
+<pre><code class="language-python">from opencaliber import TrackedExecutor
+
+with TrackedExecutor(
+    agent={&quot;id&quot;: &quot;ticket-reader&quot;, &quot;version&quot;: &quot;2.0&quot;},
+    tracking_id=&quot;ticket-reader&quot;,
+    task={&quot;goal&quot;: &quot;Read unresolved login tickets&quot;,
+          &quot;allowed_tools&quot;: [&quot;database.read&quot;],
+          &quot;allowed_resources&quot;: [&quot;tickets&quot;]},
+    tool_contracts={&quot;database.read&quot;: {
+        &quot;arguments&quot;: {&quot;records&quot;: &quot;integer&quot;, &quot;match_mode&quot;: &quot;string&quot;},
+        &quot;required&quot;: [&quot;records&quot;, &quot;match_mode&quot;]}},
+    contract_mode=&quot;enforce&quot;,
+    diagnosis=True,
+    capture_output=lambda action, rows: {&quot;ids&quot;: [row[0] for row in rows]},
+) as agent:
+    rows = agent.run(
+        {&quot;id&quot;: &quot;lookup&quot;, &quot;tool&quot;: &quot;database.read&quot;, &quot;resource&quot;: &quot;tickets&quot;,
+         &quot;arguments&quot;: {&quot;records&quot;: 10, &quot;match_mode&quot;: &quot;exact&quot;}},
+        query_unresolved_login_tickets,
+        success=lambda result: isinstance(result, list),
+    )
+    agent.record_outcome(check_expected_ticket_ids(rows))
+</code></pre>
+<p><code>query_unresolved_login_tickets</code> and <code>check_expected_ticket_ids</code> are application-owned functions. Define the expected IDs independently of the agent's answer. Do not send complete private rows merely to populate a dashboard. Diagnosis capture explicitly retains the fields returned by your callback.</p>
+<p>For multiple workers, propagate one <code>trajectory_id</code>, parent span IDs and explicit dependencies through job messages. Each worker wraps its own tools. Sequence gates within one executor do not share state across machines; coordinate destructive dependent actions through one executor or a separately reviewed shared gate.</p>
+<p>For an internal HTTPS deployment, configure <code>OPENCALIBER_ENDPOINT</code> and <code>OPENCALIBER_TOKEN</code> on the agent. The hosted console requires its configured origin, authentication and persistent data storage. GitHub Pages serves setup information and downloads; it cannot run the Python evaluation backend.</p>
+<h2 id="guide-compare" tabindex="-1">3. Compare agent versions</h2>
+<p><strong>Purpose:</strong> compare two agent/version cohorts already reporting to the console.</p>
+<p><strong>When to use:</strong> after changing a prompt, model, tool implementation, routing logic or workflow.</p>
+<p><strong>Example:</strong> compare a substring ticket search with an exact-match version using identical fixture inputs. Review task success, policy violations, diagnosis failures, tool validity, latency, reported cost and linked trajectory findings.</p>
+<ol>
+<li>Run both versions and report explicit task outcomes.</li>
+<li>Select a baseline and a candidate, then Compare tracked runs.</li>
+<li>Read Matched cases before interpreting overall observed metrics.</li>
+<li>Inspect failure examples and graph findings before promoting a version.</li>
+</ol>
+<p><img loading="lazy" alt="Tracked version comparison" src="/assets/guide/compare.png" /></p>
+<pre><code class="language-python">evaluation={
+    &quot;experiment_id&quot;: &quot;ticket-search-v1-v2&quot;,
+    &quot;case_id&quot;: &quot;unresolved-login&quot;,
+    &quot;input_sha256&quot;: canonical_input_hash,
+    &quot;success_criterion&quot;: &quot;exact-expected-ticket-ids&quot;,
+    &quot;assignment&quot;: &quot;paired&quot;,
+}
+</code></pre>
+<p>Pass this metadata to each executor. Both versions need the same experiment, case, actual input fingerprint, success criterion, policy, enabled custom-check specifications, tool contracts and initial state to be matched. Only the latest run per repeated case/cohort is paired. Missing success/cost/latency remains unknown. Workflow latency includes wrapper overhead. A reported cost can be an estimate or provider value; inspect provenance.</p>
+<p>The console does not randomize traffic or establish statistical significance. Overall runs may differ in workload; an application-reported randomized label is not independent proof of randomization. A small paired example demonstrates behavior on those cases, not general superiority.</p>
+<h2 id="guide-checks" tabindex="-1">4. Detection capabilities</h2>
+<p><strong>Purpose:</strong> resolve missing checks, develop a detector and manage optional coding assistance.</p>
+<p><strong>When to use:</strong> the dashboard identifies an unconstrained argument or your task needs a new check beyond existing policy fields.</p>
+<p><strong>Example:</strong> reject a ticket query when <code>match_mode</code> is not <code>exact</code>.</p>
+<ol>
+<li>Select Add missing check beside the relevant gap, or Create a detection check.</li>
+<li><strong>Define:</strong> name, tool, tracking-ID scope, before/after timing, finding message and recommended fix.</li>
+<li><strong>Develop:</strong> write the restricted Python code and declare each evidence path. A model can optionally draft it.</li>
+<li><strong>Test:</strong> provide passing and failing synthetic examples, then Save and run tests. Missing-field tests are added automatically.</li>
+<li><strong>Enable:</strong> activate the tested saved revision. New online events use it immediately.</li>
+<li>Run the scoped tool again. Coverage remains awaiting evidence until the new revision evaluates usable evidence.</li>
+</ol>
+<pre><code class="language-python">def check(ctx):
+    return field(&quot;action.arguments.match_mode&quot;) != &quot;exact&quot;
+</code></pre>
+<p>Required evidence: <code>action.arguments.match_mode</code>. True means a problem, False means passed, and missing/invalid evidence means unknown. Before-action checks can gate dispatch in enforce mode. After-action checks inspect outputs and cannot undo a completed action. Findings on preceding actions may affect a subsequent dispatch.</p>
+<p><img loading="lazy" alt="Detection wizard and passing tests" src="/assets/guide/checks.png" /></p>
+<p>Supported helpers: <code>field</code>, <code>contains</code>, <code>lower</code>, <code>count</code>, <code>previous_succeeded</code>; comparisons and boolean expressions are supported. No imports, loops, arbitrary Python functions, shell, network or file access are allowed. More general algorithms require a reviewed backend extension. Editing a saved check disables it and invalidates tests; retest and enable the revised code. Disable/delete affects future events and preserves historical findings and the revision audit.</p>
+<h3>Optional coding model</h3>
+<p>Open Optional coding model on this page. Model Service supports OpenAI, Claude / Anthropic and Google / Gemini. Enter the exact model name and API key, enable and save. Keys stay encrypted server-side and are never returned by the settings API.</p>
+<p>Local Model supports public Hugging Face <code>owner/model</code> IDs with compatible causal-model Safetensors weights. Install <code>requirements-models.txt</code>, enter a model ID, download, then enable and save. Models needing downloaded Python code, GGUF-only models and gated repositories needing a token are unsupported by this manager. Downloaded models can be deleted from the same panel. Inference runs on demand and unloads afterward; model size, architecture and available compute affect whether it succeeds.</p>
+<p><img loading="lazy" alt="Optional coding model settings" src="/assets/guide/models.png" /></p>
+<p>In wizard step 2, review the draft and examples, consent to submitting them, then Run coding model to draft code. The assistant cannot enable its draft or edit deployed agents. Run history is not automatically sent. Windows uses account-bound credential encryption. Linux/macOS needs the optional cryptography dependency and a persistent <code>OPENCALIBER_SECRET_KEY</code>. See <code>docs/custom-checks.md</code> for complete setup and limits.</p>
+<p>An evidence gap opens integration instructions instead. A new detector cannot create missing tool outputs, task assertions or graph spans. Unsupported tool semantics also remain a gap when a custom check addresses only one field.</p>
+<h2 id="guide-regression" tabindex="-1">5. Regression tests</h2>
+<p><strong>Purpose:</strong> save captured connected runs as repeatable policy tests.</p>
+<p><strong>When to use:</strong> after reproducing a violation, fixing a false positive or changing policy/evaluation behavior.</p>
+<p><strong>Example:</strong> save a run that requested more records than allowed. Set expected assessment to violation and include the finding code shown on that run. After changing the record limit or engine, rerun the case to verify its expected behavior.</p>
+<ol>
+<li>Choose a source run with captured original context.</li>
+<li>Set a case ID, descriptive name, expected assessment and required finding codes.</li>
+<li>Preview the case. A mismatch means your expectation or configured checks need review.</li>
+<li>Save the case, then Run contract tests.</li>
+<li>Inspect mismatches and rerun after an intentional correction.</li>
+</ol>
+<p><img loading="lazy" alt="Regression tests" src="/assets/guide/cases.png" /></p>
+<p>These are regression examples, not additional detector implementations or new permissions. They use current platform policy settings; included fixtures with explicit overrides retain them. Custom detector code has its own wizard test suite. A saved-run policy test does not automatically execute that custom detector. A redacted-only run cannot reliably become a new case; enable diagnosis capture and reproduce it. Saved cases retain original action metadata; consider whether that evidence should be kept.</p>
+<h2 id="guide-config" tabindex="-1">6. Advanced settings</h2>
+<p><strong>Purpose:</strong> configure shared policy boundaries, mode and supported per-tool/sequence restrictions.</p>
+<p><strong>When to use:</strong> when the defaults do not match your application or before relying on blocking. You can begin observing agent activity with defaults.</p>
+<p><strong>Example:</strong> approve a model-service host, set a maximum record budget and require a successful backup before a destructive operation.</p>
+<ol>
+<li>Start in Monitor only while reviewing what actions your agent reports.</li>
+<li>Review approved hosts/file roots, denied tools, limits and declared task scope.</li>
+<li>Add allowed values, host/path restrictions or numeric bounds for a supported tool field.</li>
+<li>Review advanced sequence rules where prior successful operations are required.</li>
+<li>Save and run representative allowed and denied paths before selecting Block violations.</li>
+</ol>
+<p><img loading="lazy" alt="Advanced settings" src="/assets/guide/policy.png" /></p>
+<p>Saved settings apply on subsequent online actions to inheriting agents and future registrations. Existing agent-specific overrides remain until explicitly reset. Local wrapper rules remain independently active. Enabling console monitoring does not automatically override a stricter wrapper. Historical runs retain their recorded policy snapshot.</p>
+<h2 id="guide-docs" tabindex="-1">7. Developer Guide</h2>
+<p><strong>Purpose:</strong> find the integration patterns, meaning of results, setup steps and troubleshooting instructions in one place.</p>
+<p><strong>When to use:</strong> during onboarding, when adding multi-agent relationships or when a result is unknown or unexpected.</p>
+<p><strong>Example:</strong> a run says output evidence is missing. Consult Detection capabilities and Connect an Agent, add the needed safe output fields, rerun and verify that the affected check now evaluates the enabled revision.</p>
+<p><img loading="lazy" alt="Developer Guide" src="/assets/guide/docs.png" /></p>
+<p>Use the chapter buttons to jump between the seven sidebar workflows. Detailed implementation references are included in <code>docs/custom-checks.md</code>, <code>docs/context-diagnosis.md</code>, <code>docs/trajectories.md</code> and <code>docs/connected-console.md</code>.</p>
+<h2>Troubleshooting and interpretation</h2>
+<ul>
+<li><strong>Console evaluation unavailable:</strong> in enforcement, the callback was not dispatched. Check that the server is running, endpoint/token/origin are correct and wrapper/backend versions agree. Restart the console after a source update; adding a tested check itself needs no restart.</li>
+<li><strong>ActionBlocked:</strong> inspect the policy or tool-contract rejection; correct the scope, arguments or prerequisite rather than suppressing the check.</li>
+<li><strong>ExecutionEvidenceFailed:</strong> the callback ran, but evidence failed or stayed unknown. Reconcile actual state before retrying; partial effects may exist.</li>
+<li><strong>Workflow failed or callback exception:</strong> examine action outcomes, application logs and external state. The wrapper does not roll back arbitrary tools.</li>
+<li><strong>Unknown/insufficient evidence:</strong> supply the required information. Unknown is not a pass or an established violation.</li>
+<li><strong>Check remains missing:</strong> confirm it is enabled for the right tool/tracking ID and a new online run evaluated its current revision. Hidden branches and unwrapped actions remain unobserved.</li>
+<li><strong>No matched comparison:</strong> align case/input/criteria/policy/check/contract metadata and report an independent task outcome for both versions.</li>
+<li><strong>Model unavailable:</strong> confirm model access, API quota or local dependencies/memory. Manual check development and deterministic evaluation remain available.</li>
+</ul>
+<p>Select original output fields deliberately, keep credentials out of traces/test fixtures and use the authenticated HTTPS service for remote agents. The synchronous wrapper does not sandbox tool callbacks, infer business correctness or cancel arbitrary operations. You own authorization, tool timeouts, idempotency and independent verification.</p></section></main><footer class="site-footer"><a href="/">OpenCaliber home</a><a href="/agents">Agents Library</a><a href="/guide">Developer Guide</a></footer></body></html>

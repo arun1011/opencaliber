@@ -177,7 +177,7 @@ These are regression examples, not additional detector implementations or new pe
 
 Saved settings apply on subsequent online actions to inheriting agents and future registrations. Existing agent-specific overrides remain until explicitly reset. Local wrapper rules remain independently active. Enabling console monitoring does not automatically override a stricter wrapper. Historical runs retain their recorded policy snapshot.
 
-## 7. Developer Guide
+## 7. Help and troubleshooting
 
 **Purpose:** find the integration patterns, meaning of results, setup steps and troubleshooting instructions in one place.
 

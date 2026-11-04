@@ -1,78 +1,82 @@
 WEBVTT
 
 1
-00:00:00.000 --> 00:00:09.545
-Download the package and extract it. Start the console with python run.py, then open the console address printed in your terminal.
+00:00:00.000 --> 00:00:12.489
+OpenCaliber helps you follow an agent from a wrapped tool call to a tested improvement. The home page shows the flow: wrap, monitor, diagnose and compare agent versions.
 
 2
-00:00:09.545 --> 00:00:17.767
-The default settings let you begin observing. Connect your agent next, and review its permissions before relying on blocking.
+00:00:12.489 --> 00:00:25.148
+Download the package, extract it and start your console with python run.py. Use a library agent or wrap your own tools, then point the agent to your running console.
 
 3
-00:00:17.767 --> 00:00:31.215
-Agents Dashboard now lists each connected agent in a table. Search by agent name, or filter by the latest run status to focus on completed, failed, blocked or active work.
+00:00:25.148 --> 00:00:39.813
+In this example, retrieval selects the wrong document version. Inspect the captured source evidence, correct the selection, then compare both agent versions on shared cases with the same success criteria.
 
 4
-00:00:31.215 --> 00:00:45.368
-Review details opens the run, history and linked graph. Actions shows Detected problems and Monitoring coverage, each with a count. Select either to expand its evidence beneath that agent's row.
+00:00:39.813 --> 00:00:53.261
+Agents Dashboard now lists each connected agent in a table. Search by agent name, or filter by the latest run status to focus on completed, failed, blocked or active work.
 
 5
-00:00:45.368 --> 00:00:58.518
-Evaluate provides Diagnose and Compare versions. Diagnose reviews the selected run's objective and available evidence. Use Back to dashboard to return to the agent table.
+00:00:53.261 --> 00:01:07.414
+Review details opens the run, history and linked graph. Actions shows Detected problems and Monitoring coverage, each with a count. Select either to expand its evidence beneath that agent's row.
 
 6
-00:00:58.518 --> 00:01:11.540
-Connect an Agent provides a complete working integration. Wrap each external tool operation, give the agent a tracking identifier, and declare its authorized tools and resources.
+00:01:07.414 --> 00:01:20.564
+Evaluate provides Diagnose and Compare versions. Diagnose reviews the selected run's objective and available evidence. Use Back to dashboard to return to the agent table.
 
 7
-00:01:11.540 --> 00:01:26.589
-Capture only the output fields needed for checks, and report an independently verified task outcome. Across workers, propagate the same job identifier and emit parent, handoff and dependency links.
+00:01:20.564 --> 00:01:33.586
+Connect an Agent provides a complete working integration. Wrap each external tool operation, give the agent a tracking identifier, and declare its authorized tools and resources.
 
 8
-00:01:26.589 --> 00:01:40.677
-Run both versions against the same inputs, then choose a baseline and candidate from agents already reporting to the console. Review matched cases, success, policy findings, cost and latency.
+00:01:33.586 --> 00:01:48.635
+Capture only the output fields needed for checks, and report an independently verified task outcome. Across workers, propagate the same job identifier and emit parent, handoff and dependency links.
 
 9
-00:01:40.677 --> 00:01:52.121
-Inspect failure examples before choosing a version. Missing measurements remain unknown, and these observed comparisons do not establish statistical significance.
+00:01:48.635 --> 00:02:02.723
+Run both versions against the same inputs, then choose a baseline and candidate from agents already reporting to the console. Review matched cases, success, policy findings, cost and latency.
 
 10
-00:01:52.121 --> 00:02:06.337
-Use Detection capabilities when an agent needs a missing check. The wizard guides you through defining its scope, developing the code, testing passing and failing examples, and enabling the saved revision.
+00:02:02.723 --> 00:02:14.167
+Inspect failure examples before choosing a version. Missing measurements remain unknown, and these observed comparisons do not establish statistical significance.
 
 11
-00:02:06.337 --> 00:02:21.962
-Here the check flags a record request above twenty-five. True means a problem. Missing required evidence becomes unknown. Before-action checks can gate dispatch in enforce mode; output checks run after an action.
+00:02:14.167 --> 00:02:28.383
+Use Detection capabilities when an agent needs a missing check. The wizard guides you through defining its scope, developing the code, testing passing and failing examples, and enabling the saved revision.
 
 12
-00:02:21.962 --> 00:02:35.987
-A coding model can help draft the check. Choose a model service with its provider, model name and API key, or download a compatible Hugging Face model and enable it for on-demand use.
+00:02:28.383 --> 00:02:44.008
+Here the check flags a record request above twenty-five. True means a problem. Missing required evidence becomes unknown. Before-action checks can gate dispatch in enforce mode; output checks run after an action.
 
 13
-00:02:35.987 --> 00:02:50.246
-Only the draft and examples you explicitly submit are sent to the assistant. Review its code, test it and enable it yourself. A model cannot silently change your agents or activate its own check.
+00:02:44.008 --> 00:02:58.033
+A coding model can help draft the check. Choose a model service with its provider, model name and API key, or download a compatible Hugging Face model and enable it for on-demand use.
 
 14
-00:02:50.246 --> 00:03:03.353
-Regression tests turns a captured connected run into a repeatable policy test. Choose the run, set the expected assessment and finding codes, preview it, then save and run the tests.
+00:02:58.033 --> 00:03:12.292
+Only the draft and examples you explicitly submit are sent to the assistant. Review its code, test it and enable it yourself. A model cannot silently change your agents or activate its own check.
 
 15
-00:03:03.353 --> 00:03:16.759
-Use this after reproducing a problem or changing a policy. Saved-run tests verify existing policy behavior. Custom detector code has its separate test suite in the check wizard.
+00:03:12.292 --> 00:03:25.399
+Regression tests turns a captured connected run into a repeatable policy test. Choose the run, set the expected assessment and finding codes, preview it, then save and run the tests.
 
 16
-00:03:16.759 --> 00:03:28.864
-Advanced settings contains shared policies, tool restrictions and sequence prerequisites. Use it when defaults do not match your application and before depending on blocking.
+00:03:25.399 --> 00:03:38.805
+Use this after reproducing a problem or changing a policy. Saved-run tests verify existing policy behavior. Custom detector code has its separate test suite in the check wizard.
 
 17
-00:03:28.864 --> 00:03:46.067
-Review approved destinations, file roots, record limits and denied tools. Existing agent overrides remain until explicitly reset. Saved settings affect subsequent online actions, while older runs keep their recorded policy.
+00:03:38.805 --> 00:03:50.910
+Advanced settings contains shared policies, tool restrictions and sequence prerequisites. Use it when defaults do not match your application and before depending on blocking.
 
 18
-00:03:46.067 --> 00:04:00.348
-Developer Guide covers every sidebar menu with its purpose, when to use it, an example and the steps to follow. It also explains output capture, multiple agents, model setup and common errors.
+00:03:50.910 --> 00:04:08.113
+Review approved destinations, file roots, record limits and denied tools. Existing agent overrides remain until explicitly reset. Saved settings affect subsequent online actions, while older runs keep their recorded policy.
 
 19
-00:04:00.348 --> 00:04:13.967
+00:04:08.113 --> 00:04:22.394
+Developer Guide covers every sidebar menu with its purpose, when to use it, an example and the steps to follow. It also explains output capture, multiple agents, model setup and common errors.
+
+20
+00:04:22.394 --> 00:04:36.013
 Connect once, inspect the evidence, add the checks your task needs, and compare improvements on shared cases. A clear result means no configured check triggered; missing evidence still needs attention.
 

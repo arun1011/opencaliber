@@ -5,34 +5,34 @@
   },
   {
     "title": "Agents Dashboard",
-    "start_seconds": 17.767
+    "start_seconds": 39.813
   },
   {
     "title": "Connect an Agent",
-    "start_seconds": 58.518
+    "start_seconds": 80.564
   },
   {
     "title": "Compare agent versions",
-    "start_seconds": 86.589
+    "start_seconds": 108.635
   },
   {
     "title": "Detection capabilities",
-    "start_seconds": 112.121
+    "start_seconds": 134.167
   },
   {
     "title": "Optional coding model",
-    "start_seconds": 141.962
+    "start_seconds": 164.008
   },
   {
     "title": "Regression tests",
-    "start_seconds": 170.246
+    "start_seconds": 192.292
   },
   {
     "title": "Advanced settings",
-    "start_seconds": 196.759
+    "start_seconds": 218.805
   },
   {
     "title": "Developer Guide",
-    "start_seconds": 226.067
+    "start_seconds": 248.113
   }
 ]

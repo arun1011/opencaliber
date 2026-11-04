@@ -1,38 +1,39 @@
 OpenCaliber console walkthrough
 
 00:00:00.000 — Download and start
-Download the package and extract it. Start the console with python run dot py, then open the console address printed in your terminal.
-The default settings let you begin observing. Connect your agent next, and review its permissions before relying on blocking.
+OpenCaliber helps you follow an agent from a wrapped tool call to a tested improvement. The home page shows the flow: wrap, monitor, diagnose and compare agent versions.
+Download the package, extract it and start your console with python run dot py. Use a library agent or wrap your own tools, then point the agent to your running console.
+In this example, retrieval selects the wrong document version. Inspect the captured source evidence, correct the selection, then compare both agent versions on shared cases with the same success criteria.
 
-00:00:17.767 — Agents Dashboard
+00:00:39.813 — Agents Dashboard
 Agents Dashboard now lists each connected agent in a table. Search by agent name, or filter by the latest run status to focus on completed, failed, blocked or active work.
 Review details opens the run, history and linked graph. Actions shows Detected problems and Monitoring coverage, each with a count. Select either to expand its evidence beneath that agent's row.
 Evaluate provides Diagnose and Compare versions. Diagnose reviews the selected run's objective and available evidence. Use Back to dashboard to return to the agent table.
 
-00:00:58.518 — Connect an Agent
+00:01:20.564 — Connect an Agent
 Connect an Agent provides a complete working integration. Wrap each external tool operation, give the agent a tracking identifier, and declare its authorized tools and resources.
 Capture only the output fields needed for checks, and report an independently verified task outcome. Across workers, propagate the same job identifier and emit parent, handoff and dependency links.
 
-00:01:26.589 — Compare agent versions
+00:01:48.635 — Compare agent versions
 Run both versions against the same inputs, then choose a baseline and candidate from agents already reporting to the console. Review matched cases, success, policy findings, cost and latency.
 Inspect failure examples before choosing a version. Missing measurements remain unknown, and these observed comparisons do not establish statistical significance.
 
-00:01:52.121 — Detection capabilities
+00:02:14.167 — Detection capabilities
 Use Detection capabilities when an agent needs a missing check. The wizard guides you through defining its scope, developing the code, testing passing and failing examples, and enabling the saved revision.
 Here the check flags a record request above twenty-five. True means a problem. Missing required evidence becomes unknown. Before-action checks can gate dispatch in enforce mode; output checks run after an action.
 
-00:02:21.962 — Optional coding model
+00:02:44.008 — Optional coding model
 A coding model can help draft the check. Choose a model service with its provider, model name and API key, or download a compatible Hugging Face model and enable it for on-demand use.
 Only the draft and examples you explicitly submit are sent to the assistant. Review its code, test it and enable it yourself. A model cannot silently change your agents or activate its own check.
 
-00:02:50.246 — Regression tests
+00:03:12.292 — Regression tests
 Regression tests turns a captured connected run into a repeatable policy test. Choose the run, set the expected assessment and finding codes, preview it, then save and run the tests.
 Use this after reproducing a problem or changing a policy. Saved-run tests verify existing policy behavior. Custom detector code has its separate test suite in the check wizard.
 
-00:03:16.759 — Advanced settings
+00:03:38.805 — Advanced settings
 Advanced settings contains shared policies, tool restrictions and sequence prerequisites. Use it when defaults do not match your application and before depending on blocking.
 Review approved destinations, file roots, record limits and denied tools. Existing agent overrides remain until explicitly reset. Saved settings affect subsequent online actions, while older runs keep their recorded policy.
 
-00:03:46.067 — Developer Guide
+00:04:08.113 — Developer Guide
 Developer Guide covers every sidebar menu with its purpose, when to use it, an example and the steps to follow. It also explains output capture, multiple agents, model setup and common errors.
 Connect once, inspect the evidence, add the checks your task needs, and compare improvements on shared cases. A clear result means no configured check triggered; missing evidence still needs attention.

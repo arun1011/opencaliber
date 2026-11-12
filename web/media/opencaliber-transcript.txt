@@ -1,39 +1,34 @@
 OpenCaliber console walkthrough
 
 00:00:00.000 — Download and start
-OpenCaliber helps you follow an agent from a wrapped tool call to a tested improvement. The home page shows the flow: wrap, monitor, diagnose and compare agent versions.
-Download the package, extract it and start your console with python run dot py. Use a library agent or wrap your own tools, then point the agent to your running console.
-In this example, retrieval selects the wrong document version. Inspect the captured source evidence, correct the selection, then compare both agent versions on shared cases with the same success criteria.
+Connect your existing Python agent to OpenCaliber, without wrapping each tool function. This walkthrough uses the included SQLite example and the current console.
+Download the package, extract it, and open a terminal in that folder. Run python run dot py, then open the console on port eight seven eight seven. Keep the console running.
 
-00:00:39.813 — Agents Dashboard
-Agents Dashboard now lists each connected agent in a table. Search by agent name, or filter by the latest run status to focus on completed, failed, blocked or active work.
-Review details opens the run, history and linked graph. Actions shows Detected problems and Monitoring coverage, each with a count. Select either to expand its evidence beneath that agent's row.
-Evaluate provides Diagnose and Compare versions. Diagnose reviews the selected run's objective and available evidence. Use Back to dashboard to return to the agent table.
+00:00:24.657 — An unchanged Python agent
+Here is the example agent. It creates a small in-memory ticket table, inserts a billing ticket, and reads the matching record. The code imports SQLite and a standard context manager. It has no OpenCaliber imports or tool wrappers.
+The launcher observes supported library calls around this existing code. It does not need a model API key for this example, and it does not collect SQL text, query parameters, or result rows.
 
-00:01:20.564 — Connect an Agent
-Connect an Agent provides a complete working integration. Wrap each external tool operation, give the agent a tracking identifier, and declare its authorized tools and resources.
-Capture only the output fields needed for checks, and report an independently verified task outcome. Across workers, propagate the same job identifier and emit parent, handoff and dependency links.
+00:00:57.080 — Connect through the startup command
+In a second terminal, run the connection command shown here. Set the agent ID to sqlite-demo and pass the path to the included example after the double dash. Enter the command on one line.
+The output confirms one matching ticket, three observed actions, and delivered tracking. For your own script, replace the example path and choose a stable agent ID. OpenCaliber must be importable in that Python environment.
+To remove monitoring, restore the original Python startup command. Each invocation creates a new run. Child processes need their own launcher.
 
-00:01:48.635 — Compare agent versions
-Run both versions against the same inputs, then choose a baseline and candidate from agents already reporting to the console. Review matched cases, success, policy findings, cost and latency.
-Inspect failure examples before choosing a version. Missing measurements remain unknown, and these observed comparisons do not establish statistical significance.
+00:01:37.618 — Connection options in the console
+Connect an Agent contains the launcher command, the included example, and coverage details. It is the starting point for connecting an existing script.
+The launcher supports default SQLite connections and urllib requests. It also observes synchronous Requests and HTTPX calls when those libraries are installed. Async clients, files, custom SQLite factories, and child processes are outside this coverage.
 
-00:02:14.167 — Detection capabilities
-Use Detection capabilities when an agent needs a missing check. The wizard guides you through defining its scope, developing the code, testing passing and failing examples, and enabling the saved revision.
-Here the check flags a record request above twenty-five. True means a problem. Missing required evidence becomes unknown. Before-action checks can gate dispatch in enforce mode; output checks run after an action.
+00:02:07.523 — Find your connected agent
+Open Agents Dashboard and search for sqlite-demo. The row shows the latest run, agent version, policy mode, detected problems, and monitoring coverage. History contains the previous invocations.
+Observe, Python launcher means policy evaluation happens after execution. This connection never blocks a call, even if the platform policy is set to block violations. A completed process does not establish business success.
 
-00:02:44.008 — Optional coding model
-A coding model can help draft the check. Choose a model service with its provider, model name and API key, or download a compatible Hugging Face model and enable it for on-demand use.
-Only the draft and examples you explicitly submit are sent to the assistant. Review its code, test it and enable it yourself. A model cannot silently change your agents or activate its own check.
+00:02:39.327 — Inspect calls and findings
+Select Inspect run to see the captured actions and findings. This example records table creation, an insert, and a read. Table creation is an unmapped statement for review; it is not automatically classified as a supported database tool.
+A missing task scope means the agent has not supplied its authorized tool scope. This is missing evidence, not proof of fraud or a successful attack. Read the rule, the action identity, and the suggested correction before making changes.
 
-00:03:12.292 — Regression tests
-Regression tests turns a captured connected run into a repeatable policy test. Choose the run, set the expected assessment and finding codes, preview it, then save and run the tests.
-Use this after reproducing a problem or changing a policy. Saved-run tests verify existing policy behavior. Custom detector code has its separate test suite in the check wizard.
+00:03:14.417 — Review monitoring coverage
+Monitoring coverage separates missing evidence from detected problems. The launcher does not infer the business objective, fetched record count, transaction success, or multi-agent dependencies.
+For task-success assertions, selected outputs, verified tool contracts, or pre-dispatch blocking, use the advanced explicit integration example. Configure only the permissions your application actually requires; do not derive authorization from the calls it happened to make.
 
-00:03:38.805 — Advanced settings
-Advanced settings contains shared policies, tool restrictions and sequence prerequisites. Use it when defaults do not match your application and before depending on blocking.
-Review approved destinations, file roots, record limits and denied tools. Existing agent overrides remain until explicitly reset. Saved settings affect subsequent online actions, while older runs keep their recorded policy.
-
-00:04:08.113 — Developer Guide
-Developer Guide covers every sidebar menu with its purpose, when to use it, an example and the steps to follow. It also explains output capture, multiple agents, model setup and common errors.
-Connect once, inspect the evidence, add the checks your task needs, and compare improvements on shared cases. A clear result means no configured check triggered; missing evidence still needs attention.
+00:03:48.653 — Configure checks and improve
+Advanced settings holds the platform policy. Review allowed hosts, denied tools, and tool-specific restrictions. Detection capabilities lets you develop and test additional checks. Launcher observations remain non-blocking.
+Correct your agent, rerun the same startup command, and inspect the new run. The Developer Guide explains both connection paths. Compare agent versions becomes useful when both versions report shared test cases, success criteria, and outcome evidence.

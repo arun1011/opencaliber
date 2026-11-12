@@ -4,35 +4,31 @@
     "start_seconds": 0
   },
   {
-    "title": "Agents Dashboard",
-    "start_seconds": 39.813
+    "title": "An unchanged Python agent",
+    "start_seconds": 24.657
   },
   {
-    "title": "Connect an Agent",
-    "start_seconds": 80.564
+    "title": "Connect through the startup command",
+    "start_seconds": 57.08
   },
   {
-    "title": "Compare agent versions",
-    "start_seconds": 108.635
+    "title": "Connection options in the console",
+    "start_seconds": 97.618
   },
   {
-    "title": "Detection capabilities",
-    "start_seconds": 134.167
+    "title": "Find your connected agent",
+    "start_seconds": 127.523
   },
   {
-    "title": "Optional coding model",
-    "start_seconds": 164.008
+    "title": "Inspect calls and findings",
+    "start_seconds": 159.327
   },
   {
-    "title": "Regression tests",
-    "start_seconds": 192.292
+    "title": "Review monitoring coverage",
+    "start_seconds": 194.417
   },
   {
-    "title": "Advanced settings",
-    "start_seconds": 218.805
-  },
-  {
-    "title": "Developer Guide",
-    "start_seconds": 248.113
+    "title": "Configure checks and improve",
+    "start_seconds": 228.653
   }
 ]

@@ -305,6 +305,8 @@ def create_app(settings=None):
         except sqlite3.Error:return JSONResponse({'error':'Storage unavailable'},503)
 
     @app.get('/index.html')
+    @app.get('/releases.html')
+    @app.get('/releases/')
     @app.get('/guide.html')
     @app.get('/guide/')
     @app.get('/agents.html')
@@ -312,9 +314,10 @@ def create_app(settings=None):
     @app.get('/agents/')
     @app.get('/console/')
     def page_alias(request: Request):
-        target={'/index.html':'/','/agents.html':'/agents','/console.html':'/console','/agents/':'/agents','/console/':'/console','/guide.html':'/guide','/guide/':'/guide'}[request.url.path]
+        target={'/index.html':'/','/agents.html':'/agents','/console.html':'/console','/agents/':'/agents','/console/':'/console','/guide.html':'/guide','/guide/':'/guide','/releases.html':'/releases','/releases/':'/releases'}[request.url.path]
         return RedirectResponse(target+('?' + request.url.query if request.url.query else ''),status_code=308)
 
+    @app.get('/releases')
     @app.get('/guide')
     @app.get('/agents')
     @app.get('/console')

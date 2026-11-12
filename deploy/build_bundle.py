@@ -10,7 +10,7 @@ sys.path.insert(0,str(ROOT))
 from opencaliber.local_package import build_package
 
 DEPLOY_FILES=('application.py','Procfile','requirements.txt','opencaliber/cloud_app.py',
- 'opencaliber/local_package.py','LOCAL_TOOL.md','web/index.html','web/marketing.js',
+ 'opencaliber/local_package.py','web/releases.html','web/releases.json','LOCAL_TOOL.md','web/index.html','web/marketing.js',
  '.ebextensions/01_runtime.config','.ebextensions/02_bootstrap.config',
  '.platform/nginx/conf.d/opencaliber.conf','.platform/confighooks/predeploy/01_storage.sh','deploy/bootstrap.py','deploy/bootstrap.sh',
  'deploy/elasticbeanstalk.json','deploy/build_bundle.py','deploy/aws_deploy.py',
@@ -23,6 +23,8 @@ def build(destination=None):
     destination=destination or ROOT/'dist/opencaliber-elasticbeanstalk.zip'
     with zipfile.ZipFile(io.BytesIO(build_package())) as runtime:
         names=set(runtime.namelist())|set(DEPLOY_FILES)
+        from tools.manage_releases import catalog
+        names.update('web/'+row['download'] for row in catalog())
         destination.parent.mkdir(parents=True,exist_ok=True)
         with zipfile.ZipFile(destination,'w',zipfile.ZIP_DEFLATED) as output:
             for name in sorted(names):

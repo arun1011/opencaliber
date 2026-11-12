@@ -30,6 +30,12 @@ jobs:
         env:
           RELEASE_TAG: ${{ inputs.tag }}
         run: python -c "import os,re; assert re.fullmatch(r'v[0-9]+\.[0-9]+\.[0-9]+(?:-[A-Za-z0-9.-]+)?',os.environ['RELEASE_TAG']), 'Use a version such as v0.6.0'"
+      - name: Verify release version and archives
+        env:
+          RELEASE_TAG: ${{ inputs.tag }}
+        run: |
+          python tools/manage_releases.py check
+          python -c "import os,pathlib; assert os.environ['RELEASE_TAG']=='v'+pathlib.Path('VERSION').read_text().strip(), 'Tag must match VERSION'"
       - name: Test contract storage and runtime packaging
         run: python -m unittest tests.test_contract_cases tests.test_download_stats tests.test_local_package -v
       - name: Build release assets
@@ -45,7 +51,7 @@ jobs:
             echo 'Release already exists. Choose a new tag to preserve asset download counts.'
             exit 1
           fi
-          printf '%s\n' 'OpenCaliber console and agent code packs.' 'Extract each ZIP and follow its README. SHA256SUMS.txt lists package checksums.' > release-notes.txt
+          python -c "import json,pathlib; r=json.loads(pathlib.Path('web/releases.json').read_text())[0]; pathlib.Path('release-notes.txt').write_text(r['title']+'\n\n'+'\n'.join('- '+c for c in r['changes']))"
           gh release create "$RELEASE_TAG" dist/release/* --target "$GITHUB_SHA" --draft --title "OpenCaliber $RELEASE_TAG" --notes-file release-notes.txt
           gh release edit "$RELEASE_TAG" --draft=false --latest
           python tools/update_download_counts.py

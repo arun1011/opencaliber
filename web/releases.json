@@ -1,0 +1,18 @@
+[
+  {
+    "version": "0.6.0",
+    "date": "2026-11-12",
+    "title": "Connected agent reliability and versioned downloads",
+    "changes": [
+      "Monitor connected agents in a searchable table with run-status filters and counted problems and coverage gaps.",
+      "Develop and test detection checks with optional coding models; retain saved-run regression tests.",
+      "Inspect reported multi-agent trajectories and compare agent versions on shared cases.",
+      "Download 68 instrumented agent packs with explicit outcomes, tool graphs and a fixture comparison helper.",
+      "Read the public Developer Guide and updated walkthrough; download immutable versions from Releases."
+    ],
+    "download": "downloads/releases/v0.6.0/opencaliber-0.6.0.zip",
+    "bytes": 4513942,
+    "sha256": "f320f2b8773e89aa922843d9c4a9da3c6b6cdfffa518b10e0aaeac0826af7183",
+    "core_sha256": "d945e262de090c138fb8b4a42fcce775dd29a57f28e383444f0dfda726cd89af"
+  }
+]

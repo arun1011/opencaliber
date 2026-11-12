@@ -22,6 +22,8 @@ jobs:
       - name: Configure Pages
         id: pages
         uses: actions/configure-pages@v5
+      - name: Require a new version for core changes
+        run: python tools/manage_releases.py check
       - name: Test static site builder
         run: python -m unittest discover -s tests -p test_pages.py -v
       - name: Resolve counted package downloads

@@ -90,11 +90,11 @@ class Handler(SimpleHTTPRequestHandler):
         for header in ('If-Modified-Since','If-None-Match'):
             if header in self.headers:del self.headers[header]
         path=urlsplit(self.path).path
-        aliases={'/index.html':'/','/agents.html':'/agents','/console.html':'/console','/agents/':'/agents','/console/':'/console','/guide.html':'/guide','/guide/':'/guide'}
+        aliases={'/index.html':'/','/agents.html':'/agents','/console.html':'/console','/agents/':'/agents','/console/':'/console','/guide.html':'/guide','/guide/':'/guide','/releases.html':'/releases','/releases/':'/releases'}
         if path in aliases:
             query=urlsplit(self.path).query
             self.send_response(308);self.send_header('Location',aliases[path]+('?' + query if query else ''));self.send_header('Content-Length','0');self.end_headers();return
-        if path in ('/agents','/console','/guide'):
+        if path in ('/agents','/console','/guide','/releases'):
             self.path=path+'.html'
         elif path=='/' and not (ROOT/'web/index.html').exists():
             self.path='/console.html'

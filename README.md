@@ -171,6 +171,10 @@ See [Console guide](docs/console-guide.md) for the seven sidebar workflows, exam
 
 All library packs include configurable versions, explicit outcome checks, bounded output summaries and tool execution graphs. Use `compare_versions.py --candidate ../candidate-folder` with your console running to compare two isolated fixture versions. See [Library integration](docs/library-integration.md) for evidence capture, actual input fingerprints and domain-specific success assertions.
 
+## Releases
+
+The Releases page lists versioned downloads and short change notes. [Release maintenance](docs/releases.md) explains how to create a new immutable package when core functionality changes. Check the installed platform version in VERSION; engine and individual agent versions are separate identifiers.
+
 ## Creator & Research Lead
 
 **[Arun Kumar](https://www.linkedin.com/in/arunkumar1011/)**\

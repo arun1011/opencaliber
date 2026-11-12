@@ -7,8 +7,10 @@ from tools.build_agent_library import main as agents
 from opencaliber.local_package import build_package
 
 def build():
+    from tools.manage_releases import validate
+    releases=validate()
     agents();out=ROOT/'dist/release';out.mkdir(parents=True,exist_ok=True)
-    (out/'opencaliber.zip').write_bytes(build_package())
+    (out/'opencaliber.zip').write_bytes((ROOT/'web'/releases[0]['download']).read_bytes())
     catalog=json.loads((ROOT/'web/agents.json').read_text(encoding='utf-8'))
     for agent in catalog:(out/(agent['id']+'.zip')).write_bytes((ROOT/'web'/agent['download']).read_bytes())
     names=['opencaliber.zip']+[a['id']+'.zip' for a in catalog]

@@ -25,6 +25,9 @@ def build(destination,base_path='',release_tag='',release_repository='arun1011/o
         raise ValueError('Choose an empty output directory')
     from tools.build_public_guide import build as build_guide
     build_guide()
+    from tools.manage_releases import render as render_releases,catalog as release_catalog
+    render_releases()
+    if release_tag!='v'+release_catalog()[0]['version']:release_base='' # Never redirect current downloads to an older GitHub release.
     build_agents()
     destination.mkdir(parents=True,exist_ok=True)
     prefix=base_path+'/'
@@ -35,7 +38,7 @@ def build(destination,base_path='',release_tag='',release_repository='arun1011/o
         if value.startswith(('#','https://','http://','mailto:','data:')):return value
         if release_base and value=='/api/package':return release_base+'opencaliber.zip'
         parsed=urlsplit(value)
-        routes={'/':'','/agents':'agents/','/console':'console/','/guide':'guide/','/api/package':'downloads/opencaliber.zip'}
+        routes={'/':'','/agents':'agents/','/console':'console/','/guide':'guide/','/releases':'releases/','/api/package':'downloads/opencaliber.zip'}
         path=routes.get(parsed.path,parsed.path.lstrip('/'))
         return prefix+path+('?' + parsed.query if parsed.query else '')+('#'+parsed.fragment if parsed.fragment else '')
     def page(text):
@@ -55,6 +58,10 @@ def build(destination,base_path='',release_tag='',release_repository='arun1011/o
     write('index.html',page(home))
     library=(ROOT/'web/agents.html').read_text(encoding='utf-8').replace('Open console ↗','Console setup ↗')
     write('agents/index.html',page(library))
+    write('releases/index.html',page((ROOT/'web/releases.html').read_text(encoding='utf-8')))
+    write('releases.json',(ROOT/'web/releases.json').read_bytes())
+    for release in release_catalog():
+        write(release['download'],(ROOT/'web'/release['download']).read_bytes())
     write('guide/index.html',page((ROOT/'web/guide.html').read_text(encoding='utf-8')))
     for asset in (ROOT/'web/assets/guide').glob('*.png'):
         write('assets/guide/'+asset.name,asset.read_bytes())
@@ -64,9 +71,9 @@ def build(destination,base_path='',release_tag='',release_repository='arun1011/o
     for entry in catalog:
         path=entry['download'];write(path,(ROOT/'web'/path).read_bytes());entry['download']=release_base+entry['id']+'.zip' if release_base else prefix+path
     write('agents.json',json.dumps(catalog,indent=2))
-    write('downloads/opencaliber.zip',build_package())
+    write('downloads/opencaliber.zip',(ROOT/'web'/release_catalog()[0]['download']).read_bytes())
     write('console/index.html',page((ROOT/'web/pages-console.html').read_text(encoding='utf-8')))
-    for old,target in [('agents.html','agents/'),('console.html','console/'),('guide.html','guide/')]:
+    for old,target in [('agents.html','agents/'),('console.html','console/'),('guide.html','guide/'),('releases.html','releases/')]:
         write(old,'<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="refresh" content="0;url='+prefix+target+'"><title>OpenCaliber</title></head><body><a href="'+prefix+target+'">Continue to OpenCaliber</a></body></html>')
     write('404.html',page('<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Page not found</title></head><body><h1>Page not found</h1><p><a href="/">OpenCaliber home</a></p></body></html>'))
     print('Static site:',destination,'base path:',base_path or '/')

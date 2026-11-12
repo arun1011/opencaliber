@@ -1,5 +1,20 @@
 [
   {
+    "version": "0.7.0",
+    "date": "2026-11-12",
+    "title": "Observe Python agents without tool wrappers",
+    "changes": [
+      "Connect existing Python scripts through a startup launcher without editing individual tool functions; remove monitoring by restoring the original command.",
+      "Capture default SQLite and urllib activity, plus installed synchronous Requests and HTTPX calls, with payload minimization and bounded capture.",
+      "Evaluate observed calls against console policies after execution and label launcher connections as observation-only even under blocking policies.",
+      "Updated connection journey, public developer guide, console screenshot and runnable example with explicit coverage and evidence limits."
+    ],
+    "download": "downloads/releases/v0.7.0/opencaliber-0.7.0.zip",
+    "bytes": 4534758,
+    "sha256": "f89ac7c20400e9c22e3c7c680800fdc6c499da2b61467d8b8bd3450f4004bb16",
+    "core_sha256": "a2a34f091258fbab440025610f57fcdd623c85d2dcb44d1df3fc0e849934aaeb"
+  },
+  {
     "version": "0.6.0",
     "date": "2026-11-12",
     "title": "Connected agent reliability and versioned downloads",

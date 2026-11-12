@@ -6,6 +6,21 @@
 
 Track instrumented tool actions, evaluate configured boundaries, and compare agent versions against the same paired tests. Inspect application-reported task success, policy violations, cost and latency, then review proposed tests and improvements. The engine and desktop console use Python 3.10+ standard library; optional live agents and hosted deployment have their documented requirements.
 
+## Observe without tool wrappers
+
+Start the console with `python run.py`, then change the Python agent startup command:
+
+```sh
+python -m opencaliber.connect --agent-id my-agent --version v1 -- my_agent.py
+```
+
+The launcher captures default SQLite and urllib calls, plus synchronous Requests/HTTPX
+when installed. It sends metadata for console policy evaluation after execution.
+No tool-function edits are required; restore the original command to remove it.
+It does not block operations, infer business success or monitor all libraries.
+See [coverage, privacy and fleet setup](docs/python-launcher.md).
+
+
 ## Check tool steps and recovery
 
 The wrapper retains emitted calls, including rejections and retries. Explicit tool contracts can check typed arguments/outputs, earlier returned identifiers and state requirements. Task success, policy compliance and tool-step validity remain separate. Missing evidence stays unknown. Run `python examples/step_checks/agent.py` and see [Tool step checks](docs/step-reliability.md).

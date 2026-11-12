@@ -31,8 +31,10 @@ def initialize(connection):
 
 
 def checked(body):
-    if not isinstance(body,dict) or set(body)-{'reliability','diagnosis','metrics'}!={'event_id','sequence','phase','policy_sha256','trace','result','tracking_id','redacted','error_type'}:
+    if not isinstance(body,dict) or set(body)-{'reliability','diagnosis','metrics','connection'}!={'event_id','sequence','phase','policy_sha256','trace','result','tracking_id','redacted','error_type'}:
         raise ValueError('Invalid tracking event fields')
+    if body.get('connection','wrapper') not in ('wrapper','launcher'):
+        raise ValueError('Unsupported connection mode')
     if not isinstance(body['tracking_id'],str) or re.fullmatch('[A-Za-z0-9._-]{1,120}',body['tracking_id']) is None or type(body['redacted']) is not bool:
         raise ValueError('Invalid tracking ID or privacy flag')
     if body['error_type'] is not None and (not isinstance(body['error_type'],str) or re.fullmatch('[A-Za-z0-9_]{1,80}',body['error_type']) is None):
@@ -119,8 +121,10 @@ def ingest(body, connect, timestamp, default_config):
                   (body['tracking_id'],trace['agent']['id'],timestamp(),default_mode))
         agent=c.execute('SELECT * FROM tracking_agents WHERE tracking_id=?',(body['tracking_id'],)).fetchone()
         if agent['agent_id']!=trace['agent']['id']:raise ValueError('Tracking ID belongs to another agent')
+    connection=body.get('connection','wrapper')
+    mode='observe' if connection=='launcher' else agent['mode']
     cfg=validate_config(json.loads(agent['policy']) if agent['policy'] else default_config)
-    assignment={'tracking_id':body['tracking_id'],'agent_id':agent['agent_id'],'source':'agent_override' if agent['policy'] else 'workspace_default','config_sha256':digest(cfg),'mode':agent['mode']}
+    assignment={'tracking_id':body['tracking_id'],'agent_id':agent['agent_id'],'source':'agent_override' if agent['policy'] else 'workspace_default','config_sha256':digest(cfg),'mode':mode}
     central=not body['redacted']
     # Online events are evaluated against console-owned policy before minimization.
     # Offline minimized events cannot be re-evaluated faithfully; label them as
@@ -144,9 +148,11 @@ def ingest(body, connect, timestamp, default_config):
     now=timestamp()
     state='completed' if body['phase']=='completed' else 'failed' if body['phase']=='workflow_failed' else 'running'
     result['tracking']={'source':'console_evaluated' if central else 'offline_agent_reported',
-                        'tracking_id':body['tracking_id'],'mode':agent['mode'],
+                        'tracking_id':body['tracking_id'],'mode':mode,'connection':connection,
                         'phase':body['phase'],'workflow_status':state,
                         'sequence':body['sequence'],'received_at':now,'error_type':body['error_type'],'policy_source':assignment['source']}
+    if connection=='launcher':
+        result['limitations'].append('Observation only: Python urllib, installed synchronous Requests/HTTPX clients and default SQLite connections, up to 200 actions. No dispatch blocking, business outcomes, SQL content, fetched row counts, custom connection factories, subprocesses or inferred cross-agent dependencies. Action outcomes remain unknown.')
     if 'reliability' in body:
         from .executability import validate_report
         result['reliability']=validate_report(body['reliability'])
@@ -157,15 +163,15 @@ def ingest(body, connect, timestamp, default_config):
         old=c.execute('SELECT digest FROM tracking_events WHERE event_id=?',(body['event_id'],)).fetchone()
         if old:
             if old['digest']!=fingerprint:raise ValueError('Event ID reused with different content')
-            return {'id':rid,'status':'duplicate','mode':agent['mode'],'policy':assignment,'result':result if body['phase']=='proposed' else None}
+            return {'id':rid,'status':'duplicate','mode':mode,'policy':assignment,'result':result if body['phase']=='proposed' else None}
         previous=c.execute('SELECT last_sequence FROM tracking_workflows WHERE run_id=?',(rid,)).fetchone()
         stale=previous is not None and body['sequence']<=previous['last_sequence']
         c.execute('INSERT INTO tracking_events VALUES(?,?,?,?,?,?,?,?,?,?)',
                   (body['event_id'],rid,body['sequence'],fingerprint,now,body['phase'],
                    trace['actions'][-1]['id'] if trace['actions'] else None,result['assessment'],result['risk_score'],json.dumps(codes)))
-        if stale:return {'id':rid,'status':'stale','mode':agent['mode'],'policy':assignment,'result':result if body['phase']=='proposed' else None}
+        if stale:return {'id':rid,'status':'stale','mode':mode,'policy':assignment,'result':result if body['phase']=='proposed' else None}
         if central:
-            c.execute('UPDATE tracking_agents SET scope=?,ack_policy_sha256=?,ack_mode=?,ack_at=? WHERE tracking_id=?',(json.dumps(summarize_scope(body['trace'],body['phase'])),digest(cfg),agent['mode'],now,body['tracking_id']))
+            c.execute('UPDATE tracking_agents SET scope=?,ack_policy_sha256=?,ack_mode=?,ack_at=? WHERE tracking_id=?',(json.dumps(summarize_scope(body['trace'],body['phase'])),digest(cfg),mode,now,body['tracking_id']))
         # A workflow is one dashboard record; snapshots replace its displayed state.
         c.execute('INSERT INTO tracking_workflows VALUES(?,?) ON CONFLICT(run_id) DO UPDATE SET last_sequence=excluded.last_sequence',(rid,body['sequence']))
         config=cfg if central else {'policy_source':'agent','sha256':body['policy_sha256'],'values_stored':False}
@@ -177,7 +183,7 @@ def ingest(body, connect, timestamp, default_config):
         record(c,rid,body,cfg)
         from .connected_platform import record as record_metrics
         record_metrics(c,rid,body)
-    return {'id':rid,'status':'accepted','mode':agent['mode'],'policy':assignment,'result':result if body['phase']=='proposed' else None}
+    return {'id':rid,'status':'accepted','mode':mode,'policy':assignment,'result':result if body['phase']=='proposed' else None}
 
 
 def agents(connect,default_config=None,cases=()):

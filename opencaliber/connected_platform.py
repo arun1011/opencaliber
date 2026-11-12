@@ -48,7 +48,7 @@ def collected(connect):
                 findings.append({'code':'BLOCKED_ATTEMPT','action_id':attempt['action_id'],'reason':'An attempted action was blocked before dispatch, including attempts followed by recovery.','recommendation':'Inspect run activity for the original policy or contract rejection.'})
         if diagnostic:findings.extend({'code':f['code'],'action_id':', '.join(f.get('action_ids',[])),'reason':f['reason'],'recommendation':f.get('suggested_fix','Review the expected output and correct the action or application logic.')} for f in diagnostic['findings'] if f['layer']!='policy')
         data.append({'id':row['id'],'created_at':row['created_at'],'agent':trace.get('agent'),
-          'workflow_id':trace.get('workflow_id'),'tracking_id':tracking['tracking_id'],'phase':tracking['phase'],
+          'workflow_id':trace.get('workflow_id'),'tracking_id':tracking['tracking_id'],'phase':tracking['phase'],'connection':tracking.get('connection','wrapper'),'mode':tracking['mode'],
           'assessment':result['assessment'],'findings':findings,'metrics':metric,'reliability':result.get('reliability'),
           'custom_checks':result.get('custom_checks',[]),'custom_checks_sha256':result.get('custom_checks_sha256'),'policy_sha256':result.get('config_sha256'),'context_available':bool(bundle),
           'captured_outputs':len(bundle['outputs']) if bundle else 0,'action_count':len(trace['actions']),

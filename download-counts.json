@@ -1,7 +1,7 @@
 {
   "version": 1,
   "repository": "arun1011/opencaliber",
-  "updated_at": "2026-11-13T06:36:17.054282+00:00",
+  "updated_at": "2026-11-14T02:24:05.673870+00:00",
   "legacy_pages_downloads": null,
   "assets": {},
   "daily_totals": [
@@ -79,6 +79,12 @@
     },
     {
       "date": "2026-11-13",
+      "total_downloads": 0,
+      "console_downloads": 0,
+      "agent_downloads": 0
+    },
+    {
+      "date": "2026-11-14",
       "total_downloads": 0,
       "console_downloads": 0,
       "agent_downloads": 0
